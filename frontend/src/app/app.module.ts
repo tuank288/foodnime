@@ -13,7 +13,7 @@ import { HomeComponent } from './components/pages/home/home.component';
 import { SearchComponent } from './components/partials/search/search.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { RatingModule } from 'ng-starrating';
+// import { RatingModule } from 'ng-starrating';
 import { TagsComponent } from './components/partials/tags/tags.component';
 import { FoodPageComponent } from './components/pages/food-page/food-page.component';
 import { CartPageComponent } from './components/pages/cart-page/cart-page.component';
@@ -38,7 +38,7 @@ registerLocaleData(localeVi);
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    RatingModule,
+    // RatingModule,
     HttpClientModule
   ],
   providers: [
