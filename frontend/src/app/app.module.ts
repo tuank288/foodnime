@@ -1,5 +1,6 @@
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClient, HttpClientModule } from "@angular/common/http";
 
 import { registerLocaleData } from '@angular/common';
 import localeVi from '@angular/common/locales/vi';
@@ -37,7 +38,8 @@ registerLocaleData(localeVi);
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    RatingModule
+    RatingModule,
+    HttpClientModule
   ],
   providers: [
     {provide: LOCALE_ID, useValue: 'vi-VN'}
