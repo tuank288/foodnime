@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ToastrService } from 'ngx-toastr/public_api';
+import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { USER_LOGIN_URL } from '../shared/constans/urls';
 import { IUserLogin } from '../shared/interfaces/IUserLogin';
