@@ -1,6 +1,6 @@
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClient, HttpClientModule } from "@angular/common/http";
+import { HttpClientModule } from "@angular/common/http";
 
 import { registerLocaleData } from '@angular/common';
 import localeVi from '@angular/common/locales/vi';
@@ -21,7 +21,9 @@ import { TitleComponent } from './components/partials/title/title.component';
 import { NotFoundComponent } from './components/partials/not-found/not-found.component';
 import { LoginPageComponent } from './components/pages/login-page/login-page.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { ToastrModule } from 'ngx-toastr';
+import { InputContainerComponent } from './components/partials/input-container/input-container.component';
+import { InputValidationComponent } from './components/partials/input-validation/input-validation.component';
 
 registerLocaleData(localeVi);
 
@@ -36,7 +38,9 @@ registerLocaleData(localeVi);
     CartPageComponent,
     TitleComponent,
     NotFoundComponent,
-    LoginPageComponent
+    LoginPageComponent,
+    InputContainerComponent,
+    InputValidationComponent
   ],
   imports: [
     BrowserModule,
@@ -46,9 +50,8 @@ registerLocaleData(localeVi);
     HttpClientModule,
     ReactiveFormsModule,
     ToastrModule.forRoot({
-      timeOut: 3000,
-      positionClass: 'toastr-bottom-right',
-      newestOnTop:false
+      timeOut: 1000,
+      newestOnTop: true
     })
   ],
   providers: [

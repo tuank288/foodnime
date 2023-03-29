@@ -3,24 +3,21 @@
         <app-title title="Login"></app-title>
 
         <form [formGroup]="loginForm" (ngSubmit)="submit()">
-            <div class="input-container">
-                <label>Email</label>
-                <div>
-                    <input type="email" placeholder="Email" formControlName="email">
-                </div>
-                <div class="error-list" *ngIf="fc.email.errors && isSubmitted">
-                    <div *ngIf="fc.email.errors.required">Không được để trống</div>
-                    <div *ngIf="fc.email.errors.email">Email không chính xác</div>
-                </div>
-            </div>
+            <input-container label="Email">
+                <input type="email" placeholder="Email" formControlName="email">
+                <input-validation
+                [control]="fc.email"
+                [showErrorsWhen]="isSubmitted">
+                </input-validation>
+            </input-container>
+
             <div class="input-container">
                 <label>Password</label>
                 <div>
-                    <input type="password" placeholder="Password"
-                     formControlName="password">
+                    <input type="password" placeholder="Password" formControlName="password">
                 </div>
-                <div class="error-list" *ngIf="fc.email.errors && isSubmitted">
-                    <div *ngIf="fc.email.errors.required">Không được để trống</div>
+                <div class="error-list" *ngIf="fc.password.errors && isSubmitted">
+                    <div *ngIf="fc.password.errors.required">Không được để trống!</div>
                 </div>
             </div>
             <div class="button">
