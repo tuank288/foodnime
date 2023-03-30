@@ -69,14 +69,30 @@ export const sample_foods: any[] = [
 ]
 
 export const sample_tags: any[] = [
-  { name: 'All', count: 6 },
-  { name: 'FastFood', count: 4 },
-  { name: 'Pizza', count: 2 },
-  { name: 'Lunch', count: 3 },
-  { name: 'SlowFood', count: 2 },
-  { name: 'Hamburger', count: 1 },
-  { name: 'Fry', count: 1 },
-  { name: 'Soup', count: 1 },
+  {
+    "category_id": 1,
+    "category_name": "kem",
+    "created_at": null,
+    "updated_at": null
+    },
+    {
+    "category_id": 2,
+    "category_name": "Nước uống",
+    "created_at": null,
+    "updated_at": null
+    },
+    {
+    "category_id": 3,
+    "category_name": "Cafe",
+    "created_at": null,
+    "updated_at": null
+    },
+    {
+    "category_id": 4,
+    "category_name": "Cơm Tấm",
+    "created_at": null,
+    "updated_at": null
+    }
 ]
 
 

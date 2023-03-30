@@ -1,69 +1,74 @@
+// import express from "express";
+// import cors from "cors";
+// import mysql from 'mysql';
+// import bodyParser from 'body-parser';
+// import foodRouter from './routers/food.router'
+// import userRouter from './routers/user.router'
+
+// const app = express();
+
+// app.use(express.json());
+
+// app.use(cors({
+//     credentials: true,
+//     origin:["http://localhost:4200"]
+// }))
+
+// app.use("/api/foods", foodRouter);
+// app.use("/api/users/", userRouter);
+        
+// const port = 5000;
+// app.listen(port, () => {
+//     console.log("Website server on http://localhost:" + port)
+// })
+
+
+
+
+
+
+// const express = require('express');
+// const bodyParser = require('body-parser');
+// const mysql = require('mysql');
+
 import express from "express";
 import cors from "cors";
-import { sample_foods, sample_tags, sample_users } from "./data";
-import jwt from "jsonwebtoken";
+import mysql from 'mysql';
+import bodyParser from 'body-parser';
+import foodRouter from './routers/food.router'
+import userRouter from './routers/user.router'
 
-const app = express();
+const server = express();
 
-app.use(express.json());
-
-app.use(cors({
-    credentials: true,
-    origin:["http://localhost:4200"]
-}))
-
-app.get("/api/foods", (req, res) => {
-    res.send(sample_foods)
-})
-
-app.get("/api/foods/search/:searchTerm", (req, res) => {
-    const searchTerm = req.params.searchTerm;
-    const foods = sample_foods
-    .filter(food => food.name.toLowerCase()
-    .includes(searchTerm.toLowerCase()));
-    res.send(foods);
-})
-
-app.get("/api/foods/tags", (req, res) => {
-    res.send(sample_tags)
-})
-
-app.get("/api/foods/tag/:tagName", (req, res) => {
-    const tagName = req.params.tagName;
-    const foods = sample_foods
-    .filter(food => food.tags?.includes(tagName));
-    res.send(foods);
-})
-
-app.get("/api/foods/:foodId", (req, res) => {
-    const foodId = req.params.foodId;
-    const foods = sample_foods
-    .find(food => food.id == foodId)
-    res.send(foods);
-})
-
-app.post("/api/users/login", (req, res) => {
-    const {email, password} = req.body;
-    const user = sample_users.find(user => user.email === email && user.password === password)
-
-    if(user){
-        res.send(generateTokenResponse(user));
-    }else{
-        res.status(400).send("User name of password not valid!")
-    }
-})
-
-const generateTokenResponse = (user:any) => {
-    const token = jwt.sign({
-        email:user.email, isAdmin:user.isAdmin
-    }, "SomeRandomText", {
-        expiresIn: "30d"
-    })
-    user.token = token;
-    return user;
-}
-        
 const port = 5000;
-app.listen(port, () => {
-    console.log("Website server on http://localhost:" + port)
+
+const db = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '12345',
+    database: 'dda'
 })
+
+db.connect(function(error: mysql.MysqlError) {
+    if(error){
+        console.log('Error Connecting to DB')
+    }else{
+        console.log('Succsessfully Connected to DB')
+    }
+});
+
+
+server.listen(port, () => {
+    console.log("Website server on http://localhost:" + port)
+});
+
+
+// server.get("/tags", (req, res) => {
+//     db.query("SELECT * FROM food_categories", function(error, results, fields) {
+//         if(error) throw error;
+//         res.send(results);
+//     });
+// });
+
+server.use("/api/foods", foodRouter);
+// app.use("/api/users/", userRouter);
