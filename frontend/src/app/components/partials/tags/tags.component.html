@@ -1,5 +1,7 @@
 <div *ngIf="tags">
     <a *ngFor="let tag of tags" routerLink="/tag/{{tag.category_name}}">
-        {{tag.category_name}}
+        {{tag.category_name}} 
     </a>
 </div>
+
+<!-- ({{tag.created_at | date: 'dd/MM/yyyy HH:mm:ss'}}) -->

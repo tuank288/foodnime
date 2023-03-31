@@ -72,26 +72,26 @@ export const sample_tags: any[] = [
   {
     "category_id": 1,
     "category_name": "kem",
-    "created_at": null,
-    "updated_at": null
+    "created_at": "2023-03-30T15:06:40.000Z",
+    "updated_at": "2023-03-30T15:06:40.000Z"
     },
     {
     "category_id": 2,
     "category_name": "Nước uống",
-    "created_at": null,
-    "updated_at": null
+    "created_at": "2023-03-30T15:06:40.000Z",
+    "updated_at": "2023-03-30T15:06:40.000Z"
     },
     {
     "category_id": 3,
     "category_name": "Cafe",
-    "created_at": null,
-    "updated_at": null
+    "created_at": "2023-03-30T15:06:40.000Z",
+    "updated_at": "2023-03-30T15:06:40.000Z"
     },
     {
     "category_id": 4,
     "category_name": "Cơm Tấm",
-    "created_at": null,
-    "updated_at": null
+    "created_at": "2023-03-30T15:06:40.000Z",
+    "updated_at": "2023-03-30T15:06:40.000Z"
     }
 ]
 

@@ -40,9 +40,16 @@ import userRouter from './routers/user.router'
 
 const server = express();
 
+server.use(express.json());
+
+server.use(cors({
+    credentials: true,
+    origin:["http://localhost:4200"]
+}))
+
 const port = 5000;
 
-const db = mysql.createConnection({
+export const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '12345',
@@ -63,7 +70,7 @@ server.listen(port, () => {
 });
 
 
-// server.get("/tags", (req, res) => {
+// server.get("/api/foods/tags", (req, res) => {
 //     db.query("SELECT * FROM food_categories", function(error, results, fields) {
 //         if(error) throw error;
 //         res.send(results);
@@ -71,4 +78,4 @@ server.listen(port, () => {
 // });
 
 server.use("/api/foods", foodRouter);
-// app.use("/api/users/", userRouter);
+server.use("/api/users/", userRouter);
