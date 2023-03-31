@@ -78,4 +78,4 @@ server.listen(port, () => {
 // });
 
 server.use("/api/foods", foodRouter);
-server.use("/api/users/", userRouter);
+// server.use("/api/users/", userRouter);

@@ -5,6 +5,8 @@ import { IUserRegister } from 'src/app/shared/interfaces/IUserRegister';
 import { UsersService } from 'src/app/services/user.service';
 import { PasswordsMatchValidator } from 'src/app/shared/validators/password_match_validator';
 
+
+
 @Component({
   selector: 'app-register-page',
   templateUrl: './register-page.component.html',
