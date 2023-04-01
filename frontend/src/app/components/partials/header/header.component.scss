@@ -45,6 +45,7 @@ ul{
 
 .menu-container{
     position: relative;
+    z-index: 1000;
     &:hover{
         .menu{
             display: block;
