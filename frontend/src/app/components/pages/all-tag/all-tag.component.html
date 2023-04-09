@@ -1,0 +1,10 @@
+<h3>TẤT CẢ THỂ LOẠI</h3>
+
+<div *ngIf="tags">
+    <div class="list-item">
+        <a *ngFor="let tag of tags" routerLink="/tag/{{tag.category_name}}">
+            <img src="/assets/food-home-page.jpg">
+            {{tag.category_name}} 
+        </a>
+    </div>
+</div>

@@ -1,6 +1,8 @@
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 import { registerLocaleData } from '@angular/common';
 import localeVi from '@angular/common/locales/vi';
@@ -22,7 +24,7 @@ import { NotFoundComponent } from './components/partials/not-found/not-found.com
 import { LoginPageComponent } from './components/pages/login-page/login-page.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
-<<<<<<< HEAD
+
 import { InputContainerComponent } from './components/partials/input-container/input-container.component';
 import { InputValidationComponent } from './components/partials/input-validation/input-validation.component';
 import { TextInputComponent } from './components/partials/text-input/text-input.component';
@@ -37,8 +39,12 @@ import { AuthInterceptor } from './auth/auth.interceptor';
 import { PaymentPageComponent } from './components/pages/payment-page/payment-page.component';
 import { PaypalButtonComponent } from './components/partials/paypal-button/paypal-button.component';
 import { OrderTrackPageComponent } from './components/pages/order-track-page/order-track-page.component';
-=======
->>>>>>> d8506e309462d016dce06b9782a2ead5e1764c84
+import { LoadingService } from './services/loading.service';
+import { FooterComponent } from './components/partials/footer/footer.component';
+import { BanerComponent } from './components/partials/baner/baner.component';
+import { AllTagComponent } from './components/pages/all-tag/all-tag.component';
+
+
 
 registerLocaleData(localeVi);
 
@@ -66,6 +72,9 @@ registerLocaleData(localeVi);
     PaymentPageComponent,
     PaypalButtonComponent,
     OrderTrackPageComponent,
+    FooterComponent,
+    BanerComponent,
+    AllTagComponent,
   ],
   imports: [
     BrowserModule,
@@ -74,12 +83,15 @@ registerLocaleData(localeVi);
     RatingModule,
     HttpClientModule,
     ReactiveFormsModule,
+    FormsModule,
+    CommonModule,
     ToastrModule.forRoot({
       timeOut: 1000,
       newestOnTop: true
     })
   ],
   providers: [
+    LoadingService,
     {provide: LOCALE_ID, useValue: 'vi-VN'},
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},

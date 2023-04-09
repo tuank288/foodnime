@@ -1,0 +1,26 @@
+
+.top-baner{
+    background-image:url(/assets/food-home-page.jpg);
+    justify-content: center;
+    align-items: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+}
+h1{
+    display: block;
+    text-align: center;
+    margin: 0;
+    padding: 2rem;
+    justify-content: center;
+    color: rgb(249, 248, 248);
+    font-size: 3rem;
+    @media screen and (max-width: 530px) {
+        font-size: 2rem;
+        padding: 1rem;
+      }
+        
+}
+span{
+    display: block;
+}

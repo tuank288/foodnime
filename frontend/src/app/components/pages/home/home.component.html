@@ -1,5 +1,8 @@
-<app-search></app-search>
-<app-tags></app-tags>
+<div *ngIf="showTags">
+    <app-tags></app-tags>
+    <h3>KHÁM PHÁ MÓN MỚI</h3>
+</div>
+
 <app-not-found
     [visible]="!foods || !foods.length"
     resetLinkText="Reset Search">

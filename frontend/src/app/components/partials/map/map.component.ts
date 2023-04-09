@@ -1,7 +1,9 @@
-import { Component, ElementRef, Input, ViewChild, OnChanges } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild, OnChanges, OnInit} from '@angular/core';
 import { icon, LatLngTuple, Marker, tileLayer, LeafletMouseEvent, LatLngExpression, LatLng, marker, Map, map} from 'leaflet';
+import { LoadingService } from 'src/app/services/loading.service';
 import { LocationService } from 'src/app/services/location.service';
 import { Order } from 'src/app/shared/models/Order';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'map',
@@ -13,6 +15,8 @@ export class MapComponent implements OnChanges {
   order!:Order;
   @Input()
   readonly = false;
+
+  // const provider = new OpenStreetMapProvider();
   private readonly MARKER_ZOOM_LEVEL = 16;
   private readonly MARKER_ICON = icon({
     iconUrl:
@@ -24,10 +28,11 @@ export class MapComponent implements OnChanges {
 
   @ViewChild('map', {static:true})
   mapRef!: ElementRef;
-  map!:Map;
+  map!: Map;
   currentMarker!:Marker;
-
-  constructor(private locationService: LocationService) { }
+  address!: string;
+  constructor(private locationService: LocationService, private loadingService: LoadingService, private http:HttpClient) {}
+  
 
   ngOnChanges(): void {
     if(!this.order) return;
@@ -37,6 +42,7 @@ export class MapComponent implements OnChanges {
       this.showLocationOnReadonlyMode();
     }
   }
+
   showLocationOnReadonlyMode() {
     const m = this.map;
     this.setMarker(this.addressLatLng);
@@ -68,10 +74,12 @@ export class MapComponent implements OnChanges {
   }
 
   findMyLocation(){
+    this.loadingService.showLoading();
     this.locationService.getCurrentLocation().subscribe({
-      next: (latlng) => {
+      next: async (latlng) => {
         this.map.setView(latlng, this.MARKER_ZOOM_LEVEL)
         this.setMarker(latlng)
+        this.loadingService.hideLoading();
       }
     })
   }
@@ -89,7 +97,7 @@ export class MapComponent implements OnChanges {
       icon: this.MARKER_ICON
     }).addTo(this.map);
 
-
+    
     this.currentMarker.on('dragend', () => {
       this.addressLatLng = this.currentMarker.getLatLng();
     })
@@ -107,4 +115,5 @@ export class MapComponent implements OnChanges {
   get addressLatLng(){
     return this.order.addressLatLng!;
   }
+
 }
