@@ -37,7 +37,7 @@ export class HomeComponent {
   }
 
   checkPath(url: string) {
-    if(url.startsWith('/tag')) {
+    if(url.startsWith('/tag') || url.startsWith('/search')) {
       this.showTags = false;
     } else {
       this.showTags = true;

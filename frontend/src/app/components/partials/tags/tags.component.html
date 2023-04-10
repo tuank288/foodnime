@@ -1,15 +1,17 @@
 <h3>CHỌN THỂ LOẠI</h3>
 
-<div *ngIf="tags">
+<div *ngIf="tags" class="list">
     <div class="list-view">
-        <a *ngFor="let tag of tags.slice(0,5)" routerLink="/tag/{{tag.category_name}}">
-            <img src="/assets/food-home-page.jpg" alt="">
+        <a *ngFor="let tag of tags.slice(0, 10)" routerLink="/tag/{{tag.category_name}}">
+            <img src="/assets/com.jpg" alt="">
             <span>{{tag.category_name}}</span> 
         </a>
     </div>
-    <a class="view-all" routerLink="/tags">
-        XEM TẤT CẢ <span>→</span>
-     </a>
+    <div class="view-all">
+        <a routerLink="/tags">
+            XEM TẤT CẢ <span>→</span>
+         </a>
+    </div>
 </div>
 
 <!-- ({{tag.created_at | date: 'dd/MM/yyyy HH:mm:ss'}}) -->

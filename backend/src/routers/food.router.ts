@@ -11,16 +11,25 @@ router.get("/tags", (req, res) => {
     });
 });
 
+// router.get("/", (req, res) => {
+//     db.query("SELECT * FROM food", function(error, results, fields) {
+//         if(error) throw error;
+//         res.send(results);
+//     });
+// })
 router.get("/", (req, res) => {
     res.send(sample_foods)
 })
 
+// router.get("/search/:searchTerm", (req, res) => {
+//     const searchTerm = req.params.searchTerm;
+//     const foods = sample_foods
+//     .filter(food => food.name.toLowerCase()
+//     .includes(searchTerm.toLowerCase()));
+//     res.send(foods);
+// })
 router.get("/search/:searchTerm", (req, res) => {
-    const searchTerm = req.params.searchTerm;
-    const foods = sample_foods
-    .filter(food => food.name.toLowerCase()
-    .includes(searchTerm.toLowerCase()));
-    res.send(foods);
+    res.send(sample_foods)
 })
 
 // router.get("/tags", (req, res) => {
@@ -34,13 +43,18 @@ router.get("/tag/:tagName", (req, res) => {
     res.send(foods);
 })
 
+// router.get("/:foodId", (req, res) => {
+//     const foodId = req.params.foodId;
+//     const foods = sample_foods
+//     .find(food => food.food_id == foodId)
+//     res.send(foods);
+// })
 router.get("/:foodId", (req, res) => {
-    const foodId = req.params.foodId;
-    const foods = sample_foods
-    .find(food => food.id == foodId)
-    res.send(foods);
+        db.query("SELECT * FROM food", function(error, results, fields) {
+        if(error) throw error;
+        res.send(results);
+    });
 })
-
 
 
 export default router;

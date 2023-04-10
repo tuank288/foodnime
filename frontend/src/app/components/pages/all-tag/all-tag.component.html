@@ -1,10 +1,11 @@
 <h3>TẤT CẢ THỂ LOẠI</h3>
 
-<div *ngIf="tags">
-    <div class="list-item">
-        <a *ngFor="let tag of tags" routerLink="/tag/{{tag.category_name}}">
-            <img src="/assets/food-home-page.jpg">
-            {{tag.category_name}} 
+
+<div *ngIf="tags" class="list">
+    <div class="list-view">
+        <a *ngFor="let tag of tags.slice(0, 10)" routerLink="/tag/{{tag.category_name}}">
+            <img src="/assets/com.jpg" alt="">
+            <span>{{tag.category_name}}</span> 
         </a>
     </div>
 </div>
