@@ -1,12 +1,9 @@
-import { Tag } from './Tag';
-
 export class Food{
     food_id!: string;
     food_name!: string;
     price!: number;
-
-    category_name?: Tag[];
-    tags?: Tag[];
+    category_name?: string[];
+    
     favorite!: boolean;
     stars!: number;
     imageUrl!: string;

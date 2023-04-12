@@ -5,21 +5,62 @@ import { db } from "../server";
 const router = Router();
 
 router.get("/tags", (req, res) => {
-    db.query("SELECT * FROM food_categories", function(error, results, fields) {
+    db.query(`SELECT * FROM food_categories`, function(error, results, fields) {
         if(error) throw error;
         res.send(results);
     });
 });
 
-// router.get("/", (req, res) => {
-//     db.query("SELECT * FROM food", function(error, results, fields) {
-//         if(error) throw error;
-//         res.send(results);
-//     });
-// })
 router.get("/", (req, res) => {
-    res.send(sample_foods)
+    db.query(`SELECT * FROM food`, function(error, results, fields) {
+        if(error) throw error;
+        res.send(results);
+    });
 })
+
+router.get("/:foodId", (req, res) => {
+    db.query(`SELECT * FROM food`, function(error, results, fields) {
+    if(error) throw error;
+    res.send(results);
+});
+})
+
+router.get("/search/:searchTerm", (req, res) => {
+    db.query(`SELECT * FROM food`, function(error, results, fields) {
+        if(error) throw error;
+        res.send(results);
+    });
+})
+
+
+router.get("/tag/:tagName", (req, res) => {
+    db.query(`SELECT food.*, food_categories.category_name 
+        FROM food
+        JOIN food_categories 
+        ON food.category_id = food_categories.category_id`, 
+    function( error, results) {
+        if(error) throw error;
+        res.send(results);
+    })
+})
+
+
+
+export default router;
+
+// router.get("/", (req, res) => {
+//     res.send(sample_foods)
+// })
+// router.get("/tags", (req, res) => {
+//     res.send(sample_tags)
+// })
+
+// router.get("/tag/:tagName", (req, res) => {
+//     const tagName = req.params.tagName;
+//     const foods = sample_foods
+//     .filter(food => food.tags?.includes(tagName));
+//     res.send(foods);
+// })
 
 // router.get("/search/:searchTerm", (req, res) => {
 //     const searchTerm = req.params.searchTerm;
@@ -28,20 +69,6 @@ router.get("/", (req, res) => {
 //     .includes(searchTerm.toLowerCase()));
 //     res.send(foods);
 // })
-router.get("/search/:searchTerm", (req, res) => {
-    res.send(sample_foods)
-})
-
-// router.get("/tags", (req, res) => {
-//     res.send(sample_tags)
-// })
-
-router.get("/tag/:tagName", (req, res) => {
-    const tagName = req.params.tagName;
-    const foods = sample_foods
-    .filter(food => food.tags?.includes(tagName));
-    res.send(foods);
-})
 
 // router.get("/:foodId", (req, res) => {
 //     const foodId = req.params.foodId;
@@ -49,12 +76,3 @@ router.get("/tag/:tagName", (req, res) => {
 //     .find(food => food.food_id == foodId)
 //     res.send(foods);
 // })
-router.get("/:foodId", (req, res) => {
-        db.query("SELECT * FROM food", function(error, results, fields) {
-        if(error) throw error;
-        res.send(results);
-    });
-})
-
-
-export default router;

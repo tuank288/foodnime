@@ -86,7 +86,7 @@ registerLocaleData(localeVi);
     FormsModule,
     CommonModule,
     ToastrModule.forRoot({
-      timeOut: 1000,
+      timeOut: 1200,
       newestOnTop: true
     })
   ],

@@ -19,26 +19,20 @@ export class AppComponent {
   }
 
   checkPath(url: string) {
-    // if( url === '/tags' || url.startsWith('/tags')) {
-    //   this.showBanner = false;
-    // } else if(url === '/' || url.startsWith('/tag')) {
-    //   this.showBanner = true;
-    // }else {
-    //   this.showBanner = false
-    // }
-
     switch(true) {
-      case url === '/tags':
+      case url === '/tags' || url.startsWith('/tags'):
         this.showBanner = false;
         break;
       case url === '/' || url.startsWith('/tag') || url === '/search' || url.startsWith('/search'):
         this.showBanner = true;
         this.showFooter = true;
         break;
-      case url === '/login' :
+      case url === '/login' || url.startsWith('/login'):
         this.showFooter = false;
+        this.showBanner = false;
         break;
-      case url === '/register':
+      case url === '/register'|| url.startsWith('/register'):
+        this.showBanner = false;
         this.showFooter = false;
         break;
       default:

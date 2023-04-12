@@ -23,12 +23,13 @@ h3{
             display: block;
             width: 7rem;
             height: 7rem;
+            border-radius: 0.5rem 0.5rem 0 0;
         }
         span{
             padding: 0.5rem 0;
             display: block;
-            background-color: rgb(243, 251, 251);
-            border-radius: 0 0 1rem 1rem;
+            background-color: white;
+            border-radius: 0.5rem 0.5rem 0 0;
         }
     }
 }

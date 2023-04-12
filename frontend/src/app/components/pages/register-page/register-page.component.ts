@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IUserRegister } from 'src/app/shared/interfaces/IUserRegister';
@@ -12,7 +12,7 @@ import { PasswordsMatchValidator } from 'src/app/shared/validators/password_matc
   templateUrl: './register-page.component.html',
   styleUrls: ['./register-page.component.scss']
 })
-export class RegisterPageComponent {
+export class RegisterPageComponent implements OnInit {
 
   registerForm!:FormGroup;
   isSubmitted = false;
@@ -30,7 +30,7 @@ export class RegisterPageComponent {
       name: ['', [Validators.required, Validators.minLength(5)]],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.required, Validators.minLength(11)]],
-      password: ['', [Validators.required, Validators.minLength(5)]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
       confirmPassword: ['', Validators.required],
       address: ['', [Validators.required, Validators.minLength(10)]]
     },{

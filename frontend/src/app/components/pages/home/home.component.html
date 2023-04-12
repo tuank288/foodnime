@@ -1,6 +1,6 @@
 <div *ngIf="showTags">
     <app-tags></app-tags>
-    <h3>KHÁM PHÁ MÓN MỚI</h3>
+    <app-title title="Khám Phá Món Mới"></app-title>
 </div>
 
 <app-not-found
@@ -15,7 +15,7 @@
                 <div class="name">
                     {{food.food_name}}
                 </div>
-                <!-- <div class="stars">
+                <div class="stars">
                     <star-rating
                     [value]="food.stars"
                     [totalstars]="5"
@@ -24,8 +24,8 @@
                     size="22px"
                     [readonly]="true">
                     </star-rating>
-                </div> -->
-                <div class="product-item-footer">
+                </div>
+                <!-- <div class="product-item-footer">
                     <div class="origins">
                         <span *ngFor="let origin of food.origins">
                             {{origin}}
@@ -35,7 +35,7 @@
                         <span>🕒</span>
                         {{food.cookTime}}
                     </div>
-                </div>
+                </div> -->
                 <div class="price">
                     <span>
                         {{food.price | currency: 'VND'}}

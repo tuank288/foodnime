@@ -9,7 +9,10 @@ import { Component, Input } from '@angular/core';
 export class TitleComponent {
   @Input() title!: string;
 
-  @Input() margin? = '1rem 0 1rem';
+  @Input() margin? = '0 0 0 0';
 
-  @Input() fontSize? = '1.7rem';
+  @Input() fontSize? = '1.5rem';
+
+  @Input() padding? = '1rem 0 1rem 1rem';
+
 }

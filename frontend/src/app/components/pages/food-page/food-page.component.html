@@ -1,9 +1,9 @@
 <app-not-found 
-    [visible]="!food"
+    [visible]="!food.food_id"
     notFoundMessage="Food Not Found"
     resetLinkText="Back to Home">
 </app-not-found>
-<div *ngIf="food" class="container">
+<div *ngIf="food.food_id" class="container">
     <img [src]="food.imageUrl" [alt]="food.food_name">
 
     <div class="details">
@@ -32,7 +32,7 @@
         </div>
 
         <div class="tags">
-            <a *ngFor="let tag of food.tags" routerLink="/tag/{{tag}}">
+            <a *ngFor="let tag of food.category_name" routerLink="/tag/{{tag}}">
                 {{tag}}
             </a>
         </div>

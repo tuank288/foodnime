@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, map, tap } from 'rxjs';
 import { USER_LOGIN_URL, USER_REGISTER_URL } from '../shared/constans/urls';
 import { IUserLogin } from '../shared/interfaces/IUserLogin';
 import { User } from '../shared/models/User';
@@ -29,8 +29,8 @@ export class UsersService {
           this.setUserToLocalStogare(user);
           this.userSubject.next(user);
           this.toastrService.success(
-            `Welcome to Foodmine ${user.name}!`,
-            'Login Successful'
+            `Welcome to Food ${user.full_name}!`,
+            'Đăng nhập thành công'
           )
         },
         error: (errorResponse) => {
@@ -47,7 +47,7 @@ export class UsersService {
           this.setUserToLocalStogare(user);
           this.userSubject.next(user);
           this.toastrService.success(
-            `Welcome to Foodmine ${user.name}!`,
+            `Welcome to Foodmine ${user.full_name}!`,
             'Register Successful'
           )
         },

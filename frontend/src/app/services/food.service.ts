@@ -30,19 +30,20 @@ export class FoodService {
   getAllFoodsByTag(tag:string):Observable<Food[]> {
     return tag === "All" ? 
     this.getAll() :
-    this.http.get<Food[]>(FOODS_TAG_URL + tag);
+    this.http.get<Food[]>(FOODS_TAG_URL + tag)
+    .pipe(
+      map(foods => foods.filter(food => food.category_name?.includes(tag))
+    ))
   }
 
   // getFoodById(foodid:string):Observable<Food> {
   //   return this.http.get<Food>(FOODS_BY_ID_URL + foodid)
   // }
 
-  getFoodById(foodId: string): Observable<Food> {
+  getFoodById(foodId:string):Observable<Food> {
     return this.http.get<Food[]>(FOODS_BY_ID_URL + foodId)
       .pipe(
-        map(foods => foods.find((food: Food) => food.food_id === foodId))
+        map(foods => foods.find(food => food.food_id == foodId) ?? new Food())
       );
   }
-
-  
 }
