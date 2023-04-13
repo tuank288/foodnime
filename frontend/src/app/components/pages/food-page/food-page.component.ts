@@ -17,7 +17,9 @@ export class FoodPageComponent {
     activatedRoute.params.subscribe(params => {
       if(params.id)
       foodService.getFoodById(params.id).subscribe(serverFood => {
-        this.food = serverFood;
+        if (serverFood.food_id) {
+          this.food = serverFood;
+        }
       })
     })
   }

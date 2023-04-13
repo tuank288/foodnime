@@ -10,7 +10,7 @@ const router = Router();
 
 router.post("/login", (req, res) => {
     const {email, password} = req.body;
-    const query = `SELECT email, full_name, password FROM users WHERE email = ?`;
+    const query = `SELECT email, full_name, password, address FROM users WHERE email = ?`;
     const values = [email];
 
     db.query(query, values, async (error, results) => {
@@ -25,9 +25,10 @@ router.post("/login", (req, res) => {
               const dbUser = {
                 email: user.email,
                 full_name: user.full_name,
+                address: user.address,
                 role: user.role
             }
-                res.send(generateTokenReponse(dbUser));
+                res.send(generateTokenResponse(dbUser));
             } else {
                 res.status(HTTP_BAD_REQUEST).send("Username or password not valid!");
             }
@@ -37,20 +38,20 @@ router.post("/login", (req, res) => {
 
 router.post('/register', (
      (req, res) => {
-      const {name, email, phone ,password, address} = req.body;
-      const query = 'SELECT * FROM users WHERE email = ? AND phone_number = ?';
-      const values = [email, phone];
+      const {full_name, email, phone_number, password, address} = req.body;
+      const query = 'SELECT * FROM users WHERE email = ? OR phone_number = ?';
+      const values = [email, phone_number];
   
       db.query(query, values, async (error, results) => {
         if (error) {
           console.log(error);
           res.status(500).send("Internal Server Error");
         } else if (results.length > 0) {
-          res.status(HTTP_BAD_REQUEST).send("User is already exist, please login!");
+          res.status(HTTP_BAD_REQUEST).send("Email hoặc số điện thoại đó đã tồn tại!");
         } else {
           const encryptedPassword = await bcrypt.hash(password, 8);
           const query = 'INSERT INTO users (full_name, email, phone_number, password, address, role, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW())';
-          const values = [name, email, phone, encryptedPassword, address, 2];
+          const values = [full_name, email, phone_number, encryptedPassword, address, 2];
   
           db.query(query, values, async (error, results) => {
             if (error) {
@@ -59,14 +60,14 @@ router.post('/register', (
             } else {
               const dbUser = {
                 id: results.insertId,
-                name,
+                full_name,
                 email,
-                phone,
+                phone_number,
                 password: encryptedPassword,
                 address,
                 role: 2,
               };
-              res.send(generateTokenReponse(dbUser));
+              res.send(generateTokenResponse(dbUser));
             }
           });
         }
@@ -76,15 +77,16 @@ router.post('/register', (
 
 
 
-const generateTokenReponse = (user:any) => {
+const generateTokenResponse = (user:any) => {
     const token = jwt.sign({
-        email:user.email, isAdmin:user.isAdmin
+        email:user.email, role:user.role
     }, "SomeRandomText", {
         expiresIn: "30d"
     })
     user.token = token;
     return user;
 }
+
 
 export default router;
 

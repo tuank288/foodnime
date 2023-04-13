@@ -32,8 +32,8 @@ export class PaypalButtonComponent {
           purchase_units: [
             {
               amount: {
-                currency_code: 'CAD',
-                value: self.order.totalPrice,
+                currency_code: 'VND',
+                value: self.order.total_price,
               },
             },
           ],

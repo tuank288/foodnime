@@ -17,7 +17,7 @@ server.use(cors({
     origin:["http://localhost:4200"]
 }))
 
-const port = 5000;
+const port = 6000;
 
 const dbUser = process.env.DB_USER;
 const dbPassword = process.env.DB_PASSWORD;
@@ -48,41 +48,11 @@ server.listen(port, () => {
 // })
 
 server.use("/api/foods", foodRouter);
-server.use("/api/users/", userRouter);
+server.use("/api/users", userRouter);
 server.use("/api/orders", orderRouter);
 
 
 
 
-
-
-
-
-
-
-
-// import express from "express";
-// import cors from "cors";
-// import mysql from 'mysql';
-// import bodyParser from 'body-parser';
-// import foodRouter from './routers/food.router'
-// import userRouter from './routers/user.router'
-
-// const app = express();
-
-// app.use(express.json());
-
-// app.use(cors({
-//     credentials: true,
-//     origin:["http://localhost:4200"]
-// }))
-
-// app.use("/api/foods", foodRouter);
-// app.use("/api/users/", userRouter);
-        
-// const port = 5000;
-// app.listen(port, () => {
-//     console.log("Website server on http://localhost:" + port)
-// })
 
 

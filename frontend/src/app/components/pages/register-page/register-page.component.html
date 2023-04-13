@@ -3,7 +3,7 @@
       <app-title title="Register"></app-title>
       <form [formGroup]="registerForm" (ngSubmit)="submit()">
         <text-input
-        [control]="fc.name"
+        [control]="fc.full_name"
         [showErrorsWhen]="isSubmitted"
         label="Name">
         </text-input>
@@ -16,7 +16,7 @@
         </text-input>
 
         <text-input
-        [control]="fc.phone"
+        [control]="fc.phone_number"
         [showErrorsWhen]="isSubmitted"
         label="Phone">
         </text-input>

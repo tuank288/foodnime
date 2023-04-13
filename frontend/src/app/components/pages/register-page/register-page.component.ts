@@ -5,8 +5,6 @@ import { IUserRegister } from 'src/app/shared/interfaces/IUserRegister';
 import { UsersService } from 'src/app/services/user.service';
 import { PasswordsMatchValidator } from 'src/app/shared/validators/password_match_validator';
 
-
-
 @Component({
   selector: 'app-register-page',
   templateUrl: './register-page.component.html',
@@ -27,9 +25,9 @@ export class RegisterPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.minLength(5)]],
+      full_name: ['', [Validators.required, Validators.minLength(5)]],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.minLength(11)]],
+      phone_number: ['', [Validators.required, Validators.minLength(11)]],
       password: ['', [Validators.required, Validators.minLength(8)]],
       confirmPassword: ['', Validators.required],
       address: ['', [Validators.required, Validators.minLength(10)]]
@@ -50,9 +48,9 @@ export class RegisterPageComponent implements OnInit {
 
     const fv= this.registerForm.value;
     const user :IUserRegister = {
-      name: fv.name,
+      full_name: fv.full_name,
       email: fv.email,
-      phone: fv.phone,
+      phone_number: fv.phone_number,
       password: fv.password,
       confirmPassword: fv.confirmPassword,
       address: fv.address

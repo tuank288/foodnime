@@ -1,12 +1,12 @@
 export class User{
-    id!:string;
+    user_id!:string;
     email!:string;
     password!:string;
     full_name!:string;
     address!:string;
-    phone!:string;
+    phone_number!:string;
     token!:string;
-    isAdmin!:boolean;
+    role!:boolean;
     created!:string;
     updated!:string;
   }

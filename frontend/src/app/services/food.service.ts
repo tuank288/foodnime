@@ -43,7 +43,10 @@ export class FoodService {
   getFoodById(foodId:string):Observable<Food> {
     return this.http.get<Food[]>(FOODS_BY_ID_URL + foodId)
       .pipe(
-        map(foods => foods.find(food => food.food_id == foodId) ?? new Food())
+        map(foods => {
+          const food = foods.find(food => food.food_id == foodId);
+          return food ? food : new Food();
+        })
       );
   }
 }
