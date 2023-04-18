@@ -1,16 +1,16 @@
 import { Router } from "express";
-import { sample_users } from "../data";
 import jwt from 'jsonwebtoken';
 import { db } from "../server";
-import asyncHandler from 'express-async-handler';
 import bcrypt from 'bcryptjs';
 import { HTTP_BAD_REQUEST } from '../constants/http_status';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const router = Router();
 
 router.post("/login", (req, res) => {
     const {email, password} = req.body;
-    const query = `SELECT email, full_name, password, address FROM users WHERE email = ?`;
+    const query = `SELECT user_id, email, full_name, password, address FROM users WHERE email = ?`;
     const values = [email];
 
     db.query(query, values, async (error, results) => {
@@ -23,10 +23,10 @@ router.post("/login", (req, res) => {
             const user = results[0];
             if(await bcrypt.compare(password, user.password)) {
               const dbUser = {
+                user_id: user.user_id,
                 email: user.email,
                 full_name: user.full_name,
                 address: user.address,
-                role: user.role
             }
                 res.send(generateTokenResponse(dbUser));
             } else {
@@ -59,7 +59,7 @@ router.post('/register', (
               res.status(500).send("Internal Server Error");
             } else {
               const dbUser = {
-                id: results.insertId,
+                user_id: results.insertId,
                 full_name,
                 email,
                 phone_number,
@@ -75,30 +75,22 @@ router.post('/register', (
     }
   ));
 
+const generateTokenResponse = (user: any) => {
+  const token = jwt.sign({
+    user_id: user.user_id, email:user.email, role: user.role
+  },process.env.JWT_SECRET!,{
+    expiresIn:"30d"
+  });
 
-
-const generateTokenResponse = (user:any) => {
-    const token = jwt.sign({
-        email:user.email, role:user.role
-    }, "SomeRandomText", {
-        expiresIn: "30d"
-    })
-    user.token = token;
-    return user;
+  return {
+    user_id: user.user_id,
+    email: user.email,
+    full_name: user.full_name,
+    address: user.address,
+    role: user.role,
+    token: token
+  };
 }
 
 
 export default router;
-
-
-
-// router.post("/login", (req, res) => {
-//     const {email, password} = req.body;
-//     const user = sample_users.find(user => user.email === email && user.password === password)
-
-//     if(user){
-//         res.send(generateTokenResponse(user));
-//     }else{
-//         res.status(400).send("User name of password not valid!")
-//     }
-// })

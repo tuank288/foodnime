@@ -1,88 +1,209 @@
 import { Router } from "express";
 import { db } from "../server";
-import { HTTP_BAD_REQUEST } from '../constants/http_status';
+import { HTTP_BAD_REQUEST, HTTP_INTERNAL_SERVER_ERROR, HTTP_OK } from '../constants/http_status';
 import { OrderStatus } from '../constants/order_status';
-import asyncHandler from 'express-async-handler';
 import auth from '../middlewares/auth.mid';
+import asyncHandler from 'express-async-handler';
+
+
 const router = Router();
 router.use(auth);
 
-// router.post('/create',(async (req:any, res:any) => {
-//     const requestOrder = req.body;
+router.post('/create', (req:any, res) => {
+  const requestOrder = req.body;
 
-//     if(requestOrder.items.length <= 0){
-//         res.status(HTTP_BAD_REQUEST).send('Cart Is Empty!');
-//         return;
-//     }
-
-//     const deleteQuery = 'DELETE FROM orders WHERE user_id = ? AND status = ?';
-//     const deleteValues = [req.user.id, OrderStatus.NEW];
-//     await db.query(deleteQuery, deleteValues);
-
-//     const insertQuery = 'INSERT INTO orders (items, total, status) VALUES (?, ?, ?, ?)';
-//     const insertValues = [req.user.id, JSON.stringify(requestOrder.items), requestOrder.total, OrderStatus.NEW];
-//     const result = await db.query(insertQuery, insertValues);
-
-//     const newOrder = {
-//         id: result.insertId,
-//         user_id: req.user.id,
-//         items: requestOrder.items,
-//         total: requestOrder.total,
-//         status: OrderStatus.NEW
-//     };
-//     res.send(newOrder);
-// })
-
-router.post('/create', (req: any, res: any) => {
-    const requestOrder = req.body;
-
-    if(requestOrder.items.length <= 0){
-        res.status(HTTP_BAD_REQUEST).send('Cart Is Empty!');
-        return;
+  if(requestOrder.items.length <= 0){
+    res.status(HTTP_BAD_REQUEST).send('Cart Is Empty!');
+    return;
+  }
+  const deleteQuery = 'DELETE FROM orders WHERE user_id = ? AND status = ?';
+  const deleteValues = [req.user_id, OrderStatus.NEW];
+  db.query(deleteQuery, deleteValues, (error, results) => {
+    if(error){
+      console.log(error);
+      res.status(HTTP_INTERNAL_SERVER_ERROR).send("Internal Server Error");
+      return;
     }
+    console.log(`${results.affectedRows} order(s) deleted`);
+  });
 
-    const deleteQuery = 'DELETE FROM orders WHERE user_id = ? AND status = ?';
-    const deleteValues = [req.users.user_id, OrderStatus.NEW];
-    db.query(deleteQuery, deleteValues, (error, result) => {
-        if(error){
-            console.log(error);
-            res.status(500).send("Internal Server Error");
-            return;
+  let restaurantId;  
+  for (const item of requestOrder.items) {
+    restaurantId = item.food.restaurant_id;
+  }
+
+  const orderData = {
+    user_id: req.user_id,
+    restaurant_id: restaurantId,
+    order_date: new Date,
+    total_price: requestOrder.total_price,
+    address: requestOrder.address,
+    addressLatLng: JSON.stringify(requestOrder.addressLatLng),
+    status: OrderStatus.NEW,
+    created_at: new Date,
+    updated_at: new Date
+  };
+  
+  db.query('INSERT INTO orders SET ?', orderData, (error, results) => {
+    if (error) {
+      console.log(error);
+      res.status(HTTP_INTERNAL_SERVER_ERROR).send('Failed to create new order');
+      return;
+    }
+    // Lấy id của bản ghi mới thêm vào bảng order_id
+    const order_id = results.insertId;
+    // Thêm bản ghi mới vào bảng order_items
+    const insertItemsSql =
+      'INSERT INTO order_items (order_id, food_id, quantity, price, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)';
+    let successCount = 0;
+    for (const item of requestOrder.items) {
+      const insertItemsValues = [
+        order_id,
+        item.food.food_id,
+        item.quantity,
+        item.price,
+        new Date(),
+        new Date(),
+      ];
+      db.query(insertItemsSql, insertItemsValues, (error, itemsResult) => {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log(`New order item with ID ${itemsResult.insertId} has been created`);
         }
+        successCount++;
+        if (successCount === requestOrder.items.length) {
+          res.send({ success: true });
+        }
+      });
+    }
+  });
+});
 
-        const orderDate = new Date().toISOString().slice(0,19).replace("T"," ");
-        const totalPrice = requestOrder.totalPrice;
-        const deliveryAddress = requestOrder.address;
 
-        const insertOrderValues = [req.users.user_id, requestOrder.restaurant_id, orderDate, totalPrice, deliveryAddress, OrderStatus.NEW, orderDate, orderDate]
-        const insertOrderQuery = `INSERT INTO orders (user_id, restautant_id, order_date, total_price, delivery_address, status, created_at, update_at)
-                                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
-        db.query(insertOrderQuery, insertOrderValues, (error, result) => {
-            if (error) {
-                console.log('Error deleting order:', error);
-                res.status(500).send('Internal Server Error');
-                return;
-        }})
+router.get('/newOrderForCurrentUser', asyncHandler(async (req, res) => {
+  try {
+    const order = await getNewOrderForCurrentUser(req);
+    if (order) {
+      res.send(order);
+    } else {
+      res.status(HTTP_BAD_REQUEST).send();
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(HTTP_INTERNAL_SERVER_ERROR).send();
+  }
+}));  
 
-        const orderId = result.insertId;
+router.post('/pay', asyncHandler(async (req: any, res) => {
+  const { payment_id } = req.body;
+  const order:any = await getNewOrderForCurrentUser(req);
+  if (!order) {
+    res.status(HTTP_BAD_REQUEST).send('Order Not Found!');
+    return;
+  }
 
-        const orderItems = requestOrder.items.map((item: { foodId: any; quantity: any; price: any; }) => [orderId, item.foodId, item.quantity, item.price, orderDate, orderDate]);
+  const query = `
+    UPDATE orders SET payment_id = ? , status = ? WHERE order_id = ?`;
+  const values = [payment_id, OrderStatus.PAYED, order.order_id];
+  
+  db.query(query, values, function (error, results, fields) {
+    if (error) {
+      console.log(error);
+      res.status(HTTP_INTERNAL_SERVER_ERROR).send('Failed to update order!');
+    } else {
+      res.status(200).send({order: order.order_id});
+    }
+  });
+}));
 
-        const insertOrderItemQuery = 'INSERT INTO order_items (order_id, food_id, quantity, price, created_at, update_at) VALUES ?';
-
-        db.query(insertOrderItemQuery, [orderItems], (err, result) => {
-            if (err) {
-                console.log('Error creating order items:', err);
-                res.status(500).send('Internal Server Error');
-                return;
-            }
-
-            res.send({ id: orderId });
-        });
-        
-    })
-
+router.get('/track/:id', (req:any, res) => {
+  const user_id = req.user_id
+  const query = `SELECT orders.*, users.full_name, order_items.*
+                 FROM orders
+                 JOIN users ON orders.user_id = users.user_id
+                 JOIN order_items ON orders.order_id = order_items.order_id
+                 WHERE orders.user_id = '${user_id}'
+                 ORDER BY orders.order_date DESC
+                 LIMIT 1`;
+  db.query(query, (error, results, fields) => {
+    if (error) {
+      console.error(error);
+      res.status(500).send('Internal server error');
+      return;
+    }
+    if (results.length === 0) {
+      console.log(results);
+      
+      res.status(404).send('Order not found');
+      return;
+    }
+    const order = {
+      order_id: results[0].order_id,
+      items: results.map((result:any) => ({
+        food: {
+          food_id: result.food_id,
+          category_id: result.category_id,
+          restaurant_id: result.restaurant_id,
+          food_name: result.food_name,
+          price: result.price,
+        },
+        quantity: result.quantity,
+      })),
+      total_price: results[0].total_price,
+      user_id: results[0].user_id,
+      full_name: results[0].full_name,
+      payment_id: results[0].payment_id,
+      address: results[0].address,
+      addressLatLng: JSON.parse(results[0].addressLatLng),
+      status: results[0].status,
+      created_at: results[0].created_at,
+      updated_at: results[0].updated_at,
+    };
+    console.log(order);
+    res.send(order);
+  });
 })
 
-
 export default router;
+
+async function getNewOrderForCurrentUser(req: any) {
+  const userId = req.user_id;
+  const query = `SELECT orders.*, users.full_name, order_items.*
+  FROM orders
+  JOIN users ON orders.user_id = users.user_id
+  JOIN  order_items ON orders.order_id =  order_items.order_id
+  WHERE orders.user_id = '${userId}' AND orders.status = 'NEW'`;
+  return new Promise((resolve, reject) => {
+    db.query(query, function (error, results, fields) {
+      if (error) {
+        reject(error);
+      } else {
+        if(results.length > 0) {
+          const order = {
+            order_id:results[0].order_id,
+            items: results.map((result: any) => ({
+              food: {
+                food_id: result.food_id,
+                category_id: result.category_id,
+                restaurant_id: result.restaurant_id,
+                food_name: result.food_name,
+                price: result.price,
+              },
+              quantity: result.quantity,
+            })),
+            total_price: results[0].total_price,
+            user_id: results[0].user_id,
+            full_name: results[0].full_name,
+            address: results[0].address,
+            addressLatLng: JSON.parse(results[0].addressLatLng)
+          };
+          resolve(order);
+        }else {
+          resolve(null);
+        }
+      } 
+    });
+  });
+}
+

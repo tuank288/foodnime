@@ -110,6 +110,7 @@ export class MapComponent implements OnChanges {
     latlng.lng = parseFloat(latlng.lng.toFixed(8));
     this.order.addressLatLng = latlng;
     console.log(this.order.addressLatLng);
+    
   }
 
   get addressLatLng(){

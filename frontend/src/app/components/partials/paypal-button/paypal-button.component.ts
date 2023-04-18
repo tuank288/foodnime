@@ -28,12 +28,13 @@ export class PaypalButtonComponent {
     paypal
     .Buttons({
       createOrder: (data: any, actions: any) => {
+        const totalPriceInUSD = self.order.total_price / 23000;
         return actions.order.create({
           purchase_units: [
             {
               amount: {
-                currency_code: 'VND',
-                value: self.order.total_price,
+                currency_code: 'USD',
+                value: totalPriceInUSD.toFixed(2),
               },
             },
           ],
@@ -42,7 +43,7 @@ export class PaypalButtonComponent {
 
       onApprove: async (data: any, actions: any) => {
         const payment = await actions.order.capture();
-        this.order.paymentId = payment.id;
+        this.order.payment_id = payment.id;
         self.orderService.pay(this.order).subscribe(
           {
             next: (orderId) => {
@@ -55,6 +56,8 @@ export class PaypalButtonComponent {
             },
             error: (error) => {
               this.toastrService.error('Payment Save Failed', 'Error');
+              console.log(error);
+              
             }
           }
         );

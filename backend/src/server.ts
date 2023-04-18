@@ -16,8 +16,11 @@ server.use(cors({
     credentials: true,
     origin:["http://localhost:4200"]
 }))
-
-const port = 6000;
+// server.use((req, res, next) => {
+//     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
+//     next();
+//   });
+const port = 5000;
 
 const dbUser = process.env.DB_USER;
 const dbPassword = process.env.DB_PASSWORD;

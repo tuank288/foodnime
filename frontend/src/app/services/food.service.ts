@@ -35,11 +35,6 @@ export class FoodService {
       map(foods => foods.filter(food => food.category_name?.includes(tag))
     ))
   }
-
-  // getFoodById(foodid:string):Observable<Food> {
-  //   return this.http.get<Food>(FOODS_BY_ID_URL + foodid)
-  // }
-
   getFoodById(foodId:string):Observable<Food> {
     return this.http.get<Food[]>(FOODS_BY_ID_URL + foodId)
       .pipe(

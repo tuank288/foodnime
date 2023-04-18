@@ -50,7 +50,7 @@ export class CheckoutPageComponent implements OnInit {
     }
 
     this.order.full_name = this.fc.full_name.value;
-    this.order.delivery_address = this.fc.delivery_address.value;
+    this.order.address = this.fc.address.value;
 
     this.orderService.create(this.order).subscribe({
       next:() => {
