@@ -44,6 +44,7 @@ import { FooterComponent } from './components/partials/footer/footer.component';
 import { BanerComponent } from './components/partials/baner/baner.component';
 import { AllTagComponent } from './components/pages/all-tag/all-tag.component';
 import { OrdersComponent } from './components/pages/orders/orders.component';
+import { DashboardPageComponent } from './admin/dashboard-page/dashboard-page.component';
 
 
 
@@ -77,6 +78,7 @@ registerLocaleData(localeVi);
     BanerComponent,
     AllTagComponent,
     OrdersComponent,
+    DashboardPageComponent,
   ],
   imports: [
     BrowserModule,

@@ -55,10 +55,7 @@
               "src/styles.scss",
               "node_modules/ngx-toastr/toastr.css",
               "node_modules/leaflet/dist/leaflet.css",
-              "node_modules/leaflet-geosearch/dist/geosearch.css",
-              "node_modules/primeicons/primeicons.css",
-              "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
-              "node_modules/primeng/resources/primeng.min.css"
+              "node_modules/leaflet-geosearch/dist/geosearch.css"
             ],
             "scripts": [
             ]

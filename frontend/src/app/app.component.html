@@ -1,8 +1,13 @@
-<app-loading></app-loading>
-<app-header></app-header>
-<app-baner *ngIf="showBanner"></app-baner>
-<div class="container">
+<div *ngIf="!isAdmin">
+    <app-loading></app-loading>
+    <app-header></app-header>
+    <app-baner *ngIf="showBanner"></app-baner>
+    <div class="container">
+        <router-outlet></router-outlet>
+    </div>
+    <app-footer *ngIf="showFooter"></app-footer>
+</div>
+
+<div *ngIf="isAdmin">
     <router-outlet></router-outlet>
 </div>
-<app-footer *ngIf="showFooter"></app-footer>
-

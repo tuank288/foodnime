@@ -26,8 +26,6 @@
     "ng-starrating": "^1.0.20",
     "ngx-currency": "^3.0.0",
     "ngx-toastr": "^15.2.2",
-    "primeicons": "^6.0.1",
-    "primeng": "^15.3.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0"

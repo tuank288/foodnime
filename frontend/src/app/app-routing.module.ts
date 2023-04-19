@@ -11,8 +11,16 @@ import { PaymentPageComponent } from './components/pages/payment-page/payment-pa
 import { OrderTrackPageComponent } from './components/pages/order-track-page/order-track-page.component';
 import { AllTagComponent } from './components/pages/all-tag/all-tag.component';
 import { OrdersComponent } from './components/pages/orders/orders.component';
+import { DashboardPageComponent } from './admin/dashboard-page/dashboard-page.component';
 
 const routes: Routes = [
+  {path: 'admin',
+    children: [
+      {path: '', component: DashboardPageComponent}
+    ]
+  },
+
+
   {path: '', component:HomeComponent},
   {path: 'search/:searchTerm', component:HomeComponent},
   {path: 'tag/:tag', component:HomeComponent},

@@ -64,6 +64,10 @@ export class UsersService {
     window.location.reload();
   }
 
+  getUsersByEmail(email: string): Observable<User[]> {
+    return this.http.get<User[]>(`/api/users/get/user/${email}`);
+  }
+
   private setUserToLocalStogare(user:User){
     localStorage.setItem(USER_KEY, JSON.stringify(user))
   }

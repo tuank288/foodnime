@@ -9,6 +9,7 @@ import { NavigationEnd, Router } from '@angular/router';
 export class AppComponent {
   showBanner = true;
   showFooter = true;
+  isAdmin = false;
 
   constructor(private router: Router) {
     router.events.subscribe((event) => {
@@ -20,6 +21,9 @@ export class AppComponent {
 
   checkPath(url: string) {
     switch(true) {
+      case url === 'admin' || url.startsWith('/admin'):
+        this.isAdmin = true;
+        break;
       case url === '/tags' || url.startsWith('/tags'):
         this.showBanner = false;
         break;
