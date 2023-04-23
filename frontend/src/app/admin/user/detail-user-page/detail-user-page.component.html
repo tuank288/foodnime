@@ -1,0 +1,174 @@
+<!-- SIDEBAR -->
+<section id="sidebar" [ngClass]="status ? 'hide' : ''">
+  <a href="#" class="brand">
+    <i class='bx bx-book'></i>
+    <span class="text">Food</span>
+  </a>
+  <ul class="side-menu top">
+    <li>
+      <a routerLink="/admin">
+        <i class='bx bxs-dashboard' ></i>
+        <span class="text">Dashboard</span>
+      </a>
+    </li>
+    <li >
+      <a routerLink="/admin/ad-food">
+        <i class='bx bx-book'></i>
+        <span class="text">Food</span>
+      </a>
+    </li>
+    <li>
+      <a routerLink="/admin/ad-order">
+        <i class='bx bxs-doughnut-chart' ></i>
+        <span class="text">Order</span>
+      </a>
+    </li>
+    <li>
+      <a routerLink="/admin/ad-categories">
+        <i class='bx bx-list-ul'></i>
+        <span class="text">Categories</span>
+      </a>
+    </li>
+    <li class="active">
+      <a routerLink="/admin/ad-users">
+        <i class='bx bxs-user'></i>
+        <span class="text">Users</span>
+      </a>
+    </li>
+  </ul>
+  <ul class="side-menu">
+    <li>
+      <a href="#">
+        <i class='bx bxs-cog' ></i>
+        <span class="text">Settings</span>
+      </a>
+    </li>
+    <li>
+      <a href="#" class="logout">
+        <i class='bx bxs-log-out-circle' ></i>
+        <span class="text">Logout</span>
+      </a>
+    </li>
+  </ul>
+</section>
+  <!-- SIDEBAR -->
+  <!-- CONTENT -->
+  <section id="content">
+    <!-- NAVBAR -->
+    <nav>
+      <i (click)="addToggle()" class='bx bx-menu' ></i>
+     
+      <form action="#">
+      </form>
+  
+      <a href="#" class="profile">
+        <img src="./assets/user-profile-default.png">
+      </a>
+    </nav>
+    <!-- NAVBAR -->
+    <!-- MAIN -->
+    <main>
+      <div class="head-title">
+        <div class="left">
+          <h1>User Details</h1>
+          <ul class="breadcrumb">
+            <li>
+              <a routerLink="/admin/users">Users</a>
+            </li>
+            <li><i class='bx bx-chevron-right' ></i></li>
+            <li>
+              <a class="active" routerLink="/admin/users">User Details</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+  
+      <!-- main content -->
+      <div class="container">
+        <mat-card  class="example-card" *ngIf="userDetail">
+  
+          <mat-card-header>
+            <mat-card-title-group>
+              <mat-card-title class="title">{{ userDetail.full_name }}</mat-card-title>
+            </mat-card-title-group>
+          </mat-card-header>
+  
+          <mat-card-content>
+            <mat-list>
+              <mat-list-item>
+                <div matLine>
+                    User ID :
+                    <button mat-button>{{userDetail.user_id}} </button>
+                </div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <div matLine>
+                    Full name :
+                    <button mat-button>{{userDetail.full_name}} </button>
+                </div>
+              </mat-list-item>
+  
+              <mat-list-item>
+                <div matLine>
+                    Email :
+                    <button mat-button>{{userDetail.email}} </button>
+                </div>
+               </mat-list-item>
+
+               <mat-list-item>
+                <div matLine>
+                    Phone number :
+                    <button mat-button>{{userDetail.phone_number}} </button>
+                </div>
+               </mat-list-item>
+
+               
+               <mat-list-item>
+                <div matLine>
+                    Address :
+                    <button mat-button>{{userDetail.address}} </button>
+                </div>
+               </mat-list-item>
+  
+                <mat-list-item>
+                  <div matLine>
+                    Role :
+                    <button mat-button>{{userDetail.role}} </button>
+                  </div>
+                </mat-list-item>
+  
+                <mat-list-item>
+                  <div matLine>
+                    Created at :
+                    <button mat-button>{{userDetail.created_at | date: 'dd/MM/yyyy HH:mm:ss'}} </button>
+                  </div>
+                </mat-list-item>
+  
+                <mat-list-item>
+                  <div matLine>
+                    Updated at :
+                    <button mat-button>{{userDetail.updated_at | date: 'dd/MM/yyyy HH:mm:ss'}} </button>
+                  </div>
+                </mat-list-item>
+  
+              </mat-list>
+  
+            <!-- <mat-card-content class="line">{{novelDetail.description}}</mat-card-content> -->
+  
+          </mat-card-content>
+          <mat-card-actions>
+            <button routerLink="/admin/ad-users" mat-raised-button color="primary">Quay lại</button>
+          </mat-card-actions>
+  
+        </mat-card>
+  
+      </div>
+  
+    </main>
+    <!-- MAIN -->
+  </section>
+  <!-- CONTENT -->
+  
+  
+  

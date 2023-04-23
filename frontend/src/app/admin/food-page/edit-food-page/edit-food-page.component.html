@@ -1,0 +1,151 @@
+<!-- SIDEBAR -->
+<section id="sidebar" [ngClass]="status ? 'hide' : ''">
+  <a href="#" class="brand">
+    <i class='bx bx-book'></i>
+    <span class="text">Food</span>
+  </a>
+  <ul class="side-menu top">
+    <li>
+      <a routerLink="/admin">
+        <i class='bx bxs-dashboard' ></i>
+        <span class="text">Dashboard</span>
+      </a>
+    </li>
+    <li class="active">
+      <a routerLink="/admin/ad-food">
+        <i class='bx bx-book'></i>
+        <span class="text">Food</span>
+      </a>
+    </li>
+    <li>
+      <a routerLink="/admin/ad-order">
+        <i class='bx bxs-doughnut-chart' ></i>
+        <span class="text">Order</span>
+      </a>
+    </li>
+    <li>
+      <a routerLink="/admin/ad-categories">
+        <i class='bx bx-list-ul'></i>
+        <span class="text">Categories</span>
+      </a>
+    </li>
+    <li>
+      <a routerLink="/admin/ad-users">
+        <i class='bx bxs-user'></i>
+        <span class="text">Users</span>
+      </a>
+    </li>
+  </ul>
+  <ul class="side-menu">
+    <li>
+      <a href="#">
+        <i class='bx bxs-cog' ></i>
+        <span class="text">Settings</span>
+      </a>
+    </li>
+    <li>
+      <a href="#" class="logout">
+        <i class='bx bxs-log-out-circle' ></i>
+        <span class="text">Logout</span>
+      </a>
+    </li>
+  </ul>
+</section>
+  <!-- SIDEBAR -->
+  <!-- CONTENT -->
+  <section id="content">
+    <!-- NAVBAR -->
+    <nav>
+      <i (click)="addToggle()" class='bx bx-menu' ></i>
+     
+      <form action="#">
+      </form>
+  
+      <a href="#" class="profile">
+        <img src="./assets/user-profile-default.png">
+      </a>
+    </nav>
+    <!-- NAVBAR -->
+    <!-- MAIN -->
+    <main>
+      <div class="head-title">
+        <div class="left">
+          <h1 *ngIf="!isUpdateActive">Tạo món mới</h1>
+          <h1 *ngIf="isUpdateActive">Cập nhật</h1>
+          <ul class="breadcrumb">
+            <li>
+              <a routerLink="/admin/ad-food">Food</a>
+            </li>
+            <li><i class='bx bx-chevron-right' ></i></li>
+            <li>
+              <a *ngIf="!isUpdateActive" class="active" routerLink="/admin/create-food">Tạo món mới</a>
+              <a *ngIf="isUpdateActive" class="active" routerLink="/admin/update-food">Cập nhật</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+  
+      <div class="container">
+        <div class="row">
+          <div class="col-md-10 col-md-offset-1">
+            <div class="panel panel-default">
+              <div class="panel-heading">Series</div>
+              <div class="panel-body">
+                <form [formGroup]="createFoodForm">
+  
+                  <div class="form-group clearfix required">
+                    <label class="col-md-2 control-label pt-7 text-right">Hình ảnh</label>
+                    <div class="col-md-8">
+                        <input class="file" type="file" ng2FileSelect (change)="onFileSelected($event)" formControlName="food_image"/><br/>
+                    </div>
+                  </div>
+  
+                  <div class="form-group clearfix required">
+                    <label class="col-md-2 control-label pt-7 text-right">Tên món</label>
+                    <div class="col-md-8">
+                      <input type="text" class="form-control" name="food_name" formControlName="food_name">
+                    </div>
+                  </div>
+    
+                  <div class="form-group clearfix required">
+                    <label class="col-md-2 control-label pt-7 text-right">Thể loại</label>
+                    <div class="col-md-8">
+  
+                      <mat-form-field appearance="outline">
+                        <mat-label>Chọn thể loại </mat-label>
+                        <mat-select formControlName="category_id">
+                          <mat-option *ngFor="let category of categories" [value]="[ category.category_id ]">
+                            {{ category.category_name }}
+                          </mat-option>
+                        </mat-select>
+  
+                      </mat-form-field>
+                    </div>
+                  </div>
+  
+                  <div class="form-group clearfix required">
+                    <label class="col-md-2 control-label pt-7 text-right">Giá tiền</label>
+                    <div class="col-md-8">
+                      <input type="text" class="form-control" name="price" formControlName="price">
+                    </div>
+                  </div>
+  
+                  <div class="form-group">
+                    <div class="col-md-10 col-md-offset-2">
+                      <button *ngIf="!isUpdateActive" (click)="submit()" class="btn btn-primary">Submit</button>
+                      <button *ngIf="isUpdateActive" (click)="update()" class="btn btn-primary">Update</button>
+                      <a routerLink="/admin/ad-food" class="btn btn-warning">Quay lại</a>
+                    </div>
+                  </div>
+  
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- MAIN -->
+  </section>
+  <!-- CONTENT -->
+  

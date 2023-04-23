@@ -1,70 +1,63 @@
 <!-- SIDEBAR -->
 <section id="sidebar" [ngClass]="status ? 'hide' : ''">
-    <a href="/admin" class="brand">
-      <i class='bx bx-book'></i>
-      <span class="text">Food</span>
-    </a>
-    <ul class="side-menu top">
-      <li class="active">
-        <a routerLink="/admin">
-          <i class='bx bxs-dashboard' ></i>
-          <span class="text">Dashboard</span>
-        </a>
-      </li>
-      <li>
-        <a routerLink="/admin/novels">
-          <i class='bx bx-book'></i>
-          <span class="text">Novels</span>
-        </a>
-      </li>
-      <li>
-        <a routerLink="/admin/genre">
-          <i class='bx bxs-doughnut-chart' ></i>
-          <span class="text">Novel Genre</span>
-        </a>
-      </li>
-      <li>
-        <a routerLink="/admin/volumes">
-          <i class='bx bx-list-ul'></i>
-          <span class="text">Volumes</span>
-        </a>
-      </li>
-      <li>
-        <a routerLink="/admin/chapters">
-          <i class='bx bx-book-content'></i>
-          <span class="text">Chapters</span>
-        </a>
-      </li>
-      <li>
-        <a routerLink="/admin/users">
-          <i class='bx bxs-user'></i>
-          <span class="text">Users</span>
-        </a>
-      </li>
-    </ul>
-    <ul class="side-menu">
-      <li>
-        <a href="#">
-          <i class='bx bxs-cog' ></i>
-          <span class="text">Settings</span>
-        </a>
-      </li>
-      <li>
-        <a href="#" class="logout">
-          <i class='bx bxs-log-out-circle' ></i>
-          <span class="text">Logout</span>
-        </a>
-      </li>
-    </ul>
-  </section>
-  <!-- SIDEBAR -->
+  <a href="#" class="brand">
+    <i class='bx bx-book'></i>
+    <span class="text">Food</span>
+  </a>
+  <ul class="side-menu top">
+    <li class="active">
+      <a routerLink="/admin">
+        <i class='bx bxs-dashboard' ></i>
+        <span class="text">Dashboard</span>
+      </a>
+    </li>
+    <li >
+      <a routerLink="/admin/ad-food">
+        <i class='bx bx-book'></i>
+        <span class="text">Food</span>
+      </a>
+    </li>
+    <li>
+      <a routerLink="/admin/ad-order">
+        <i class='bx bxs-doughnut-chart' ></i>
+        <span class="text">Order</span>
+      </a>
+    </li>
+    <li>
+      <a routerLink="/admin/ad-categories">
+        <i class='bx bx-list-ul'></i>
+        <span class="text">Categories</span>
+      </a>
+    </li>
+    <li>
+      <a routerLink="/admin/ad-users">
+        <i class='bx bxs-user'></i>
+        <span class="text">Users</span>
+      </a>
+    </li>
+  </ul>
+  <ul class="side-menu">
+    <li>
+      <a href="#">
+        <i class='bx bxs-cog' ></i>
+        <span class="text">Settings</span>
+      </a>
+    </li>
+    <li>
+      <a href="#" class="logout">
+        <i class='bx bxs-log-out-circle' ></i>
+        <span class="text">Logout</span>
+      </a>
+    </li>
+  </ul>
+</section>
+<!-- SIDEBAR -->
   <!-- CONTENT -->
   <section id="content">
     <!-- NAVBAR -->
     <nav>
-      <i (click)="addToggle()" class='bx bx-menu' ></i>
-      <a href="#" class="nav-link">Categories</a>
-      <form action="#">
+      <i (click)="toggleSidebar()" class='bx bx-menu' ></i>
+      <form action="/admin">
       </form>
   
       <a href="/admin" class="profile">
@@ -79,79 +72,89 @@
           <h1>Dashboard</h1>
           <ul class="breadcrumb">
             <li>
-              <a href="#">Dashboard</a>
+              <a href="/admin">Dashboard</a>
             </li>
             <li><i class='bx bx-chevron-right' ></i></li>
             <li>
-              <a class="active" href="#">Home</a>
+              <a class="active" href="/admin">Home</a>
             </li>
           </ul>
         </div>
       </div>
   
-  
       <ul class="box-info">
         <li>
           <i class='bx bx-book'></i>
           <span class="text">
-            <h3> totalNovels </h3>
-            <p>Total Novels</p>
+            <h3> {{ totalFood }} </h3>
+            <p>Tất cả món</p>
           </span>
         </li>
         <li>
           <i class='bx bxs-group' ></i>
           <span class="text">
-            <h3> totalUsers </h3>
-            <p>Total Users</p>
+            <h3>{{ totalOrders }}</h3>
+            <p>Tổng đơn hàng</p>
           </span>
         </li>
         <li>
           <i class='bx bxs-dollar-circle' ></i>
           <span class="text">
-            <h3>$2543</h3>
-            <p>Total Sales</p>
+            <h3>{{ totalPrice | currency: 'VND'}}</h3>
+            <p>Tổng doanh thu</p>
           </span>
         </li>
       </ul>
       <div class="table-data">
         <div class="order">
           <div class="head">
-            <h3>New Novels</h3>
+            <h3>Món ăn mới</h3>
             <i class='bx bx-search' ></i>
             <i class='bx bx-filter' ></i>
           </div>
           <table>
             <thead>
               <tr>
-                <th>Title</th>
-                <th>Updated at</th>
+                <th>Tên</th>
+                <th>Ngày tạo</th>
               </tr>
             </thead>
-            <tbody >
+            <tbody *ngFor="let food of foods.slice(0, 5)">
               <tr>
                 <td>
                   <img>
-                  <p>novel.title </p>
+                  <p>{{food.food_name}}</p>
                 </td>
-                <td>novel.updated_at</td>
+                <td>{{food.created_at |  date: 'dd/MM/yyyy'}}</td>
               </tr>
-  
             </tbody>
           </table>
         </div>
-        <div class="todo">
+        <div class="order">
           <div class="head">
-            <h3>New Chapters</h3>
+            <h3>Người dùng mới</h3>
             <i class='bx bx-plus' ></i>
             <i class='bx bx-filter' ></i>
           </div>
-          <ul class="todo-list">
-            <li class="completed">
-              <p></p>
-              <i class='bx bx-dots-vertical-rounded' ></i>
-            </li>
-  
-          </ul>
+          <table>
+            <thead>
+              <tr>
+                <th>Tên</th>
+                <th>Email</th>
+                <th>Ngày tạo</th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let user of users.slice(0, 5)">
+              <tr>
+                <td>
+                  <img>
+                  <p>{{user.full_name}}</p>
+                </td>
+                <td>{{user.email}}</td>
+                <td>{{user.created_at |  date: 'dd/MM/yyyy'}}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </main>

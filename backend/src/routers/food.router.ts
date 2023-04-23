@@ -19,9 +19,10 @@ router.get("/", (req, res) => {
 })
 
 router.get("/:foodId", (req, res) => {
-    db.query(`SELECT * FROM food`, function(error, results, fields) {
+    const foodId = req.params.foodId
+    db.query(`SELECT * FROM food WHERE food_id = ${foodId}`, function(error, results, fields) {
     if(error) throw error;
-    res.send(results);
+    res.send(results[0]);
 });
 })
 

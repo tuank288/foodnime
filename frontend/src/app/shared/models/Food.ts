@@ -2,8 +2,12 @@ export class Food{
     food_id!: string;
     food_name!: string;
     price!: number;
-    category_name?: string[];
-    
+    category_id!:string;
+    category_name?: string;
+    created_at?: string;
+    updated_at?:string;
+    food_image!:string;
+
     favorite!: boolean;
     stars!: number;
     imageUrl!: string;

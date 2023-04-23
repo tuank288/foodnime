@@ -5,6 +5,7 @@
     top: 0;
     left: 0;
     width: 280px;
+    flex-shrink: 0;
     height: 100%;
     background: var(--light);
     z-index: 2000;
@@ -110,6 +111,7 @@
   /* CONTENT */
   #content {
     position: relative;
+    flex-grow: 1;
     width: calc(100% - 280px);
     left: 280px;
     transition: .3s ease;

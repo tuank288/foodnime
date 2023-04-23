@@ -15,3 +15,25 @@ export const ORDER_CREATE_URL = ORDERS_URL + '/create';
 export const ORDER_NEW_FOR_CURRENT_USER_URL = ORDERS_URL + '/newOrderForCurrentUser';
 export const ORDER_PAY_URL = ORDERS_URL + '/pay';
 export const ORDER_TRACK_URL = ORDERS_URL + '/track/';
+
+export const ADMIN_URL = BASE_URL + '/api/admin';
+export const ADMIN_ORDER = ADMIN_URL + '/orders';
+export const ADMIN_TOTAL_PRICE = ADMIN_URL + '/totalPrice';
+
+export const ADMIN_GET_FOOD = ADMIN_URL + '/get-foods';
+export const ADMIN_DELETE_FOOD = ADMIN_URL + '/delete-foods/';
+export const ADMIN_POST_FOOD = ADMIN_URL + '/post-foods';
+export const ADMIN_UPDATE_FOOD = ADMIN_URL + '/update-foods/';
+export const ADMIN_DETAIL_FOOD = ADMIN_URL + '/detail-foods/';
+
+export const ADMIN_GET_CATEGORY = ADMIN_URL + '/get-categories';
+export const ADMIN_DELETE_CATEGORY = ADMIN_URL + '/delete-category/';
+export const ADMIN_POST_CATEGORY = ADMIN_URL + '/post-category';
+export const ADMIN_UPDATE_CATEGORY = ADMIN_URL + '/update-category/';
+export const ADMIN_DETAIL_CATEGORY = ADMIN_URL + '/detail-category/';
+
+export const ADMIN_USER = ADMIN_URL + '/get-users';
+export const ADMIN_DELETE_USER = ADMIN_URL + '/delete-user/';
+export const ADMIN_POST_USER = ADMIN_URL + '/post-user';
+export const ADMIN_UPDATE_USER = ADMIN_URL + '/update-user/';
+export const ADMIN_DETAIL_USER = ADMIN_URL + '/detail-user/';

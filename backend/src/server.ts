@@ -4,7 +4,7 @@ import mysql from 'mysql';
 import foodRouter from './routers/food.router'
 import userRouter from './routers/user.router'
 import orderRouter from './routers/order.router'
-import path from 'path';
+import adminRouter from './routers/admin.router'
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -16,10 +16,7 @@ server.use(cors({
     credentials: true,
     origin:["http://localhost:4200"]
 }))
-// server.use((req, res, next) => {
-//     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
-//     next();
-//   });
+
 const port = 5000;
 
 const dbUser = process.env.DB_USER;
@@ -53,6 +50,7 @@ server.listen(port, () => {
 server.use("/api/foods", foodRouter);
 server.use("/api/users", userRouter);
 server.use("/api/orders", orderRouter);
+server.use("/api/admin", adminRouter);
 
 
 

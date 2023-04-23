@@ -12,11 +12,36 @@ import { OrderTrackPageComponent } from './components/pages/order-track-page/ord
 import { AllTagComponent } from './components/pages/all-tag/all-tag.component';
 import { OrdersComponent } from './components/pages/orders/orders.component';
 import { DashboardPageComponent } from './admin/dashboard-page/dashboard-page.component';
+import { AdFoodPageComponent } from './admin/food-page/ad-food-page/ad-food-page.component';
+import { EditFoodPageComponent } from './admin/food-page/edit-food-page/edit-food-page.component';
+import { DetailFoodPageComponent } from './admin/food-page/detail-food-page/detail-food-page.component';
+import { AdCategoriesPageComponent } from './admin/categories-page/ad-categories-page/ad-categories-page.component';
+import { EditCategoriesPageComponent } from './admin/categories-page/edit-categories-page/edit-categories-page.component';
+import { DetailCategoriesPageComponent } from './admin/categories-page/detail-categories-page/detail-categories-page.component';
+import { AdUserPageComponent } from './admin/user/ad-user-page/ad-user-page.component';
+import { EditUserPageComponent } from './admin/user/edit-user-page/edit-user-page.component';
+import { DetailUserPageComponent } from './admin/user/detail-user-page/detail-user-page.component';
 
 const routes: Routes = [
   {path: 'admin',
     children: [
-      {path: '', component: DashboardPageComponent}
+      {path: '', component: DashboardPageComponent},
+
+      {path: 'ad-food', component: AdFoodPageComponent},
+      {path: 'create-food', component: EditFoodPageComponent},
+      {path: 'detail-food/:foodId', component: DetailFoodPageComponent},
+      {path: 'update-food/:foodId', component: EditFoodPageComponent},
+
+      {path: 'ad-categories', component: AdCategoriesPageComponent},
+      {path: 'create-category', component: EditCategoriesPageComponent},
+      {path: 'detail-category/:categoryId', component: DetailCategoriesPageComponent},
+      {path: 'update-category/:categoryId', component: EditCategoriesPageComponent},
+
+      
+      {path: 'ad-users', component: AdUserPageComponent},
+      {path: 'create-user', component: EditUserPageComponent},
+      {path: 'detail-user/:userId', component: DetailUserPageComponent},
+      {path: 'update-user/:userId', component: EditUserPageComponent},
     ]
   },
 
@@ -24,7 +49,7 @@ const routes: Routes = [
   {path: '', component:HomeComponent},
   {path: 'search/:searchTerm', component:HomeComponent},
   {path: 'tag/:tag', component:HomeComponent},
-  {path: 'food/:id', component:FoodPageComponent},
+  {path: 'food/:foodId', component:FoodPageComponent},
   {path: 'cart-page', component:CartPageComponent},
   {path: 'login', component:LoginPageComponent},
   {path: 'register', component:RegisterPageComponent},

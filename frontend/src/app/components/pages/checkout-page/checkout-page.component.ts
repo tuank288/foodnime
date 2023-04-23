@@ -23,9 +23,9 @@ export class CheckoutPageComponent implements OnInit {
               private router: Router) {
                 const cart = cartService.getCart();
                 this.order.items = cart.items;
-                this.order.total_price = cart.totalPrice;
+                this.order.total_price = cart.totalPrice;               
               }
-
+              
   ngOnInit(): void {
     let {full_name, address} = this.userService.currentUser;
     this.checkoutForm = this.formBuilder.group({
@@ -33,7 +33,7 @@ export class CheckoutPageComponent implements OnInit {
       address:[address, Validators.required]
     });
   }
-
+  
   get fc(){
     return this.checkoutForm.controls;
   }
@@ -51,7 +51,7 @@ export class CheckoutPageComponent implements OnInit {
 
     this.order.full_name = this.fc.full_name.value;
     this.order.address = this.fc.address.value;
-
+    
     this.orderService.create(this.order).subscribe({
       next:() => {
         this.router.navigateByUrl('/payment');

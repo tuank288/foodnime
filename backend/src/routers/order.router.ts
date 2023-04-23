@@ -81,9 +81,10 @@ router.post('/create', (req:any, res) => {
 });
 
 
-router.get('/newOrderForCurrentUser', asyncHandler(async (req, res) => {
+router.get('/newOrderForCurrentUser', (async (req, res) => {
   try {
     const order = await getNewOrderForCurrentUser(req);
+
     if (order) {
       res.send(order);
     } else {
@@ -117,12 +118,14 @@ router.post('/pay', asyncHandler(async (req: any, res) => {
   });
 }));
 
-router.get('/track/:id', (req:any, res) => {
+router.get('/track/:orderId', (req:any, res) => {
   const user_id = req.user_id
+  
   const query = `SELECT orders.*, users.full_name, order_items.*
                  FROM orders
                  JOIN users ON orders.user_id = users.user_id
                  JOIN order_items ON orders.order_id = order_items.order_id
+                 JOIN food ON order_items.food_id = food.food_id
                  WHERE orders.user_id = '${user_id}'
                  ORDER BY orders.order_date DESC
                  LIMIT 1`;
@@ -133,7 +136,6 @@ router.get('/track/:id', (req:any, res) => {
       return;
     }
     if (results.length === 0) {
-      console.log(results);
       
       res.status(404).send('Order not found');
       return;
@@ -148,6 +150,7 @@ router.get('/track/:id', (req:any, res) => {
           food_name: result.food_name,
           price: result.price,
         },
+        price: result.price * result.quantity,
         quantity: result.quantity,
       })),
       total_price: results[0].total_price,
@@ -160,7 +163,7 @@ router.get('/track/:id', (req:any, res) => {
       created_at: results[0].created_at,
       updated_at: results[0].updated_at,
     };
-    console.log(order);
+    // console.log(order);
     res.send(order);
   });
 })
@@ -169,10 +172,11 @@ export default router;
 
 async function getNewOrderForCurrentUser(req: any) {
   const userId = req.user_id;
-  const query = `SELECT orders.*, users.full_name, order_items.*
+  const query = `SELECT orders.*, users.full_name, order_items.*, food.*
   FROM orders
   JOIN users ON orders.user_id = users.user_id
-  JOIN  order_items ON orders.order_id =  order_items.order_id
+  JOIN order_items ON orders.order_id = order_items.order_id
+  JOIN food ON order_items.food_id = food.food_id
   WHERE orders.user_id = '${userId}' AND orders.status = 'NEW'`;
   return new Promise((resolve, reject) => {
     db.query(query, function (error, results, fields) {
@@ -181,7 +185,7 @@ async function getNewOrderForCurrentUser(req: any) {
       } else {
         if(results.length > 0) {
           const order = {
-            order_id:results[0].order_id,
+            order_id: results[0].order_id,
             items: results.map((result: any) => ({
               food: {
                 food_id: result.food_id,
@@ -190,6 +194,7 @@ async function getNewOrderForCurrentUser(req: any) {
                 food_name: result.food_name,
                 price: result.price,
               },
+              price: result.price * result.quantity,
               quantity: result.quantity,
             })),
             total_price: results[0].total_price,
@@ -198,6 +203,8 @@ async function getNewOrderForCurrentUser(req: any) {
             address: results[0].address,
             addressLatLng: JSON.parse(results[0].addressLatLng)
           };
+          console.log(order);
+          
           resolve(order);
         }else {
           resolve(null);

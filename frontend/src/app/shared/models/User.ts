@@ -7,6 +7,6 @@ export class User{
     phone_number!:string;
     token!:string;
     role!:boolean;
-    created!:string;
-    updated!:string;
+    created_at!:string;
+    updated_at!:string;
   }

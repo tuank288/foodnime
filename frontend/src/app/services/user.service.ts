@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, Observable, map, tap } from 'rxjs';
-import { USER_LOGIN_URL, USER_REGISTER_URL } from '../shared/constans/urls';
+import { ADMIN_URL, ADMIN_USER, USER_LOGIN_URL, USER_REGISTER_URL } from '../shared/constans/urls';
 import { IUserLogin } from '../shared/interfaces/IUserLogin';
 import { User } from '../shared/models/User';
 import { IUserRegister } from '../shared/interfaces/IUserRegister';
@@ -62,10 +62,6 @@ export class UsersService {
     this.userSubject.next(new User());
     localStorage.removeItem(USER_KEY);
     window.location.reload();
-  }
-
-  getUsersByEmail(email: string): Observable<User[]> {
-    return this.http.get<User[]>(`/api/users/get/user/${email}`);
   }
 
   private setUserToLocalStogare(user:User){

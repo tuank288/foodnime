@@ -1,0 +1,191 @@
+<!-- SIDEBAR -->
+<section id="sidebar" [ngClass]="status ? 'hide' : ''">
+    <a href="#" class="brand">
+      <i class='bx bx-book'></i>
+      <span class="text">Food</span>
+    </a>
+    <ul class="side-menu top">
+      <li>
+        <a routerLink="/admin">
+          <i class='bx bxs-dashboard' ></i>
+          <span class="text">Dashboard</span>
+        </a>
+      </li>
+      <li >
+        <a routerLink="/admin/ad-food">
+          <i class='bx bx-book'></i>
+          <span class="text">Food</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/admin/ad-order">
+          <i class='bx bxs-doughnut-chart' ></i>
+          <span class="text">Order</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/admin/ad-categories">
+          <i class='bx bx-list-ul'></i>
+          <span class="text">Categories</span>
+        </a>
+      </li>
+      <li class="active">
+        <a routerLink="/admin/ad-users">
+          <i class='bx bxs-user'></i>
+          <span class="text">Users</span>
+        </a>
+      </li>
+    </ul>
+    <ul class="side-menu">
+      <li>
+        <a href="#">
+          <i class='bx bxs-cog' ></i>
+          <span class="text">Settings</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" class="logout">
+          <i class='bx bxs-log-out-circle' ></i>
+          <span class="text">Logout</span>
+        </a>
+      </li>
+    </ul>
+  </section>
+    <!-- SIDEBAR -->
+  <section id="content">
+    <!-- NAVBAR -->
+    <nav>
+      <i (click)="addToggle()" class='bx bx-menu' ></i>
+     
+      <form action="#">
+      </form>
+  
+      <a href="#" class="profile">
+        <img src="./assets/user-profile-default.png">
+      </a>
+    </nav>
+    <!-- NAVBAR -->
+    <!-- MAIN -->
+    <main>
+      <div class="head-title">
+        <div class="left">
+          <h1>Create User</h1>
+          <ul class="breadcrumb">
+            <li>
+              <a routerLink="/admin/users">Users</a>
+            </li>
+            <li><i class='bx bx-chevron-right' ></i></li>
+            <li>
+              <a class="active" routerLink="/admin/create-user">Create User</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+  
+      <div class="container">
+        <div class="row">
+          <div class="col-md-10 col-md-offset-1">
+            <div class="panel panel-default">
+              <div class="panel-heading">Series</div>
+              <div class="panel-body">
+                <form [formGroup]="createUserForm">
+  
+                  <div class="form-group clearfix required">
+                    <label class="col-md-2 control-label pt-7 text-right">Full name</label>
+                    <div class="col-md-8">
+                      <input type="text" class="form-control" name="full_name" formControlName="full_name" required>
+                      <div *ngIf="full_name.invalid && (full_name.dirty || full_name.touched)" class="alert">
+                        <span class="error-text" *ngIf="full_name.errors?.['required']">Full name is required.</span>
+                      </div>
+                    </div>
+                  </div>
+  
+                  <div class="form-group clearfix required">
+                    <label class="col-md-2 control-label pt-7 text-right">Email</label>
+                    <div class="col-md-8">
+                      <input type="text" class="form-control" name="email" formControlName="email" required>
+                      <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert">
+                        <span class="error-text" *ngIf="email.errors?.['required']">Email is required.</span>
+                        <span class="error-text" *ngIf="email.errors?.['email']">Please enter a valid email.</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group clearfix required">
+                    <label class="col-md-2 control-label pt-7 text-right">Phone number</label>
+                    <div class="col-md-8">
+                      <input type="text" class="form-control" name="phone_number" formControlName="phone_number" required>
+                      <div *ngIf="phone_number.invalid && (phone_number.dirty || phone_number.touched)" class="alert">
+                        <span class="error-text" *ngIf="phone_number.errors?.['required']">Email is required.</span>
+                        <span class="error-text" *ngIf="phone_number.errors?.['phone_number']">Please enter a valid phone number.</span>
+                      </div>
+                    </div>
+                  </div>
+  
+                  <div class="form-group clearfix required">
+                    <label class="col-md-2 control-label pt-7 text-right">Password</label>
+                    <div class="col-md-8">
+                      <input type="password" class="form-control" name="password" formControlName="password" required>
+                      <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert">
+                        <span class="error-text" *ngIf="password.errors?.['required']">Password is required.</span>
+                        <span class="error-text" *ngIf="password.errors?.['minlength']">Password must contain at least 8 characters.</span>
+                      </div>
+                    </div>
+                  </div>
+  
+                  <div *ngIf="!isUpdateActive" class="form-group clearfix required">
+                    <label class="col-md-2 control-label pt-7 text-right">Confirm password</label>
+                    <div class="col-md-8">
+                      <input type="password" class="form-control" name="confirmPassword" formControlName="confirmPassword" required>
+                      <div *ngIf="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)" class="alert">
+                        <span class="error-text" *ngIf="confirmPassword.errors?.['required']">Confirm password is required.</span>
+                        <span class="error-text" *ngIf="confirmPassword.errors?.['minlength']">Confirm password must contain at least 8 characters.</span>
+                        <span class="error-text" *ngIf="confirmPassword.errors?.['confirmedValidator']">password did not match</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group clearfix required">
+                    <label class="col-md-2 control-label pt-7 text-right">Address</label>
+                    <div class="col-md-8">
+                      <input type="text" class="form-control" name="address" formControlName="address" required>
+                      <div *ngIf="address.invalid && (address.dirty || address.touched)" class="alert">
+                        <span class="error-text" *ngIf="address.errors?.['required']">Email is required.</span>
+                        <span class="error-text" *ngIf="address.errors?.['address']">Please enter a valid address.</span>
+                      </div>
+                    </div>
+                  </div>
+  
+                  <div class="form-group clearfix required">
+                    <label class="col-md-2 control-label pt-7 text-right">Role</label>
+                    <div class="col-md-8">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Choose role for user </mat-label>
+                        <mat-select formControlName="role">
+                          <mat-option *ngFor="let role of roles" [value]="role">
+                            {{ role }}
+                          </mat-option>
+                        </mat-select>
+  
+                      </mat-form-field>
+                    </div>
+                  </div>
+  
+                  <div class="form-group">
+                    <div class="col-md-10 col-md-offset-2">
+                      <button *ngIf="!isUpdateActive" (click)="submit()" class="btn btn-primary">Submit</button>
+                      <button *ngIf="isUpdateActive" (click)="update()" class="btn btn-primary">Update</button>
+                      <a routerLink="/admin/ad-users" class="btn btn-warning">Quay lại</a>
+                    </div>
+                  </div>
+  
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- MAIN -->
+  </section>
+  <!-- CONTENT -->

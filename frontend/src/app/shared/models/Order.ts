@@ -1,10 +1,9 @@
 
 import { LatLng } from "leaflet";
 import { CartItem } from "./CartItem";
-import { User } from "./User";
 
 export class Order{
-  order_id!:number;
+  order_id!:string;
   items!: CartItem[];
   total_price!:number;
 

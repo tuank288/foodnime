@@ -4,6 +4,25 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
+import { NgConfirmModule } from 'ng-confirm-box';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatInputModule } from '@angular/material/input';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatListModule } from '@angular/material/list';
+import { MatCardModule } from '@angular/material/card';
+import {MatSelectModule} from '@angular/material/select';
+
+
+
+
 import { registerLocaleData } from '@angular/common';
 import localeVi from '@angular/common/locales/vi';
 
@@ -15,7 +34,7 @@ import { HomeComponent } from './components/pages/home/home.component';
 import { SearchComponent } from './components/partials/search/search.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { RatingModule } from 'ng-starrating';
+
 import { TagsComponent } from './components/partials/tags/tags.component';
 import { FoodPageComponent } from './components/pages/food-page/food-page.component';
 import { CartPageComponent } from './components/pages/cart-page/cart-page.component';
@@ -44,8 +63,18 @@ import { FooterComponent } from './components/partials/footer/footer.component';
 import { BanerComponent } from './components/partials/baner/baner.component';
 import { AllTagComponent } from './components/pages/all-tag/all-tag.component';
 import { OrdersComponent } from './components/pages/orders/orders.component';
-import { DashboardPageComponent } from './admin/dashboard-page/dashboard-page.component';
 
+import { DashboardPageComponent } from './admin/dashboard-page/dashboard-page.component';
+import { AdFoodPageComponent } from './admin/food-page/ad-food-page/ad-food-page.component';
+import { EditFoodPageComponent } from './admin/food-page/edit-food-page/edit-food-page.component';
+import { DetailFoodPageComponent } from './admin/food-page/detail-food-page/detail-food-page.component';
+import { AdCategoriesPageComponent } from './admin/categories-page/ad-categories-page/ad-categories-page.component';
+import { EditCategoriesPageComponent } from './admin/categories-page/edit-categories-page/edit-categories-page.component';
+import { DetailCategoriesPageComponent } from './admin/categories-page/detail-categories-page/detail-categories-page.component';
+import { DetailUserPageComponent } from './admin/user/detail-user-page/detail-user-page.component';
+import { AdUserPageComponent } from './admin/user/ad-user-page/ad-user-page.component';
+import { EditUserPageComponent } from './admin/user/edit-user-page/edit-user-page.component';
+import { AdOrderComponent } from './admin/order/ad-order/ad-order.component';
 
 
 registerLocaleData(localeVi);
@@ -79,16 +108,42 @@ registerLocaleData(localeVi);
     AllTagComponent,
     OrdersComponent,
     DashboardPageComponent,
+    AdFoodPageComponent,
+    EditFoodPageComponent,
+    DetailFoodPageComponent,
+    AdCategoriesPageComponent,
+    EditCategoriesPageComponent,
+    DetailCategoriesPageComponent,
+    DetailUserPageComponent,
+    AdUserPageComponent,
+    EditUserPageComponent,
+    AdOrderComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    RatingModule,
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
     CommonModule,
+
+    MatToolbarModule,
+    MatIconModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatFormFieldModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatSlideToggleModule,
+    MatInputModule,
+    MatChipsModule,
+    MatListModule,
+    MatCardModule,
+    MatSelectModule,
+    NgConfirmModule,
+
     ToastrModule.forRoot({
       timeOut: 1200,
       newestOnTop: true
