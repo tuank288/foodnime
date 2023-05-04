@@ -125,7 +125,7 @@
                   <img>
                   <p>{{food.food_name}}</p>
                 </td>
-                <td>{{food.created_at |  date: 'dd/MM/yyyy'}}</td>
+                <td>{{food.created_at | date: 'dd/MM/yyyy'}}</td>
               </tr>
             </tbody>
           </table>
@@ -133,8 +133,7 @@
         <div class="order">
           <div class="head">
             <h3>Người dùng mới</h3>
-            <i class='bx bx-plus' ></i>
-            <i class='bx bx-filter' ></i>
+            <i routerLink="/admin/create-food"  class='bx bx-plus' ></i>
           </div>
           <table>
             <thead>

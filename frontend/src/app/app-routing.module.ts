@@ -21,6 +21,9 @@ import { DetailCategoriesPageComponent } from './admin/categories-page/detail-ca
 import { AdUserPageComponent } from './admin/user/ad-user-page/ad-user-page.component';
 import { EditUserPageComponent } from './admin/user/edit-user-page/edit-user-page.component';
 import { DetailUserPageComponent } from './admin/user/detail-user-page/detail-user-page.component';
+import { AdOrderComponent } from './admin/order/ad-order/ad-order.component';
+import { DetailOrderPageComponent } from './admin/order/detail-order-page/detail-order-page.component';
+import { ErrorComponent } from './components/partials/error/error.component';
 
 const routes: Routes = [
   {path: 'admin',
@@ -42,9 +45,11 @@ const routes: Routes = [
       {path: 'create-user', component: EditUserPageComponent},
       {path: 'detail-user/:userId', component: DetailUserPageComponent},
       {path: 'update-user/:userId', component: EditUserPageComponent},
+
+      {path: 'ad-order', component:AdOrderComponent},
+      {path: 'detail-order/:orderId', component: DetailOrderPageComponent}
     ]
   },
-
 
   {path: '', component:HomeComponent},
   {path: 'search/:searchTerm', component:HomeComponent},
@@ -57,7 +62,8 @@ const routes: Routes = [
   {path: 'checkout', component:CheckoutPageComponent, canActivate: [AuthGuard]},
   {path: 'payment', component:PaymentPageComponent, canActivate: [AuthGuard]},
   {path: 'track/:orderId', component:OrderTrackPageComponent, canActivate: [AuthGuard]},
-  {path: 'orders', component: OrdersComponent}
+  {path: 'orders', component: OrdersComponent},
+  {path: '**', component:ErrorComponent},
 ];
 
 @NgModule({

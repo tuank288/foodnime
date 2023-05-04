@@ -19,8 +19,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import {MatSelectModule} from '@angular/material/select';
-
-
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 
 import { registerLocaleData } from '@angular/common';
@@ -75,6 +75,8 @@ import { DetailUserPageComponent } from './admin/user/detail-user-page/detail-us
 import { AdUserPageComponent } from './admin/user/ad-user-page/ad-user-page.component';
 import { EditUserPageComponent } from './admin/user/edit-user-page/edit-user-page.component';
 import { AdOrderComponent } from './admin/order/ad-order/ad-order.component';
+import { DetailOrderPageComponent } from './admin/order/detail-order-page/detail-order-page.component';
+import { ErrorComponent } from './components/partials/error/error.component';
 
 
 registerLocaleData(localeVi);
@@ -118,6 +120,8 @@ registerLocaleData(localeVi);
     AdUserPageComponent,
     EditUserPageComponent,
     AdOrderComponent,
+    DetailOrderPageComponent,
+    ErrorComponent,
   ],
   imports: [
     BrowserModule,
@@ -143,9 +147,11 @@ registerLocaleData(localeVi);
     MatCardModule,
     MatSelectModule,
     NgConfirmModule,
+    MatExpansionModule,
+    MatGridListModule,
 
     ToastrModule.forRoot({
-      timeOut: 1200,
+      timeOut: 1500,
       newestOnTop: true
     })
   ],

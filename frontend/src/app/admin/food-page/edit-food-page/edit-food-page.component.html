@@ -112,13 +112,12 @@
                     <div class="col-md-8">
   
                       <mat-form-field appearance="outline">
-                        <mat-label>Chọn thể loại </mat-label>
+                        <mat-label>Thể loại </mat-label>
                         <mat-select formControlName="category_id">
-                          <mat-option *ngFor="let category of categories" [value]="[ category.category_id ]">
+                          <mat-option *ngFor="let category of categories" [value]="category.category_id">
                             {{ category.category_name }}
                           </mat-option>
                         </mat-select>
-  
                       </mat-form-field>
                     </div>
                   </div>

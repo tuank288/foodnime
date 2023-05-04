@@ -12,13 +12,31 @@ h3{
     }
 }
 
+.list-view::-webkit-scrollbar {
+    height: 10px;
+  }
+
+.list-view::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+  
+.list-view::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 5px;
+}
+
+
 .list-view{
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
+    overflow-x: auto;
+    @media only screen and (max-width: 1200px) {
+        justify-content: flex-start;
+    }
+
     a{
         padding: 0 0.5rem;
-        // background-color: aqua;
+        margin-bottom: 1rem;
         img{
             display: block;
             width: 7rem;
@@ -29,7 +47,7 @@ h3{
             padding: 0.5rem 0;
             display: block;
             background-color: white;
-            border-radius: 0.5rem 0.5rem 0 0;
+            border-radius: 0 0 0.5rem 0.5rem;
         }
     }
 }

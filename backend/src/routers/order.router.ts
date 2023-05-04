@@ -81,7 +81,7 @@ router.post('/create', (req:any, res) => {
 });
 
 
-router.get('/newOrderForCurrentUser', (async (req, res) => {
+router.get('/newOrderForCurrentUser', async (req, res) => {
   try {
     const order = await getNewOrderForCurrentUser(req);
 
@@ -94,7 +94,7 @@ router.get('/newOrderForCurrentUser', (async (req, res) => {
     console.error(error);
     res.status(HTTP_INTERNAL_SERVER_ERROR).send();
   }
-}));  
+});  
 
 router.post('/pay', asyncHandler(async (req: any, res) => {
   const { payment_id } = req.body;
@@ -103,7 +103,6 @@ router.post('/pay', asyncHandler(async (req: any, res) => {
     res.status(HTTP_BAD_REQUEST).send('Order Not Found!');
     return;
   }
-
   const query = `
     UPDATE orders SET payment_id = ? , status = ? WHERE order_id = ?`;
   const values = [payment_id, OrderStatus.PAYED, order.order_id];
@@ -113,22 +112,21 @@ router.post('/pay', asyncHandler(async (req: any, res) => {
       console.log(error);
       res.status(HTTP_INTERNAL_SERVER_ERROR).send('Failed to update order!');
     } else {
-      res.status(200).send({order: order.order_id});
+      console.log(order);
+      res.status(200).send( order.order_id.toString());
     }
   });
 }));
 
-router.get('/track/:orderId', (req:any, res) => {
-  const user_id = req.user_id
-  
-  const query = `SELECT orders.*, users.full_name, order_items.*
+router.get('/track/:orderId', async (req:any, res:any) => {
+  const orderId = req.params.orderId  
+  const query = `SELECT orders.*, users.*, order_items.*, food.*
                  FROM orders
                  JOIN users ON orders.user_id = users.user_id
                  JOIN order_items ON orders.order_id = order_items.order_id
                  JOIN food ON order_items.food_id = food.food_id
-                 WHERE orders.user_id = '${user_id}'
-                 ORDER BY orders.order_date DESC
-                 LIMIT 1`;
+                 WHERE orders.order_id = '${orderId}'
+                 `;
   db.query(query, (error, results, fields) => {
     if (error) {
       console.error(error);
@@ -156,6 +154,9 @@ router.get('/track/:orderId', (req:any, res) => {
       total_price: results[0].total_price,
       user_id: results[0].user_id,
       full_name: results[0].full_name,
+      phone_number: results[0].phone_number,
+      order_date: results[0].order_date,
+      email: results[0].email,
       payment_id: results[0].payment_id,
       address: results[0].address,
       addressLatLng: JSON.parse(results[0].addressLatLng),

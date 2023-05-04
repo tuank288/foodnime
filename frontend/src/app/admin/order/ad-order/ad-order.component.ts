@@ -13,69 +13,66 @@ import { Order } from 'src/app/shared/models/Order';
   styleUrls: ['./ad-order.component.scss']
 })
 export class AdOrderComponent {
-  // public dataSource!: MatTableDataSource<Order>
-  // public orders!: Order[]
+  public dataSource!: MatTableDataSource<Order>
+  public orders!: Order[]
 
-  // @ViewChild(MatPaginator) paginator!: MatPaginator
-  // @ViewChild(MatSort) sort!: MatSort
+  @ViewChild(MatPaginator) paginator!: MatPaginator
+  @ViewChild(MatSort) sort!: MatSort
 
-  //  //Sidebar toggle show hide function
-  //  status = false;
+   //Sidebar toggle show hide function
+   status = false;
 
-  // addToggle()
-  // {
-  //   this.status = !this.status;
-  // }
+  addToggle()
+  {
+    this.status = !this.status;
+  }
 
-  // displayedColumns: string[] = [
-  //   'order_id',
-  //   'full_name',
-  //   'address',
-  //   'status',
-  //   'order_date',
-  //   'action'
-  // ]
+  displayedColumns: string[] = [
+    'order_id',
+    'order_date',
+    'full_name',
+    'phone_number',
+    'email',
+    'address',
+    'action'
+  ]
 
-  // constructor(
-  //   private router: Router,
-  //   private toast: ToastrService,
-  //   private adminService:AdminService
-  // ){}
+  constructor(
+    private router: Router,
+    private toast: ToastrService,
+    private adminService:AdminService
+  ){}
 
-  // ngOnInit(): void {
-  //     this.getCategory();
-  //     // console.log(this.getFood());
-  // }
+  ngOnInit(): void {
+      this.getOrders();
+      // console.log(this.getFood());
+  }
 
-  // getCategory() {
-  //   this.adminService.getCategory()
-  //     .subscribe(res => {
-  //       this.categories = res;
-  //       this.dataSource = new MatTableDataSource(this.categories)
-  //       this.dataSource.paginator = this.paginator;
-  //       this.dataSource.sort = this.sort;
-  //       console.log(this.categories);
-  //     })
-  // }
+  getOrders() {
+    this.adminService.getOrders()
+      .subscribe(res => {
+        this.orders = res;
+        this.dataSource = new MatTableDataSource(this.orders)
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        console.log(this.orders);
+      })
+  }
 
-  // applyFilter(event: Event) {
-  //   const filterValue = (event.target as HTMLInputElement).value;
-  //   this.dataSource.filter = filterValue.trim().toLowerCase();
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
 
-  //   if (this.dataSource.paginator) {
-  //     this.dataSource.paginator.firstPage();
-  //   }
-  // }
-
-  // edit(category_id: string) {
-  //   this.router.navigate(['/admin/update-category', category_id])
-  // }
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
 
   // delete(category_id: string) {
   //   if(confirm(`Bạn có chắc muốn xóa thể loại có ID:${category_id} không?`)) {
   //     this.adminService.deleteCategory(category_id).subscribe(res=> {
   //       this.toast.success(`Xóa thành công`);
-  //       this.getCategory();
+  //       this.getOrders();
   //     });
   //   }
   // }

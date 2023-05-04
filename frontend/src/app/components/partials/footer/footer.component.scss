@@ -2,19 +2,15 @@ footer{
     // position: relative;
     // background: rgb(251, 239, 239);
     padding: 0 5rem;
+    background: white;
 }
 .logo{
     border-bottom: 1px solid #e72929;
     .logo-link{
         margin: 0;
         color: #af1313;
-        padding: 2rem 1rem;
+        padding: 1rem 1rem;
         display: inline-block;
-        &:hover{
-            background: #e72929;
-            color: white;
-            cursor: pointer;
-        }
     }
 }
 
@@ -23,11 +19,17 @@ nav{
     .layout{
         display: flex;
         justify-content: space-between;
-        // padding: 0 5rem;
+        flex-wrap: wrap;
+        // padding: 1rem 0;
+    }
+    .col{
+        padding: 1rem;
+        font-size: 15px;
     }
     ul{
         padding: 0;
         li{
+            padding: 0.2rem;
             list-style: none;
             span{
                 color: #5f5f5f;

@@ -1,13 +1,14 @@
 <div class="container">
   <div class="content" *ngIf="order">
-    <h1>Order #{{order.order_id}}</h1>
+    <app-title title="Order #{{order.order_id}}" fontSize="1.6rem"></app-title>
+
     <div class="details">
-      <div><strong>Date</strong> {{order.created_at | date:'medium'}}</div>
-      <div><strong>Name</strong> {{order.full_name}}</div>
-      <div><strong>Address</strong> {{order.address}}</div>
-      <div><strong>Status</strong> {{order.status}}</div>
+      <div><strong>Date</strong> : {{order.created_at | date:'medium'}}</div>
+      <div><strong>Name</strong> : {{order.full_name}}</div>
+      <div><strong>Address</strong> : {{order.address}}</div>
+      <div><strong>Status</strong> : {{order.status}}</div>
       <div *ngIf="order.payment_id">
-        <strong>Payment ID</strong> {{order.payment_id}}
+        <strong>Payment ID</strong> : {{order.payment_id}}
       </div>
     </div>
 

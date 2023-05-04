@@ -10,6 +10,7 @@ export class AppComponent {
   showBanner = true;
   showFooter = true;
   isAdmin = false;
+  error = false;
 
   constructor(private router: Router) {
     router.events.subscribe((event) => {

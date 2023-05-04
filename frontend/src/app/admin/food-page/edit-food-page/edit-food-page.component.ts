@@ -66,13 +66,13 @@ export class EditFoodPageComponent implements OnInit {
   submit() {
     this.adminService.postFood(this.createFoodForm.value).subscribe({
       next: res => {
-        this.toast.success(`Tạo thành công`);
+        this.toast.success(`Create success`);
         console.log(this.createFoodForm);
         
         this.createFoodForm.reset();
         this.router.navigate(['admin/ad-food']);
     }, error: err => {
-      this.toast.error(`Tạo thất bại`);
+      this.toast.error(err.error, `Create fail`);
       console.log(err);
       }
     })
@@ -102,7 +102,7 @@ export class EditFoodPageComponent implements OnInit {
     this.createFoodForm.setValue({
       food_image: food.food_image,
       food_name: food.food_name,
-      category_id: [food.category_id],
+      category_id: food.category_id,
       price: food.price,
     })
   }

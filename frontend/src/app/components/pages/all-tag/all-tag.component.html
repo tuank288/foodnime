@@ -1,6 +1,5 @@
 <div class="content">
     <app-title title="Tất Cả Thể Loại"></app-title>
-
     <div *ngIf="tags" class="list">
         <div class="list-view">
             <a *ngFor="let tag of tags.slice(0, 10)" routerLink="/tag/{{tag.category_name}}">

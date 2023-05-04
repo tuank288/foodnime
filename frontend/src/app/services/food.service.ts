@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { Food } from '../shared/models/Food';
 import { Tag } from '../shared/models/Tag';
 import { Observable, map } from "rxjs";
-import { ADMIN_DELETE_FOOD, ADMIN_DETAIL_FOOD, ADMIN_GET_FOOD, ADMIN_POST_FOOD, ADMIN_UPDATE_FOOD, FOODS_BY_ID_URL, FOODS_BY_SEARCH_URL, FOODS_TAGS_URL, FOODS_TAG_URL, FOODS_URL } from '../shared/constans/urls';
+import { FOODS_BY_ID_URL, FOODS_BY_SEARCH_URL, FOODS_TAGS_URL, FOODS_TAG_URL, FOODS_URL } from '../shared/constans/urls';
 @Injectable({
   providedIn: 'root'
 })

@@ -39,12 +39,14 @@ router.get('/get-foods', (req, res) => {
 router.post('/post-foods', (req, res) => {
     const { category_id, food_image, food_name, price } = req.body;
 
-    if (!category_id || category_id.length === 0) {
+    if(!category_id || category_id.length === 0) {
         return res.status(HTTP_BAD_REQUEST).send('At least one category must be specified');
+    }else if(!food_name || !price) {
+        return res.status(HTTP_BAD_REQUEST).send('Cannot be left blank')
     }
 
-    db.query(`INSERT INTO food(category_id ,restaurant_id, food_image, food_name, price, created_at, updated_at)
-            VALUES ('${category_id}',1, '${food_image}', '${food_name}', '${price}', NOW(), NOW())`, (error, result) => {
+    db.query(`INSERT INTO food(category_id , restaurant_id, food_image, food_name, price, created_at, updated_at)
+            VALUES ('${category_id}', 1, '${food_image}', '${food_name}', '${price}', NOW(), NOW())`, (error, result) => {
         if (error) {
             console.log(error);
             return res.status(HTTP_INTERNAL_SERVER_ERROR).send('Internal server error');
@@ -201,7 +203,7 @@ router.post('/post-user', (req, res) => {
     const { full_name, email, phone_number, password, address, role} = req.body;
 
     if (!full_name && !email && !phone_number && !password && !address && !role) {
-        return res.status(HTTP_BAD_REQUEST).send('Please provide category name.');
+        return res.status(HTTP_BAD_REQUEST).send('Cannot be left blank');
     }
 
     const query = 'SELECT * FROM users WHERE email = ? OR phone_number = ?';
@@ -212,7 +214,7 @@ router.post('/post-user', (req, res) => {
             console.log(error);
             res.status(500).send("Internal Server Error");
         } else if (result.length > 0) {
-        res.status(HTTP_BAD_REQUEST).send("Email hoặc số điện thoại đã tồn tại!");
+        res.status(HTTP_BAD_REQUEST).send("Email or phone number already exists!");
         }else {
             const encryptedPassword = await bcrypt.hash(password, 8);
             const query = 'INSERT INTO users (full_name, email, phone_number, password, address, role, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW())';
@@ -247,12 +249,12 @@ router.put('/update-user/:userId', (req, res) => {
     const { userId } = req.params
     const { full_name, email, phone_number, address, role} = req.body;
 
-    // if (!category_name) {
-    //     return res.status(HTTP_BAD_REQUEST).send('Please provide category name.');
-    // }
+    if (!full_name && !email && !phone_number && !address && !role) {
+        return res.status(HTTP_BAD_REQUEST).send('Cannot be left blank');
+    }
 
     db.query(`UPDATE food_categories 
-            SET full_name = '${full_name}', phone_number = '${phone_number}', address = '${address}', role = '${role}', updated_at = NOW() 
+            SET full_name = '${full_name}', email = '${email}', phone_number = '${phone_number}', address = '${address}', role = '${role}', updated_at = NOW() 
             WHERE user_id = '${userId}'`, (err, result) => {
     if (err) {
         console.log(err);
@@ -262,6 +264,114 @@ router.put('/update-user/:userId', (req, res) => {
     res.send(result[0]);
     })
 })
+
+
+router.get('/get-orders', async(req, res) => {
+    const query = `SELECT orders.*, users.*, order_items.*, food.*
+                    FROM orders
+                    JOIN users ON orders.user_id = users.user_id
+                    JOIN order_items ON orders.order_id = order_items.order_id
+                    JOIN food ON order_items.food_id = food.food_id
+                    WHERE status = 'PAYED'
+                    GROUP BY orders.order_id, order_items.order_item_id
+                    `;
+    db.query(query, (error, results) => {
+        if (error) {
+            console.error(error);
+            res.status(500).send('Internal server error');
+            return;
+        }
+        if (results.length === 0) {
+            res.status(404).send('Order not found');
+            return;
+        }
+        const orders = results.reduce((accumulator: any, result: any) => {
+            const orderIndex = accumulator.findIndex((order: any) => order.order_id === result.order_id);
+            const food = {
+                food_name: result.food_name,
+                price: result.price,
+            };
+            const orderItem = {
+                food: food,
+                price: result.price * result.quantity,
+                quantity: result.quantity,
+            };
+            if (orderIndex !== -1) {
+                accumulator[orderIndex].items.push(orderItem);
+            } else {
+                const order = {
+                    order_id: result.order_id,
+                    items: [orderItem],
+                    total_price: result.total_price,
+                    user_id: result.user_id,
+                    full_name: result.full_name,
+                    phone_number: result.phone_number,
+                    email: result.email,
+                    address: result.address,
+                    addressLatLng: JSON.parse(result.addressLatLng),
+                    status: result.status,
+                    order_date: result.order_date
+                };
+                accumulator.push(order);
+            }
+            return accumulator;
+        }, []);
+        // console.log(orders);
+        res.send(orders);
+    });
+})
+
+
+router.get('/detail-order/:orderId', async (req:any, res:any) => {
+    const orderId = req.params.orderId  
+    const query = `SELECT orders.*, users.*, order_items.*, food.*
+                   FROM orders
+                   JOIN users ON orders.user_id = users.user_id
+                   JOIN order_items ON orders.order_id = order_items.order_id
+                   JOIN food ON order_items.food_id = food.food_id
+                   WHERE orders.order_id = '${orderId}'
+                   `;
+    db.query(query, (error, results, fields) => {
+      if (error) {
+        console.error(error);
+        res.status(500).send('Internal server error');
+        return;
+      }
+      if (results.length === 0) {
+        
+        res.status(404).send('Order not found');
+        return;
+      }
+      const order = {
+        order_id: results[0].order_id,
+        items: results.map((result:any) => ({
+          food: {
+            food_id: result.food_id,
+            category_id: result.category_id,
+            restaurant_id: result.restaurant_id,
+            food_name: result.food_name,
+            price: result.price,
+          },
+          price: result.price * result.quantity,
+          quantity: result.quantity,
+        })),
+        total_price: results[0].total_price,
+        user_id: results[0].user_id,
+        full_name: results[0].full_name,
+        phone_number: results[0].phone_number,
+        order_date: results[0].order_date,
+        email: results[0].email,
+        payment_id: results[0].payment_id,
+        address: results[0].address,
+        addressLatLng: JSON.parse(results[0].addressLatLng),
+        status: results[0].status,
+        created_at: results[0].created_at,
+        updated_at: results[0].updated_at,
+      };
+      // console.log(order);
+      res.send(order);
+    });
+  })
 
 
 export default router;
