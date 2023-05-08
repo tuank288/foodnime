@@ -95,6 +95,8 @@ export class EditFoodPageComponent implements OnInit {
   onFileSelected(event: any) {
     const file = event.target.files[0];
     const fileName = file.name;
+    console.log(fileName);
+    
     this.createFoodForm.get('food_image')!.setValue(fileName);
   }
 

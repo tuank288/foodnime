@@ -88,6 +88,8 @@ export class EditCategoriesPageComponent {
   onFileSelected(event: any) {
     const file = event.target.files[0];
     const fileName = file.name;
+    console.log(fileName);
+    
     this.createCategoryForm.get('category_image')!.setValue(fileName);
   }
 

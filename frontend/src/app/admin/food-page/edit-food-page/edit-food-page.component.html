@@ -1,51 +1,45 @@
 <!-- SIDEBAR -->
 <section id="sidebar" [ngClass]="status ? 'hide' : ''">
   <a href="#" class="brand">
-    <i class='bx bx-book'></i>
-    <span class="text">Food</span>
+    <i class='fa fa-cutlery'></i>
+    <span class="text">Food Management</span>
   </a>
   <ul class="side-menu top">
-    <li>
+    <li >
       <a routerLink="/admin">
-        <i class='bx bxs-dashboard' ></i>
+        <i class='fa fa-list' ></i>
         <span class="text">Dashboard</span>
       </a>
     </li>
     <li class="active">
       <a routerLink="/admin/ad-food">
-        <i class='bx bx-book'></i>
+        <i class='fa fa-cutlery'></i>
         <span class="text">Food</span>
       </a>
     </li>
     <li>
       <a routerLink="/admin/ad-order">
-        <i class='bx bxs-doughnut-chart' ></i>
+        <i class='fa fa-shopping-basket' ></i>
         <span class="text">Order</span>
       </a>
     </li>
     <li>
       <a routerLink="/admin/ad-categories">
-        <i class='bx bx-list-ul'></i>
+        <i class='fa fa-tags'></i>
         <span class="text">Categories</span>
       </a>
     </li>
     <li>
       <a routerLink="/admin/ad-users">
-        <i class='bx bxs-user'></i>
+        <i class='fa fa-user'></i>
         <span class="text">Users</span>
       </a>
     </li>
   </ul>
   <ul class="side-menu">
     <li>
-      <a href="#">
-        <i class='bx bxs-cog' ></i>
-        <span class="text">Settings</span>
-      </a>
-    </li>
-    <li>
       <a href="#" class="logout">
-        <i class='bx bxs-log-out-circle' ></i>
+        <i class='fa fa-sign-out' ></i>
         <span class="text">Logout</span>
       </a>
     </li>
@@ -56,13 +50,13 @@
   <section id="content">
     <!-- NAVBAR -->
     <nav>
-      <i (click)="addToggle()" class='bx bx-menu' ></i>
+      <i (click)="addToggle()" class='fa fa-bars' ></i>
      
       <form action="#">
       </form>
   
       <a href="#" class="profile">
-        <img src="./assets/user-profile-default.png">
+        <img src="./assets/OIP.jpg">
       </a>
     </nav>
     <!-- NAVBAR -->
@@ -76,7 +70,7 @@
             <li>
               <a routerLink="/admin/ad-food">Food</a>
             </li>
-            <li><i class='bx bx-chevron-right' ></i></li>
+            <li><i class='fa fa-chevron-right' ></i></li>
             <li>
               <a *ngIf="!isUpdateActive" class="active" routerLink="/admin/create-food">Tạo món mới</a>
               <a *ngIf="isUpdateActive" class="active" routerLink="/admin/update-food">Cập nhật</a>
@@ -96,7 +90,7 @@
                   <div class="form-group clearfix required">
                     <label class="col-md-2 control-label pt-7 text-right">Hình ảnh</label>
                     <div class="col-md-8">
-                        <input class="file" type="file" ng2FileSelect (change)="onFileSelected($event)" formControlName="food_image"/><br/>
+                      <input class="file" type="file" ng2FileSelect (change)="onFileSelected($event)"/>
                     </div>
                   </div>
   

@@ -38,6 +38,8 @@ router.get('/get-foods', (req, res) => {
 
 router.post('/post-foods', (req, res) => {
     const { category_id, food_image, food_name, price } = req.body;
+    console.log(food_image);
+    
 
     if(!category_id || category_id.length === 0) {
         return res.status(HTTP_BAD_REQUEST).send('At least one category must be specified');
@@ -272,6 +274,7 @@ router.get('/get-orders', async(req, res) => {
                     JOIN users ON orders.user_id = users.user_id
                     JOIN order_items ON orders.order_id = order_items.order_id
                     JOIN food ON order_items.food_id = food.food_id
+                    WHERE status != 'NEW'
                     GROUP BY orders.order_id, order_items.order_item_id
                     `;
     db.query(query, (error, results) => {

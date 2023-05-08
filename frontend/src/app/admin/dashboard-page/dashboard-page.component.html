@@ -19,33 +19,27 @@
     </li>
     <li>
       <a routerLink="/admin/ad-order">
-        <i class='bx bxs-doughnut-chart' ></i>
+        <i class='fa fa-shopping-basket' ></i>
         <span class="text">Order</span>
       </a>
     </li>
     <li>
       <a routerLink="/admin/ad-categories">
-        <i class='bx bx-list-ul'></i>
+        <i class='fa fa-tags'></i>
         <span class="text">Categories</span>
       </a>
     </li>
     <li>
       <a routerLink="/admin/ad-users">
-        <i class='bx bxs-user'></i>
+        <i class='fa fa-user'></i>
         <span class="text">Users</span>
       </a>
     </li>
   </ul>
   <ul class="side-menu">
     <li>
-      <a href="#">
-        <i class='bx bxs-cog' ></i>
-        <span class="text">Settings</span>
-      </a>
-    </li>
-    <li>
       <a href="#" class="logout">
-        <i class='bx bxs-log-out-circle' ></i>
+        <i class='fa fa-sign-out' ></i>
         <span class="text">Logout</span>
       </a>
     </li>
@@ -56,12 +50,12 @@
   <section id="content">
     <!-- NAVBAR -->
     <nav>
-      <i (click)="toggleSidebar()" class='bx bx-menu' ></i>
+      <i (click)="toggleSidebar()" class='fa fa-bars' ></i>
       <form action="/admin">
       </form>
   
       <a href="/admin" class="profile">
-        <img src="./assets/user-profile-default.png">
+        <img src="./assets/OIP.jpg">
       </a>
     </nav>
     <!-- NAVBAR -->
@@ -74,7 +68,7 @@
             <li>
               <a href="/admin">Dashboard</a>
             </li>
-            <li><i class='bx bx-chevron-right' ></i></li>
+            <li><i class='fa fa-chevron-right' ></i></li>
             <li>
               <a class="active" href="/admin">Home</a>
             </li>
@@ -84,21 +78,21 @@
   
       <ul class="box-info">
         <li>
-          <i class='bx bx-book'></i>
+          <i class='fa fa-cutlery'></i>
           <span class="text">
             <h3> {{ totalFood }} </h3>
             <p>Tất cả món</p>
           </span>
         </li>
         <li>
-          <i class='bx bxs-group' ></i>
+          <i class='fa fa-shopping-basket' ></i>
           <span class="text">
             <h3>{{ totalOrders }}</h3>
             <p>Tổng đơn hàng</p>
           </span>
         </li>
         <li>
-          <i class='bx bxs-dollar-circle' ></i>
+          <i class='fa fa-usd' ></i>
           <span class="text">
             <h3>{{ totalPrice | currency: 'VND'}}</h3>
             <p>Tổng doanh thu</p>
@@ -109,22 +103,19 @@
         <div class="order">
           <div class="head">
             <h3>Món ăn mới</h3>
-            <i class='bx bx-search' ></i>
-            <i class='bx bx-filter' ></i>
           </div>
           <table>
             <thead>
               <tr>
+                <th>Hình ảnh</th>
                 <th>Tên</th>
                 <th>Ngày tạo</th>
               </tr>
             </thead>
             <tbody *ngFor="let food of foods.slice(0, 5)">
               <tr>
-                <td>
-                  <img>
-                  <p>{{food.food_name}}</p>
-                </td>
+                <td> <img src="./assets/{{food.food_image}}"></td>
+                <td>{{food.food_name}}</td>
                 <td>{{food.created_at | date: 'dd/MM/yyyy'}}</td>
               </tr>
             </tbody>
@@ -145,10 +136,7 @@
             </thead>
             <tbody *ngFor="let user of users.slice(0, 5)">
               <tr>
-                <td>
-                  <img>
-                  <p>{{user.full_name}}</p>
-                </td>
+                <td>{{user.full_name}}</td>
                 <td>{{user.email}}</td>
                 <td>{{user.created_at |  date: 'dd/MM/yyyy'}}</td>
               </tr>
