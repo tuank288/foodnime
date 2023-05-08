@@ -9,6 +9,9 @@
     <app-footer *ngIf="showFooter"></app-footer>
 </div>
 <div *ngIf="isAdmin">
-    <router-outlet></router-outlet>
+    <body class="dark"> 
+        <router-outlet></router-outlet>
+    </body>
+    
 </div>
 <!-- <ng-confirm></ng-confirm> -->

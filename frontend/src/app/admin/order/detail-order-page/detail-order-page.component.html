@@ -1,5 +1,5 @@
 <!-- SIDEBAR -->
-<section id="sidebar" [ngClass]="status ? 'hide' : ''">
+<section id="sidebar" [ngClass]="Status ? 'hide' : ''">
     <a href="#" class="brand">
       <i class='bx bx-book'></i>
       <span class="text">Food</span>
@@ -128,7 +128,20 @@
                       Địa chỉ :
                       <button mat-button>{{orderDetail.address}} </button>
                     </div>
-                  </mat-list-item>
+                </mat-list-item>
+
+                <mat-list-item class="status">
+                  <div  matLine>
+                    Status :
+                    <mat-form-field appearance="outline">
+                      <mat-select [(ngModel)]="selected">
+                        <mat-option value="SHIPPED">SHIPPED</mat-option>
+                        <mat-option value="PAYED">PAYED</mat-option>
+                        <mat-option value="CANCELLED">CANCELLED</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </mat-list-item>
                   
                   <order-items-list [order]="orderDetail"></order-items-list>
               
@@ -139,7 +152,9 @@
                 </mat-list>
     
           </mat-card-content>
+
           <mat-card-actions>
+            <button *ngIf="selected !== 'SHIPPED'" style="margin-right: 20px;" mat-raised-button color="accent" (click)="updateStatus()">Xác nhận</button>
             <button routerLink="/admin/ad-order" mat-raised-button color="primary">Quay lại</button>
           </mat-card-actions>
   

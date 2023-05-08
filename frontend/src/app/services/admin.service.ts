@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ADMIN_GET_FOOD, ADMIN_DELETE_FOOD, ADMIN_POST_FOOD, ADMIN_PUT_FOOD, ADMIN_DETAIL_FOOD, ADMIN_GET_CATEGORY, ADMIN_DELETE_CATEGORY, ADMIN_POST_CATEGORY, ADMIN_DETAIL_CATEGORY, ADMIN_PUT_CATEGORY, ADMIN_USER, ADMIN_DELETE_USER, ADMIN_POST_USER, ADMIN_DETAIL_USER, ADMIN_PUT_USER, ADMIN_GET_ORDER, ADMIN_DETAIL_ORDER } from '../shared/constans/urls';
+import { ADMIN_GET_FOOD, ADMIN_DELETE_FOOD, ADMIN_POST_FOOD, ADMIN_PUT_FOOD, ADMIN_DETAIL_FOOD, ADMIN_GET_CATEGORY, ADMIN_DELETE_CATEGORY, ADMIN_POST_CATEGORY, ADMIN_DETAIL_CATEGORY, ADMIN_PUT_CATEGORY, ADMIN_USER, ADMIN_DELETE_USER, ADMIN_POST_USER, ADMIN_DETAIL_USER, ADMIN_PUT_USER, ADMIN_GET_ORDER, ADMIN_DETAIL_ORDER, ADMIN_PUT_ORDER } from '../shared/constans/urls';
 import { Food } from '../shared/models/Food';
 import { HttpClient } from '@angular/common/http';
 import { Tag } from '../shared/models/Tag';
@@ -82,6 +82,10 @@ export class AdminService {
 
   getOrderId(orderId: string): Observable<Order> {
     return this.http.get<Order>(ADMIN_DETAIL_ORDER + orderId)
+  }
+
+  updateOrder(OrderObj: Order, orderId: string): Observable<Order> {
+    return this.http.put<Order>(ADMIN_PUT_ORDER + orderId, OrderObj)
   }
 
 }

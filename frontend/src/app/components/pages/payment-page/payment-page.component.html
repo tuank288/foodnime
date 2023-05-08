@@ -3,11 +3,11 @@
       <app-title title="Order Summary" fontSize="1.6rem"></app-title>
       <div class="summary">
         <div>
-          <h3>Name:</h3>
+          <h5>Name:</h5>
           <span>{{order.full_name}}</span>
         </div>
         <div>
-          <h3>Address:</h3>
+          <h5>Address:</h5>
           <span>{{order.address}}</span>
         </div>
       </div>
@@ -21,6 +21,7 @@
     </div>
     <div class="buttons-container">
       <div class="buttons">
+        <button (click)="pay()">Thanh toán trực tiếp</button>
         <paypal-button [order]="order">
         </paypal-button>
       </div>

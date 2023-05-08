@@ -97,15 +97,16 @@ router.get('/newOrderForCurrentUser', async (req, res) => {
 });  
 
 router.post('/pay', asyncHandler(async (req: any, res) => {
-  const { payment_id } = req.body;
+  let { payment_id } = req.body;
   const order:any = await getNewOrderForCurrentUser(req);
+
   if (!order) {
     res.status(HTTP_BAD_REQUEST).send('Order Not Found!');
     return;
   }
   const query = `
     UPDATE orders SET payment_id = ? , status = ? WHERE order_id = ?`;
-  const values = [payment_id, OrderStatus.PAYED, order.order_id];
+  const values = [payment_id, OrderStatus.SHIPPED, order.order_id];
   
   db.query(query, values, function (error, results, fields) {
     if (error) {

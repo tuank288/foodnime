@@ -32,7 +32,6 @@ $frontend-theme: mat.define-light-theme((
 // that you are using.
 @include mat.all-component-themes($frontend-theme);
 
-
 /* You can add global styles to this file, and also import other style files */
   @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap');
   @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Poppins:wght@400;500;600;700&display=swap');
@@ -93,8 +92,9 @@ html {
 }
 body.dark {
   --light: #0C0C1E;
-  --grey: #060714;
+  --grey: #e2b1ff90;
   --dark: #FBFBFB;
+  min-height: 720px;
 }
 body {
   background: var(--grey);

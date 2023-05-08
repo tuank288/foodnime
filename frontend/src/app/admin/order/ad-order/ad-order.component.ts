@@ -1,8 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AdminService } from 'src/app/services/admin.service';
 import { Order } from 'src/app/shared/models/Order';
@@ -14,7 +15,7 @@ import { Order } from 'src/app/shared/models/Order';
 })
 export class AdOrderComponent {
   public dataSource!: MatTableDataSource<Order>
-  public orders!: Order[]
+  public orders!: Order[];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator
   @ViewChild(MatSort) sort!: MatSort
@@ -34,18 +35,17 @@ export class AdOrderComponent {
     'phone_number',
     'email',
     'address',
+    'status',
     'action'
   ]
 
   constructor(
-    private router: Router,
-    private toast: ToastrService,
-    private adminService:AdminService
+    private adminService:AdminService,
   ){}
 
   ngOnInit(): void {
       this.getOrders();
-      // console.log(this.getFood());
+      // console.log(this.getFood()); 
   }
 
   getOrders() {
@@ -55,7 +55,7 @@ export class AdOrderComponent {
         this.dataSource = new MatTableDataSource(this.orders)
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-        console.log(this.orders);
+        // console.log(this.orders);
       })
   }
 
@@ -68,12 +68,16 @@ export class AdOrderComponent {
     }
   }
 
-  // delete(category_id: string) {
-  //   if(confirm(`Bạn có chắc muốn xóa thể loại có ID:${category_id} không?`)) {
-  //     this.adminService.deleteCategory(category_id).subscribe(res=> {
-  //       this.toast.success(`Xóa thành công`);
-  //       this.getOrders();
-  //     });
-  //   }
-  // }
+  getStatusColor(status: string) {
+    switch(status) {
+      case 'PAYED':
+        return 'green';
+      case 'SHIPPED':
+        return 'rgb(199, 202, 56)';
+      case 'CANCELLED':
+        return 'red';
+      default:
+        return 'black';
+    }
+  }
 }

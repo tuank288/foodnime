@@ -23,6 +23,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatGridListModule} from '@angular/material/grid-list';
 
 
+
 import { registerLocaleData } from '@angular/common';
 import localeVi from '@angular/common/locales/vi';
 
@@ -43,6 +44,7 @@ import { NotFoundComponent } from './components/partials/not-found/not-found.com
 import { LoginPageComponent } from './components/pages/login-page/login-page.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
+
 
 import { InputContainerComponent } from './components/partials/input-container/input-container.component';
 import { InputValidationComponent } from './components/partials/input-validation/input-validation.component';
@@ -77,6 +79,7 @@ import { EditUserPageComponent } from './admin/user/edit-user-page/edit-user-pag
 import { AdOrderComponent } from './admin/order/ad-order/ad-order.component';
 import { DetailOrderPageComponent } from './admin/order/detail-order-page/detail-order-page.component';
 import { ErrorComponent } from './components/partials/error/error.component';
+
 
 
 registerLocaleData(localeVi);
@@ -122,6 +125,7 @@ registerLocaleData(localeVi);
     AdOrderComponent,
     DetailOrderPageComponent,
     ErrorComponent,
+
   ],
   imports: [
     BrowserModule,

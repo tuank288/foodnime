@@ -272,7 +272,6 @@ router.get('/get-orders', async(req, res) => {
                     JOIN users ON orders.user_id = users.user_id
                     JOIN order_items ON orders.order_id = order_items.order_id
                     JOIN food ON order_items.food_id = food.food_id
-                    WHERE status = 'PAYED'
                     GROUP BY orders.order_id, order_items.order_item_id
                     `;
     db.query(query, (error, results) => {
@@ -338,7 +337,6 @@ router.get('/detail-order/:orderId', async (req:any, res:any) => {
         return;
       }
       if (results.length === 0) {
-        
         res.status(404).send('Order not found');
         return;
       }
@@ -373,5 +371,21 @@ router.get('/detail-order/:orderId', async (req:any, res:any) => {
     });
   })
 
+
+  router.put('/update-order/:orderId', (req, res) => {
+    const { orderId } = req.params
+    const {status} = req.body;
+    
+    db.query(`UPDATE orders
+            SET status = '${status}'
+            WHERE order_id = '${orderId}'`, (err, result) => {
+    if (err) {
+        console.log(err);
+        
+        return res.status(HTTP_INTERNAL_SERVER_ERROR).send('Internal server error');
+    }
+    res.send(result[0]);
+    })
+})
 
 export default router;
