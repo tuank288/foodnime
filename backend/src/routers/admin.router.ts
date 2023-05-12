@@ -32,6 +32,8 @@ router.get('/get-foods', (req, res) => {
               JOIN food_categories 
               ON food.category_id = food_categories.category_id`, (error, result) => {
         if(error) throw error;
+        console.log(result);
+        
         res.send(result);
     })
 })
@@ -43,7 +45,7 @@ router.post('/post-foods', (req, res) => {
 
     if(!category_id || category_id.length === 0) {
         return res.status(HTTP_BAD_REQUEST).send('At least one category must be specified');
-    }else if(!food_name || !price) {
+    }else if(!food_name || !price || !food_image) {
         return res.status(HTTP_BAD_REQUEST).send('Cannot be left blank')
     }
 

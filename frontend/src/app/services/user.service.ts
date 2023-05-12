@@ -32,6 +32,8 @@ export class UsersService {
             `Welcome to Food ${user.full_name}!`,
             'Đăng nhập thành công'
           )
+          console.log(user);
+          
         },
         error: (errorResponse) => {
           this.toastrService.error(errorResponse.error, 'Login Failed');

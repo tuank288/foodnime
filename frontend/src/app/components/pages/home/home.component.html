@@ -9,7 +9,7 @@
 </app-not-found>
 
 <ul>
-    <li class="col-6 col-md-3 col-xl-2" *ngFor="let food of foods.slice(0,6)">
+    <li class="col-6 col-md-4 col-xl-2" *ngFor="let food of foods.slice(0,6)">
         <a routerLink="/food/{{food.food_id}}">
             <img [src]="food.imageUrl" [alt]="food.food_name">       
             <div class="content">

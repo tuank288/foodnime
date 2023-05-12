@@ -61,9 +61,11 @@ export class AdFoodPageComponent implements OnInit {
         this.dataSource = new MatTableDataSource(this.foods)
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-        console.log(this.foods);
+    
+        // console.log(this.foods);
       })
   }
+
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

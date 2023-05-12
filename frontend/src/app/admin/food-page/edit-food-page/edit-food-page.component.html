@@ -38,7 +38,7 @@
   </ul>
   <ul class="side-menu">
     <li>
-      <a href="#" class="logout">
+      <a routerLink="/admin/login" class="logout">
         <i class='fa fa-sign-out' ></i>
         <span class="text">Logout</span>
       </a>
@@ -90,7 +90,7 @@
                   <div class="form-group clearfix required">
                     <label class="col-md-2 control-label pt-7 text-right">Hình ảnh</label>
                     <div class="col-md-8">
-                      <input class="file" type="file" ng2FileSelect (change)="onFileSelected($event)"/>
+                      <input class="file" type="file" (change)="onFileSelected($event)"/>
                     </div>
                   </div>
   

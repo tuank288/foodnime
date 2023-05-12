@@ -6,7 +6,8 @@ import { Food } from 'src/app/shared/models/Food';
 import { Tag } from 'src/app/shared/models/Tag';
 import { ToastrService } from 'ngx-toastr';
 import { AdminService } from 'src/app/services/admin.service';
-
+import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/compat/storage';
+ 
 @Component({
   selector: 'app-edit-food-page',
   templateUrl: './edit-food-page.component.html',
@@ -15,6 +16,7 @@ import { AdminService } from 'src/app/services/admin.service';
 export class EditFoodPageComponent implements OnInit {
   status = false;
 
+  fileName!: string;
   createFoodForm!: FormGroup;
   FoodIdUpdate!: string;
   public isUpdateActive: boolean = false;
@@ -32,7 +34,8 @@ export class EditFoodPageComponent implements OnInit {
   private adminService: AdminService,
   private router: Router,
   private toast: ToastrService,
-  private activatedRouter: ActivatedRoute
+  private activatedRouter: ActivatedRoute,
+  private fireStogre: AngularFireStorage
   ) {}
 
   food_image = new FormControl('',[Validators.required]);
@@ -57,14 +60,32 @@ export class EditFoodPageComponent implements OnInit {
           this.isUpdateActive = true;
           this.fillFormUpdate(res);
           this.food = res;
+          console.log(res);
+          
       })
     }  
     })
   
   }
 
-  submit() {
-    this.adminService.postFood(this.createFoodForm.value).subscribe({
+  async submit() {
+
+    if (!this.createFoodForm.valid) {
+      this.createFoodForm.markAllAsTouched();
+      this.toast.error('Please fill in all required fields', 'Error');
+      return;
+    }
+
+    const file = this.createFoodForm.get('food_image')?.value;
+    let foodImageUrl = '';
+    if (file) {
+      const path = `food/${file.name}`;
+      const upload = await this.fireStogre.upload(path, file);
+      foodImageUrl = await upload.ref.getDownloadURL();
+    }
+    const formData = {...this.createFoodForm.value, food_image: foodImageUrl};
+    console.log(formData);
+    this.adminService.postFood(formData).subscribe({
       next: res => {
         this.toast.success(`Create success`);
         console.log(this.createFoodForm);
@@ -78,7 +99,7 @@ export class EditFoodPageComponent implements OnInit {
     })
   }
 
-  update() {
+   update() {
     this.adminService.updateFood(this.createFoodForm.value, this.FoodIdUpdate).subscribe({
       next: res => {
         this.toast.success(`Cập nhật thành công`);
@@ -93,11 +114,10 @@ export class EditFoodPageComponent implements OnInit {
   }
 
   onFileSelected(event: any) {
-    const file = event.target.files[0];
-    const fileName = file.name;
-    console.log(fileName);
-    
-    this.createFoodForm.get('food_image')!.setValue(fileName);
+    if (event.target.files && event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.createFoodForm.get('food_image')!.setValue(file);
+    }
   }
 
   fillFormUpdate(food: Food) {

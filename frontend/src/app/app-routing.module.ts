@@ -24,11 +24,13 @@ import { DetailUserPageComponent } from './admin/user/detail-user-page/detail-us
 import { AdOrderComponent } from './admin/order/ad-order/ad-order.component';
 import { DetailOrderPageComponent } from './admin/order/detail-order-page/detail-order-page.component';
 import { ErrorComponent } from './components/partials/error/error.component';
+import { AdLoginPageComponent } from './admin/ad-login-page/ad-login-page.component';
 
 const routes: Routes = [
   {path: 'admin',
     children: [
-      {path: '', component: DashboardPageComponent},
+      {path: '', component: DashboardPageComponent },
+      {path: 'login',  component: AdLoginPageComponent},
 
       {path: 'ad-food', component: AdFoodPageComponent},
       {path: 'create-food', component: EditFoodPageComponent},

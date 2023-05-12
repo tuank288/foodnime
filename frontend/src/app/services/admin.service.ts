@@ -6,13 +6,14 @@ import { HttpClient } from '@angular/common/http';
 import { Tag } from '../shared/models/Tag';
 import { User } from '../shared/models/User';
 import { Order } from '../shared/models/Order';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminService {
 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient, private storage: AngularFireStorage) { }
 // food
   getFood(): Observable<Food[]>{
     return this.http.get<Food[]>(ADMIN_GET_FOOD)
@@ -86,6 +87,13 @@ export class AdminService {
 
   updateOrder(OrderObj: Order, orderId: string): Observable<Order> {
     return this.http.put<Order>(ADMIN_PUT_ORDER + orderId, OrderObj)
+  }
+
+  
+
+  getFoodImage(path: string): Observable<string> {
+    const ref = this.storage.ref(path);
+    return ref.getDownloadURL();
   }
 
 }

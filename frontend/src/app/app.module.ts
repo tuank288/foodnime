@@ -4,6 +4,9 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+ 
 import { NgConfirmModule } from 'ng-confirm-box';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
@@ -79,6 +82,8 @@ import { EditUserPageComponent } from './admin/user/edit-user-page/edit-user-pag
 import { AdOrderComponent } from './admin/order/ad-order/ad-order.component';
 import { DetailOrderPageComponent } from './admin/order/detail-order-page/detail-order-page.component';
 import { ErrorComponent } from './components/partials/error/error.component';
+import { AdLoginPageComponent } from './admin/ad-login-page/ad-login-page.component';
+import { environment } from 'src/environments/environment';
 
 
 
@@ -125,6 +130,7 @@ registerLocaleData(localeVi);
     AdOrderComponent,
     DetailOrderPageComponent,
     ErrorComponent,
+    AdLoginPageComponent,
 
   ],
   imports: [
@@ -157,7 +163,10 @@ registerLocaleData(localeVi);
     ToastrModule.forRoot({
       timeOut: 1500,
       newestOnTop: true
-    })
+    }),
+
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireStorageModule
   ],
   providers: [
     LoadingService,
