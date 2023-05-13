@@ -16,9 +16,9 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       const cartObservable = this.cartService.getCartObservable();
+
       cartObservable.subscribe(selectedOrder => {
-        if (selectedOrder.items.length === 0 && state.url !== '/payment' ) {
-          console.log(selectedOrder,'fsdhfhsd')
+        if (selectedOrder.items.length === 0 && !state.url.startsWith('/track')) {
           this.router.navigate(['/']);
         }
       });

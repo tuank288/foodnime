@@ -6,7 +6,6 @@ import { HomeComponent } from './components/pages/home/home.component';
 import { LoginPageComponent } from './components/pages/login-page/login-page.component';
 import { RegisterPageComponent } from './components/pages/register-page/register-page.component';
 import { CheckoutPageComponent } from './components/pages/checkout-page/checkout-page.component';
-import { AuthGuard } from './auth/guards/auth.guard';
 import { PaymentPageComponent } from './components/pages/payment-page/payment-page.component';
 import { OrderTrackPageComponent } from './components/pages/order-track-page/order-track-page.component';
 import { AllTagComponent } from './components/pages/all-tag/all-tag.component';
@@ -25,6 +24,10 @@ import { AdOrderComponent } from './admin/order/ad-order/ad-order.component';
 import { DetailOrderPageComponent } from './admin/order/detail-order-page/detail-order-page.component';
 import { ErrorComponent } from './components/partials/error/error.component';
 import { AdLoginPageComponent } from './admin/ad-login-page/ad-login-page.component';
+
+import { AuthGuard } from './auth/guards/auth.guard';
+import { LoginGuard } from './auth/guards/login.guard';
+
 
 const routes: Routes = [
   {path: 'admin',
@@ -58,8 +61,8 @@ const routes: Routes = [
   {path: 'tag/:tag', component:HomeComponent},
   {path: 'food/:foodId', component:FoodPageComponent},
   {path: 'cart-page', component:CartPageComponent},
-  {path: 'login', component:LoginPageComponent},
-  {path: 'register', component:RegisterPageComponent},
+  {path: 'login', component:LoginPageComponent, canActivate: [LoginGuard]},
+  {path: 'register', component:RegisterPageComponent, canActivate: [LoginGuard]},
   {path: 'tags', component:AllTagComponent},
   {path: 'checkout', component:CheckoutPageComponent, canActivate: [AuthGuard]},
   {path: 'payment', component:PaymentPageComponent, canActivate: [AuthGuard]},

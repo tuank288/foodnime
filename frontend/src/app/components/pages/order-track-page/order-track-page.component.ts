@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { OrderService } from 'src/app/services/order.service';
 import { Order } from 'src/app/shared/models/Order';
 
@@ -11,13 +11,19 @@ import { Order } from 'src/app/shared/models/Order';
 export class OrderTrackPageComponent {
   order!:Order;
   constructor(activatedRoute: ActivatedRoute,
-              orderService:OrderService) {
+              orderService:OrderService,
+              router: Router,) {
      const params = activatedRoute.snapshot.params;
      if(!params.orderId) return;
 
-     orderService.trackOrderById(params.orderId).subscribe(order => {
-       this.order = order;
-     })
-
-  }
+     orderService.trackOrderById(params.orderId).subscribe({
+      next: (order) => {
+        this.order = order;
+        console.log(order);
+      },
+      error:() => {
+        router.navigateByUrl('/chekcout');
+      }
+    })
+ }
 }
