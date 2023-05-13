@@ -3,14 +3,13 @@ export class Food{
     food_name!: string;
     price!: number;
     category_id!:string;
-    category_name?: string;
-    created_at?: string;
-    updated_at?:string;
+    category_name!: string;
+    created_at!: string;
+    updated_at!:string;
     food_image!:string;
 
     favorite!: boolean;
     stars!: number;
-    imageUrl!: string;
     origins!: string[];
     cookTime!: string;
 }

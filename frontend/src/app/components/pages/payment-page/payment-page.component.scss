@@ -19,12 +19,16 @@
   }
   
   .summary{ 
+    background-color: white;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    margin: 1rem;
     span {
         font-size: 1.2rem;
     }
     h5{
         margin: 0 1rem 0 0;
-        flex-basis: 5rem;
+        flex-basis: 8rem;
         margin-top: 0.2rem;
       }
     }

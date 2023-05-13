@@ -14,27 +14,46 @@ router.get("/tags", (req, res) => {
 router.get("/", (req, res) => {
     db.query(`SELECT * FROM food`, function(error, results, fields) {
         if(error) throw error;
+        // console.log(results);
         res.send(results);
     });
 })
 
 router.get("/:foodId", (req, res) => {
     const foodId = req.params.foodId
-    db.query(`SELECT * FROM food WHERE food_id = ${foodId}`, function(error, results, fields) {
-    if(error) {
-        console.log(error);
+    db.query(`SELECT food.*, food_categories.category_name 
+            FROM food
+            JOIN food_categories
+            ON food.category_id = food_categories.category_id
+            WHERE food_id = ${foodId}`, function(error, results, fields) {
+            if(error) {
+        // console.log(error);
         return res.send(results);
     }
+    // console.log(results[0]);
     res.send(results[0]);
 });
 })
 
 router.get("/search/:searchTerm", (req, res) => {
-    db.query(`SELECT * FROM food`, function(error, results, fields) {
-        if(error) throw error;
-        res.send(results);
-    });
-})
+    const searchTerm = req.params.searchTerm;
+    console.log(searchTerm);
+
+    db.query(`SELECT food.*, food_categories.*
+            FROM food 
+            JOIN food_categories 
+            ON food.category_id = food_categories.category_id 
+            WHERE food.food_name LIKE '%${searchTerm}%' or food_categories.category_name LIKE '%${searchTerm}%'`, 
+            function(error, results, fields) {
+                if(error) {
+                    console.log(error);
+                    res.send({error: "Something went wrong!"});
+                }
+                // console.log(results);
+                res.send(results);
+            }
+    );
+});
 
 
 router.get("/tag/:tagName", (req, res) => {
@@ -44,6 +63,8 @@ router.get("/tag/:tagName", (req, res) => {
         ON food.category_id = food_categories.category_id`, 
     function( error, results) {
         if(error) throw error;
+        // console.log(results);
+        
         res.send(results);
     })
 })

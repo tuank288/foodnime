@@ -354,6 +354,7 @@ router.get('/detail-order/:orderId', async (req:any, res:any) => {
             restaurant_id: result.restaurant_id,
             food_name: result.food_name,
             price: result.price,
+            food_image: result.food_image
           },
           price: result.price * result.quantity,
           quantity: result.quantity,

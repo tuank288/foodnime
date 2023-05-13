@@ -31,6 +31,8 @@ router.post('/create', (req:any, res) => {
   for (const item of requestOrder.items) {
     restaurantId = item.food.restaurant_id;
   }
+  console.log(restaurantId);
+  
 
   const orderData = {
     user_id: req.user_id,
@@ -148,6 +150,7 @@ router.get('/track/:orderId', async (req:any, res:any) => {
           restaurant_id: result.restaurant_id,
           food_name: result.food_name,
           price: result.price,
+          food_image: result.food_image
         },
         price: result.price * result.quantity,
         quantity: result.quantity,
@@ -174,7 +177,7 @@ export default router;
 
 async function getNewOrderForCurrentUser(req: any) {
   const userId = req.user_id;
-  const query = `SELECT orders.*, users.full_name, order_items.*, food.*
+  const query = `SELECT orders.*, users.*, order_items.*, food.*
   FROM orders
   JOIN users ON orders.user_id = users.user_id
   JOIN order_items ON orders.order_id = order_items.order_id
@@ -195,6 +198,7 @@ async function getNewOrderForCurrentUser(req: any) {
                 restaurant_id: result.restaurant_id,
                 food_name: result.food_name,
                 price: result.price,
+                food_image: result.food_image
               },
               price: result.price * result.quantity,
               quantity: result.quantity,
@@ -202,10 +206,11 @@ async function getNewOrderForCurrentUser(req: any) {
             total_price: results[0].total_price,
             user_id: results[0].user_id,
             full_name: results[0].full_name,
+            phone_number: results[0].phone_number,
             address: results[0].address,
             addressLatLng: JSON.parse(results[0].addressLatLng)
           };
-          console.log(order);
+          // console.log(order);
           
           resolve(order);
         }else {

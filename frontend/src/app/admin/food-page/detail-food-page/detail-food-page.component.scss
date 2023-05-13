@@ -3,19 +3,17 @@
     display: block;
     margin: 0 auto;
   }
-  
-  // .example-header-image {
-  //   background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
-  //   background-size: cover;
-  // }
-  
+  .card-title {
+    align-items: center;
+    margin-left: 1rem;
+  }
   .title {
     font-weight: 600;
-    font-size: 16px;
+    font-size: 20px;
   }
   
   .img-card {
-    width: 152px !important;
+    width: 200px !important;
     height: auto !important;
   }
   

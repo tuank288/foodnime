@@ -1,21 +1,25 @@
 <div class="container">
     <div class="content">
-      <app-title title="Order Summary" fontSize="1.6rem"></app-title>
+      <app-title title="Hình thức thanh toán" fontSize="1.6rem"></app-title>
       <div class="summary">
         <div>
-          <h5>Name:</h5>
+          <h5>Tên:</h5>
           <span>{{order.full_name}}</span>
         </div>
         <div>
-          <h5>Address:</h5>
+          <h5>Địa chỉ:</h5>
           <span>{{order.address}}</span>
+        </div>
+        <div>
+          <h5>Số điện thoại:</h5>
+          <span>{{order.phone_number}}</span>
         </div>
       </div>
       <order-items-list [order]="order"></order-items-list>
     </div>
     <div class="map">
       <app-title
-      title="Shipping Address"
+      title="Địa chỉ giao hàng"
       fontSize="1.6rem"></app-title>
       <map [order]="order" [readonly]="true"></map>
     </div>

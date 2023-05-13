@@ -24,4 +24,16 @@ export class CartPageComponent {
     const quantity = parseInt(quantityInString);
     this.cartService.changeQuantity(cartItem.food.food_id, quantity);
   }
+
+  decreaseQuantity(cartItem: CartItem) {
+    if (cartItem.quantity > 1) {
+      cartItem.quantity--;
+      this.cartService.changeQuantity(cartItem.food.food_id, cartItem.quantity);
+    }
+  }
+  
+  increaseQuantity(cartItem: CartItem) {
+    cartItem.quantity++;
+    this.cartService.changeQuantity(cartItem.food.food_id, cartItem.quantity);
+  }
 }

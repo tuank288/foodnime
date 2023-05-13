@@ -11,22 +11,11 @@
 <ul>
     <li class="col-6 col-md-4 col-xl-2" *ngFor="let food of foods.slice(0,6)">
         <a routerLink="/food/{{food.food_id}}">
-            <img [src]="food.imageUrl" [alt]="food.food_name">       
+            <img [src]="food.food_image" [alt]="food.food_name">       
             <div class="content">
                 <div class="name">
                     {{food.food_name}}
                 </div>
-                <!-- <div class="product-item-footer">
-                    <div class="origins">
-                        <span *ngFor="let origin of food.origins">
-                            {{origin}}
-                        </span>
-                    </div>
-                    <div class="cook-time">
-                        <span>🕒</span>
-                        {{food.cookTime}}
-                    </div>
-                </div> -->
                 <div class="price">
                     <span>
                         {{food.price | currency: 'VND'}}

@@ -10,7 +10,7 @@ const router = Router();
 
 router.post("/login", (req, res) => {
     const {email, password} = req.body;
-    const query = `SELECT user_id, email, full_name, password, address FROM users WHERE email = ?`;
+    const query = `SELECT * FROM users WHERE email = ?`;
     const values = [email];
 
     db.query(query, values, async (error, results) => {
@@ -27,7 +27,11 @@ router.post("/login", (req, res) => {
                 email: user.email,
                 full_name: user.full_name,
                 address: user.address,
+                phone_number: user.phone_number,
+                role: user.role
             }
+            console.log(dbUser);
+            
                 res.send(generateTokenResponse(dbUser));
             } else {
                 res.status(HTTP_BAD_REQUEST).send("Username or password not valid!");
@@ -86,6 +90,7 @@ const generateTokenResponse = (user: any) => {
     user_id: user.user_id,
     email: user.email,
     full_name: user.full_name,
+    phone_number: user.phone_number,
     address: user.address,
     role: user.role,
     token: token

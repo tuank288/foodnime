@@ -3,8 +3,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AdminService } from 'src/app/services/admin.service';
-import { Food } from 'src/app/shared/models/Food';
 import { Tag } from 'src/app/shared/models/Tag';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 
 @Component({
   selector: 'app-edit-categories-page',
@@ -14,6 +14,7 @@ import { Tag } from 'src/app/shared/models/Tag';
 export class EditCategoriesPageComponent {
   status = false;
 
+  fileTemp: any;
   createCategoryForm!: FormGroup;
   CategoryIdUpdate!: string;
   public isUpdateActive: boolean = false;
@@ -29,7 +30,8 @@ export class EditCategoriesPageComponent {
   private adminService: AdminService,
   private router: Router,
   private toast: ToastrService,
-  private activatedRouter: ActivatedRoute
+  private activatedRouter: ActivatedRoute,
+  private fireStogre: AngularFireStorage
   ) {}
 
   category_image = new FormControl('',[Validators.required]);
@@ -40,8 +42,6 @@ export class EditCategoriesPageComponent {
       category_image: this.category_image,
       category_name: this.category_name,
     })
-
-    // this.foodService.getAllTag().subscribe(categories => this.categories = categories);
 
     this.activatedRouter.params.subscribe( val => {
       this.CategoryIdUpdate = val['categoryId'];
@@ -56,8 +56,23 @@ export class EditCategoriesPageComponent {
   
   }
 
-  submit() {
-    this.adminService.postCategory(this.createCategoryForm.value).subscribe({
+  async submit() {
+    if (!this.createCategoryForm.valid) {
+      this.createCategoryForm.markAllAsTouched();
+      this.toast.error('Xin vui lòng điền đầy đủ thông tin vào các ô bắt buộc', 'Error');
+      return;
+    }
+
+    const file = this.createCategoryForm.get('category_image')?.value;
+  
+    let categoryImageUrl = '';
+    if (file) {
+      const path = `categories/${file.name}`;
+      const upload = await this.fireStogre.upload(path, file);
+      categoryImageUrl = await upload.ref.getDownloadURL();
+    }
+    const formData = {...this.createCategoryForm.value, category_image: categoryImageUrl};
+    this.adminService.postCategory(formData).subscribe({
       next: res => {
         this.toast.success(`Tạo thành công`);
         console.log(this.createCategoryForm);
@@ -71,8 +86,22 @@ export class EditCategoriesPageComponent {
     })
   }
 
-  update() {
-    this.adminService.updateCategory(this.createCategoryForm.value, this.CategoryIdUpdate).subscribe({
+  async update() {
+    if (!this.createCategoryForm.valid) {
+      this.createCategoryForm.markAllAsTouched();
+      this.toast.error('Xin vui lòng điền đầy đủ thông tin vào các ô bắt buộc', 'Error');
+      return;
+    }
+    const file = this.fileTemp
+    let categoryImageUrl = this.category.category_image;
+
+    if(file){
+      const path = `categories/${file.name}`;
+      const upload = await this.fireStogre.upload(path, file);
+      categoryImageUrl = await upload.ref.getDownloadURL();     
+    }
+    const formData = {...this.createCategoryForm.value, category_image: categoryImageUrl};
+    this.adminService.updateCategory(formData, this.CategoryIdUpdate).subscribe({
       next: res => {
         this.toast.success(`Cập nhật thành công`);
         this.createCategoryForm.reset();
@@ -86,17 +115,17 @@ export class EditCategoriesPageComponent {
   }
 
   onFileSelected(event: any) {
-    const file = event.target.files[0];
-    const fileName = file.name;
-    console.log(fileName);
-    
-    this.createCategoryForm.get('category_image')!.setValue(fileName);
+    if(event.target.files && event.target.files.length > 0){
+      const file = event.target.files[0];
+      this.createCategoryForm.get('category_image')!.setValue(file);
+      this.fileTemp = file;
+    }
   }
 
   fillFormUpdate(category: Tag) {
     this.createCategoryForm.setValue({
       category_image: category.category_image,
       category_name: category.category_name,
-    })
+    }) 
   }
 }

@@ -27,10 +27,11 @@ export class CheckoutPageComponent implements OnInit {
               }
               
   ngOnInit(): void {
-    let {full_name, address} = this.userService.currentUser;
+    let {full_name, address, phone_number} = this.userService.currentUser;
     this.checkoutForm = this.formBuilder.group({
       full_name:[full_name, Validators.required],
-      address:[address, Validators.required]
+      address:[address, Validators.required],
+      phone_number:[phone_number, Validators.required]
     });
   }
   
@@ -45,12 +46,13 @@ export class CheckoutPageComponent implements OnInit {
     }
 
     if(!this.order.addressLatLng){
-      this.toastrService.warning('Please select your location on the map', 'Location');
+      this.toastrService.warning('Vui lòng chọn vị trí của bạn trên bản đồ', 'Vị trí');
       return;
     }
 
     this.order.full_name = this.fc.full_name.value;
     this.order.address = this.fc.address.value;
+    this.order.phone_number = this.fc.phone_number.value;
     
     this.orderService.create(this.order).subscribe({
       next:() => {

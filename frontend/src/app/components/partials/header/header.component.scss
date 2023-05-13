@@ -5,7 +5,16 @@ header{
     padding: 0 5rem;
     border-bottom: 1px solid #e72929;
 }
+li{
+    a{
+        color: #af1313;
+        &:hover{
+            color: white;
+            cursor: pointer;
+        }
+    }
 
+}
 a{
     color: #af1313;
     &:hover{

@@ -8,7 +8,7 @@
     <div class="list-container">
         <div class="list-view">
             <a *ngFor="let tag of tags.slice(0, 9)" routerLink="/tag/{{tag.category_name}}">
-                <img src="/assets/com.jpg" alt="">
+                <img src="{{tag.category_image}}" alt="">
                 <span>{{tag.category_name}}</span> 
             </a>
         </div>

@@ -24,7 +24,6 @@ li{
         img{
             object-fit: cover;
             height: 10.5rem;
-            // background-size: cover;
         }
     }
 }
@@ -33,7 +32,7 @@ li{
     position: relative;
     margin-top: 0.3rem;
     padding: 0.5rem 1rem;
-    height: 7rem;
+    height: 5rem;
     .name{
         overflow: hidden;
         text-overflow: ellipsis;

@@ -18,11 +18,8 @@ export class FoodService {
 
   getAllFoodsBySearchTerm(searchTerm:string) {
     return this.http.get<Food[]>(FOODS_BY_SEARCH_URL + searchTerm)
-    .pipe(map(foods => foods.filter(food => food.food_name.toLowerCase()
-        .includes(searchTerm.toLowerCase()))
-      )
-    )
   }
+  
   getAllTag():Observable<Tag[]> {
     return this.http.get<Tag[]>(FOODS_TAGS_URL);
   }
@@ -38,7 +35,5 @@ export class FoodService {
   getFoodById(foodId:string):Observable<Food> {
     return this.http.get<Food>(FOODS_BY_ID_URL + foodId)
   }
-
-
 
 }

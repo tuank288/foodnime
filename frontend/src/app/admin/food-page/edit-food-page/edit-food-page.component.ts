@@ -6,7 +6,7 @@ import { Food } from 'src/app/shared/models/Food';
 import { Tag } from 'src/app/shared/models/Tag';
 import { ToastrService } from 'ngx-toastr';
 import { AdminService } from 'src/app/services/admin.service';
-import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/compat/storage';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
  
 @Component({
   selector: 'app-edit-food-page',
@@ -16,7 +16,7 @@ import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/compat/
 export class EditFoodPageComponent implements OnInit {
   status = false;
 
-  fileName!: string;
+  fileTemp: any;
   createFoodForm!: FormGroup;
   FoodIdUpdate!: string;
   public isUpdateActive: boolean = false;
@@ -99,8 +99,22 @@ export class EditFoodPageComponent implements OnInit {
     })
   }
 
-   update() {
-    this.adminService.updateFood(this.createFoodForm.value, this.FoodIdUpdate).subscribe({
+   async update() {
+    if (!this.createFoodForm.valid) {
+      this.createFoodForm.markAllAsTouched();
+      this.toast.error('Please fill in all required fields', 'Error');
+      return;
+    }
+
+    const file = this.fileTemp
+    let foodImageUrl = this.food.food_image;
+    if (file) {
+      const path = `food/${file.name}`;
+      const upload = await this.fireStogre.upload(path, file);
+      foodImageUrl = await upload.ref.getDownloadURL();
+    }
+    const formData = {...this.createFoodForm.value, food_image: foodImageUrl};
+    this.adminService.updateFood(formData, this.FoodIdUpdate).subscribe({
       next: res => {
         this.toast.success(`Cập nhật thành công`);
         this.createFoodForm.reset();
@@ -117,6 +131,7 @@ export class EditFoodPageComponent implements OnInit {
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
       this.createFoodForm.get('food_image')!.setValue(file);
+      this.fileTemp = file;
     }
   }
 

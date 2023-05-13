@@ -81,21 +81,14 @@
         <mat-card  class="example-card" *ngIf="categoryDetail">
   
           <mat-card-header>
-            <mat-card-title-group>
-              <img class="img-card" mat-card-lg-image src="./assets/{{ categoryDetail.category_image }}" >
+            <mat-card-title-group class="card-title">
+              <img class="img-card" mat-card-lg-image src="{{ categoryDetail.category_image }}" >
                 <mat-card-title class="title">{{ categoryDetail.category_name }}</mat-card-title>
             </mat-card-title-group>
           </mat-card-header>
   
           <mat-card-content>
             <mat-list>
-              <mat-list-item>
-                <div matLine>
-                    Category ID :
-                    <button mat-button>{{categoryDetail.category_id}} </button>
-                </div>
-              </mat-list-item>
-  
                 <mat-list-item>
                   <div matLine>
                     Created at :
