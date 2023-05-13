@@ -26,7 +26,7 @@ export class AdOrderComponent {
   }
 
   displayedColumns: string[] = [
-    'order_id',
+    'stt',
     'order_date',
     'full_name',
     'phone_number',
@@ -49,6 +49,9 @@ export class AdOrderComponent {
     this.adminService.getOrders()
       .subscribe(res => {
         this.orders = res;
+        this.orders.forEach((orders, index) => {
+          orders.stt = index + 1; // Tạo biến stt và gán giá trị
+        });
         this.dataSource = new MatTableDataSource(this.orders)
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;

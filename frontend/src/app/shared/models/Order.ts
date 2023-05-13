@@ -6,6 +6,7 @@ export class Order{
   order_id!:string;
   items!: CartItem[];
   total_price!:number;
+  stt!:number;
 
   user_id!: string;
   full_name!: string;

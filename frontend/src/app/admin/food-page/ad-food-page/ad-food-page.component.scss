@@ -17,11 +17,7 @@ td[mat-cell].ab {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-// mat-form-field{
-//   background-color: white;
-//   margin-bottom: 20px;
 
-// }
 
 
 /* SIDEBAR */
@@ -402,6 +398,7 @@ td[mat-cell].ab {
 }
 #content main .table-data .order table td {
   padding: 16px 0;
+  margin: 1rem;
 }
 #content main .table-data .order table tr td:first-child {
   display: flex;
@@ -414,6 +411,7 @@ td[mat-cell].ab {
   height: 36px;
   border-radius: 50%;
   object-fit: cover;
+  
 }
 #content main .table-data .order table tbody tr:hover {
   background: var(--grey);

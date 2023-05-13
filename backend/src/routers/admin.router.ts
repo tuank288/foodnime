@@ -32,7 +32,7 @@ router.get('/get-foods', (req, res) => {
               JOIN food_categories 
               ON food.category_id = food_categories.category_id`, (error, result) => {
         if(error) throw error;
-        console.log(result);
+        // console.log(result);
         
         res.send(result);
     })
@@ -40,25 +40,34 @@ router.get('/get-foods', (req, res) => {
 
 router.post('/post-foods', (req, res) => {
     const { category_id, food_image, food_name, price } = req.body;
-    console.log(food_image);
-    
 
-    if(!category_id || category_id.length === 0) {
-        return res.status(HTTP_BAD_REQUEST).send('At least one category must be specified');
-    }else if(!food_name || !price || !food_image) {
-        return res.status(HTTP_BAD_REQUEST).send('Cannot be left blank')
+    if(!food_name || !price || !food_image || !category_id) {
+        return res.status(HTTP_BAD_REQUEST).send('Xin vui lòng điền đầy đủ')
     }
 
-    db.query(`INSERT INTO food(category_id , restaurant_id, food_image, food_name, price, created_at, updated_at)
-            VALUES ('${category_id}', 1, '${food_image}', '${food_name}', '${price}', NOW(), NOW())`, (error, result) => {
+    const foodName = food_name.replace(/\s+/g, ' ').trim().toLowerCase();
+
+    db.query(`SELECT * FROM food WHERE food_name = '${foodName}'`, (error, results) => {
         if (error) {
-            console.log(error);
-            return res.status(HTTP_INTERNAL_SERVER_ERROR).send('Internal server error');
-        } else {
-            console.log(`Inserted ${result.affectedRows} row(s) into food.`);
-        }        
-        res.send(result);       
-    })
+          console.log(error);
+          return res.status(HTTP_INTERNAL_SERVER_ERROR).send('Internal server error');
+        }
+    
+        if (results.length > 0) {
+          return res.status(HTTP_BAD_REQUEST).send('Tên thực phẩm đã tồn tại');
+        }
+    
+        db.query(`INSERT INTO food(category_id, restaurant_id, food_image, food_name, price, created_at, updated_at)
+          VALUES ('${category_id}', 1, '${food_image}', '${food_name}', '${price}', NOW(), NOW())`, (error, result) => {
+            if (error) {
+              console.log(error);
+              return res.status(HTTP_INTERNAL_SERVER_ERROR).send('Internal server error');
+            } else {
+              console.log(`Inserted ${result.affectedRows} row(s) into food.`);
+            }        
+            res.send(result);       
+          });
+      });
 })
 
 router.delete('/delete-foods/:foodId', (req, res) => {
@@ -94,10 +103,6 @@ router.get('/detail-foods/:foodId', (req, res) => {
 router.put('/update-foods/:foodId', (req, res) => {
     const { foodId } = req.params
     const { food_image, food_name, category_id, price} = req.body;
-
-    if (!category_id || category_id.length === 0) {
-        return res.status(HTTP_BAD_REQUEST).send('At least one category must be specified');
-    }
 
     db.query(`UPDATE food 
             SET category_id = '${category_id}', food_image = '${food_image}', food_name = '${food_name}', price = '${price}', updated_at = NOW() 
@@ -135,19 +140,31 @@ router.delete('/delete-category/:categoryId', (req, res) => {
 router.post('/post-category', (req, res) => {
     const { category_image, category_name} = req.body;
 
-    if (!category_name) {
-        return res.status(HTTP_BAD_REQUEST).send('Please provide category name.');
+    if (!category_name || !category_image) {
+        return res.status(HTTP_BAD_REQUEST).send('Xin vui lòng điền đầy đủ');
     }
-
-    db.query(`INSERT INTO food_categories(category_image, category_name, created_at, updated_at)
-            VALUES ('${category_image}', '${category_name}', NOW(), NOW())`, (error, result) => {
+    
+    const categoryName = category_name.replace(/\s+/g, ' ').trim().toLowerCase();
+    
+    db.query(`SELECT * FROM food_categories WHERE category_name = '${categoryName}'`, (error, results) => {
         if (error) {
-            console.log(error);
-            return res.status(HTTP_INTERNAL_SERVER_ERROR).send('Internal server error');
-        } else {
-            console.log(`Inserted ${result.affectedRows} row(s) into food.`);
-        }        
-        res.send(result);       
+          console.log(error);
+          return res.status(HTTP_INTERNAL_SERVER_ERROR).send('Internal server error');
+        }
+        if (results.length > 0) {
+          return res.status(HTTP_BAD_REQUEST).send('Tên danh mục đã tồn tại');
+        }
+
+        db.query(`INSERT INTO food_categories(category_image, category_name, created_at, updated_at)
+                VALUES ('${category_image}', '${category_name}', NOW(), NOW())`, (error, result) => {
+            if (error) {
+                console.log(error);
+                return res.status(HTTP_INTERNAL_SERVER_ERROR).send('Internal server error');
+            } else {
+                console.log(`Inserted ${result.affectedRows} row(s) into food.`);
+            }        
+            res.send(result);       
+        })
     })
 })
 
@@ -369,8 +386,6 @@ router.get('/detail-order/:orderId', async (req:any, res:any) => {
         address: results[0].address,
         addressLatLng: JSON.parse(results[0].addressLatLng),
         status: results[0].status,
-        created_at: results[0].created_at,
-        updated_at: results[0].updated_at,
       };
       // console.log(order);
       res.send(order);

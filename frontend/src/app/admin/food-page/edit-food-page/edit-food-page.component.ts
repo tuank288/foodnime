@@ -70,13 +70,14 @@ export class EditFoodPageComponent implements OnInit {
 
   async submit() {
 
-    if (!this.createFoodForm.valid) {
-      this.createFoodForm.markAllAsTouched();
-      this.toast.error('Please fill in all required fields', 'Error');
-      return;
-    }
+    // if (!this.createFoodForm.valid) {
+    //   this.createFoodForm.markAllAsTouched();
+    //   this.toast.error('Please fill in all required fields', 'Error');
+    //   return;
+    // }
 
     const file = this.createFoodForm.get('food_image')?.value;
+    
     let foodImageUrl = '';
     if (file) {
       const path = `food/${file.name}`;
@@ -84,16 +85,17 @@ export class EditFoodPageComponent implements OnInit {
       foodImageUrl = await upload.ref.getDownloadURL();
     }
     const formData = {...this.createFoodForm.value, food_image: foodImageUrl};
+
     console.log(formData);
     this.adminService.postFood(formData).subscribe({
       next: res => {
-        this.toast.success(`Create success`);
+        this.toast.success(`Tạo thành công`);
         console.log(this.createFoodForm);
         
         this.createFoodForm.reset();
         this.router.navigate(['admin/ad-food']);
     }, error: err => {
-      this.toast.error(err.error, `Create fail`);
+      this.toast.error(err.error, `Tạo thất bại`);
       console.log(err);
       }
     })
@@ -102,7 +104,7 @@ export class EditFoodPageComponent implements OnInit {
    async update() {
     if (!this.createFoodForm.valid) {
       this.createFoodForm.markAllAsTouched();
-      this.toast.error('Please fill in all required fields', 'Error');
+      this.toast.error('Xin vui lòng điền đầy đủ', 'Error');
       return;
     }
 

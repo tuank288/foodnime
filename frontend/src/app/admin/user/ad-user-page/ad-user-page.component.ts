@@ -29,7 +29,7 @@ export class AdUserPageComponent {
   }
 
   displayedColumns: string[] = [
-    'user_id',
+    'stt',
     'full_name',
     'email',
     'phone_number',
@@ -55,6 +55,9 @@ export class AdUserPageComponent {
     this.adminService.getUsers()
       .subscribe(res => {
         this.users = res;
+        this.users.forEach((user, index) => {
+          user.stt = index + 1;
+        })
         this.dataSource = new MatTableDataSource(this.users)
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;

@@ -30,7 +30,7 @@ export class AdCategoriesPageComponent {
   }
 
   displayedColumns: string[] = [
-    'category_id',
+    'stt',
     'category_image',
     'category_name',
     'created_at',
@@ -53,6 +53,9 @@ export class AdCategoriesPageComponent {
     this.adminService.getCategory()
       .subscribe(res => {
         this.categories = res;
+        this.categories.forEach((categories, index) => {
+          categories.stt = index + 1
+        });
         this.dataSource = new MatTableDataSource(this.categories)
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -72,8 +75,8 @@ export class AdCategoriesPageComponent {
     this.router.navigate(['/admin/update-category', category_id])
   }
 
-  delete(category_id: string) {
-    if(confirm(`Bạn có chắc muốn xóa thể loại có ID:${category_id} không?`)) {
+  delete(category_id: string, category_name: string) {
+    if(confirm(`Bạn có chắc muốn xóa ${category_name} không?`)) {
       this.adminService.deleteCategory(category_id).subscribe(res=> {
         this.toast.success(`Xóa thành công`);
         this.getCategory();

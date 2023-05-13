@@ -57,11 +57,6 @@ export class EditCategoriesPageComponent {
   }
 
   async submit() {
-    if (!this.createCategoryForm.valid) {
-      this.createCategoryForm.markAllAsTouched();
-      this.toast.error('Xin vui lòng điền đầy đủ thông tin vào các ô bắt buộc', 'Error');
-      return;
-    }
 
     const file = this.createCategoryForm.get('category_image')?.value;
   
@@ -72,6 +67,8 @@ export class EditCategoriesPageComponent {
       categoryImageUrl = await upload.ref.getDownloadURL();
     }
     const formData = {...this.createCategoryForm.value, category_image: categoryImageUrl};
+    console.log(formData);
+    
     this.adminService.postCategory(formData).subscribe({
       next: res => {
         this.toast.success(`Tạo thành công`);
@@ -80,7 +77,7 @@ export class EditCategoriesPageComponent {
         this.createCategoryForm.reset();
         this.router.navigate(['admin/ad-categories']);
     }, error: err => {
-      this.toast.error(`Tạo thất bại`);
+      this.toast.error(err.error,`Tạo thất bại`);
       console.log(err);
       }
     })
@@ -89,7 +86,7 @@ export class EditCategoriesPageComponent {
   async update() {
     if (!this.createCategoryForm.valid) {
       this.createCategoryForm.markAllAsTouched();
-      this.toast.error('Xin vui lòng điền đầy đủ thông tin vào các ô bắt buộc', 'Error');
+      this.toast.error('Xin vui lòng điền đầy đủ', 'Error');
       return;
     }
     const file = this.fileTemp

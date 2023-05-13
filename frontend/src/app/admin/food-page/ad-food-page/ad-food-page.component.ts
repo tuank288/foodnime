@@ -31,7 +31,7 @@ export class AdFoodPageComponent implements OnInit {
   }
 
   displayedColumns: string[] = [
-    'food_id',
+    'stt',
     'food_image',
     'food_name',
     'category_name',
@@ -49,18 +49,19 @@ export class AdFoodPageComponent implements OnInit {
 
   ngOnInit(): void {
       this.getFood();
-      // console.log(this.getFood());
   }
 
   getFood() {
     this.adminService.getFood()
       .subscribe(res => {
         this.foods = res;
+        this.foods.forEach((food, index) => {
+          food.stt = index + 1; // Tạo biến stt và gán giá trị
+        });
         this.dataSource = new MatTableDataSource(this.foods)
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-    
-        // console.log(this.foods);
+  
       })
   }
 
@@ -78,12 +79,20 @@ export class AdFoodPageComponent implements OnInit {
     this.router.navigate(['/admin/update-food', food_id])
   }
 
-  delete(food_id: string) {
-    if(confirm(`Bạn có chắc muốn xóa món ăn có ID:${food_id} không?`)) {
+  delete(food_id: string, food_name: string) {
+    if(confirm(`Bạn có chắc muốn xóa ${food_name.replace(/\s+/g, ' ').trim()} không?`)) {
       this.adminService.deleteFood(food_id).subscribe(res=> {
         this.toast.success(`Xóa thành công`);
         this.getFood();
       });
+    }
+  }
+
+  getDisplayedIndex(index: number): number {
+    if (this.dataSource.paginator) {
+      return index + 1 + this.dataSource.paginator.pageIndex * this.dataSource.paginator.pageSize;
+    } else {
+      return index + 1;
     }
   }
 }

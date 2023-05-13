@@ -16,14 +16,11 @@ export class LoginGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
     if (this.userService.currentUser.token && (state.url === '/login' || state.url === '/register')) {
-      console.log( state.url);
-      
-        this.router.navigate(['/']);
-        
-        return false;
-      } else {
-        return true;
-      }
+      this.router.navigate(['/']);
+      return false;
+    } else {
+      return true;
+    }
   }
   
 }

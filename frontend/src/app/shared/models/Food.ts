@@ -7,6 +7,7 @@ export class Food{
     created_at!: string;
     updated_at!:string;
     food_image!:string;
+    stt!:number;
 
     favorite!: boolean;
     stars!: number;
