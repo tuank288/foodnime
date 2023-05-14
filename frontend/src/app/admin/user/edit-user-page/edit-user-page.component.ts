@@ -58,6 +58,8 @@ export class EditUserPageComponent {
 
     this.activatedRouter.params.subscribe( val => {
       this.UserIdUpdate = val['userId'];
+      console.log(this.UserIdUpdate);
+      
       if (val && val['userId']) {
         this.adminService.getUserId(this.UserIdUpdate).subscribe( res => {
           this.isUpdateActive = true;

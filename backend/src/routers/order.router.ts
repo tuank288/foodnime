@@ -115,7 +115,7 @@ router.post('/pay', asyncHandler(async (req: any, res) => {
       console.log(error);
       res.status(HTTP_INTERNAL_SERVER_ERROR).send('Failed to update order!');
     } else {
-      console.log(order);
+      // console.log(order);
       res.status(200).send( order.order_id.toString());
     }
   });

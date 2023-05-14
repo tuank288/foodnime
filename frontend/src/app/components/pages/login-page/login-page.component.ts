@@ -23,7 +23,7 @@ export class LoginPageComponent implements OnInit {
         password: ['', Validators.required]
       })
     
-    this.returnUrl = this.activatedRoute.snapshot.queryParams.returnUrl;
+    // this.returnUrl = this.activatedRoute.snapshot.queryParams.returnUrl;
   }
 
   get fc(){
@@ -38,9 +38,8 @@ export class LoginPageComponent implements OnInit {
     
     this.userService.login({email:this.fc.email.value, 
       password: this.fc.password.value}).subscribe(() => {
-        this.router.navigateByUrl(this.returnUrl)
+        this.router.navigateByUrl('/')
+        // console.log(this.returnUrl);
       })
   }
-
-  
 }
