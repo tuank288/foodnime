@@ -75,10 +75,10 @@ export class EditCategoriesPageComponent {
         console.log(this.createCategoryForm);
         
         this.createCategoryForm.reset();
-        this.router.navigate(['admin/ad-categories']);
+        return this.router.navigate(['admin/ad-categories']);
     }, error: err => {
-      this.toast.error(err.error,`Tạo thất bại`);
-      console.log(err);
+        console.log(err);
+        return this.toast.error(err.error,`Tạo thất bại`);
       }
     })
   }

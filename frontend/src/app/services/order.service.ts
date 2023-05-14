@@ -24,8 +24,6 @@ export class OrderService {
   }
 
   trackOrderById(orderId: string): Observable<Order>{
-    console.log(orderId, 'f');
-
     return this.http.get<Order>(ORDER_TRACK_URL + orderId)
   }
 

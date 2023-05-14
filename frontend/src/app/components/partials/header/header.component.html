@@ -9,14 +9,14 @@
                 <li *ngIf="isAuth" class="menu-container">
                     <a>{{user.full_name}}</a>
                     <div class="menu">
-                        <a routerLink="/profile">Profile</a>
-                        <a routerLink="/orders">Orders</a>
-                        <a (click)="logout()">Logout</a>
+                        <a routerLink="/profile">Hồ sơ</a>
+                        <a routerLink="/orders">Đặt hàng</a>
+                        <a (click)="logout()">Đăng xuất</a>
                     </div>
                 </li>
                 <li>
                     <a routerLink="/cart-page">
-                        Cart <span *ngIf="cartQuantity">{{cartQuantity}}</span>
+                        <i class="fa fa-shopping-cart" aria-hidden="true"></i><span *ngIf="cartQuantity">{{cartQuantity}}</span>
                     </a>
                 </li>
             </ul>

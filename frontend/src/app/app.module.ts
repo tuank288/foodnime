@@ -24,7 +24,7 @@ import { MatCardModule } from '@angular/material/card';
 import {MatSelectModule} from '@angular/material/select';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatGridListModule} from '@angular/material/grid-list';
-
+import {MatBadgeModule} from '@angular/material/badge';
 
 
 import { registerLocaleData } from '@angular/common';
@@ -159,7 +159,8 @@ registerLocaleData(localeVi);
     NgConfirmModule,
     MatExpansionModule,
     MatGridListModule,
-
+    MatBadgeModule,
+    
     ToastrModule.forRoot({
       timeOut: 1500,
       newestOnTop: true

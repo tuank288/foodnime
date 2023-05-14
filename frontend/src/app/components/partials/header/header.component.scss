@@ -1,4 +1,6 @@
-
+.fa-shopping-cart{
+    font-size: 30px;
+}
 header{
     position: relative;
     background: white;
@@ -23,11 +25,15 @@ a{
         cursor: pointer;
     }
     span{
+        position: absolute;
+        top: 0;
         background: #ff4d4d;
         color: white;
-        padding: 0.1rem 0.45rem;
+        padding: 0.1rem 0.5rem;
         border-radius: 100rem;
-        font-size: 0.9rem;
+        font-size: 0.8rem;
+        margin: 0.2rem 0 0 0;
+        font-weight: 900;
     }
 }
 

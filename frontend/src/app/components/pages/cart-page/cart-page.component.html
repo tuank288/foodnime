@@ -1,8 +1,8 @@
 <app-title title="Thực đơn"></app-title>
 <app-not-found
     [visible]="!cart || !cart.items.length"
-    notFoundMessage="Cart Page is Emty!"
-    resetLinkText="Go to Homepage">
+    notFoundMessage="Thực đơn trống!"
+    resetLinkText="Quay về trang chủ">
 </app-not-found>
 <div *ngIf="cart && cart.items.length" class="container">
     <ul>
@@ -25,7 +25,7 @@
             </div>
             <div>
                 <button class="remove-button" (click)="removeFromCart(cartItem)">
-                    Remove
+                    Xóa bỏ
                 </button>
             </div>
         </li>

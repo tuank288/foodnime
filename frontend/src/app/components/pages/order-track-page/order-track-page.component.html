@@ -3,12 +3,12 @@
     <app-title title="Order #{{order.order_id}}" fontSize="1.6rem"></app-title>
 
     <div class="details">
-      <div><strong>Ngày đặt</strong> : {{order.created_at | date: 'dd/MM/yyyy HH:mm:ss'}}</div>
-      <div><strong>Tên</strong> : {{order.full_name}}</div>
-      <div><strong>Địa chỉ</strong> : {{order.address}}</div>
-      <div><strong>Trạng thái</strong> : {{order.status}}</div>
+      <div><strong>Ngày đặt:</strong>{{order.created_at | date: 'dd/MM/yyyy HH:mm:ss'}}</div>
+      <div><strong>Tên:</strong>{{order.full_name}}</div>
+      <div><strong>Địa chỉ:</strong>{{order.address}}</div>
+      <div><strong>Trạng thái:</strong>{{order.status}}</div>
       <div *ngIf="order.payment_id">
-        <strong>Payment ID</strong> : {{order.payment_id}}
+        <strong>Payment ID:</strong>{{order.payment_id}}
       </div>
     </div>
 
@@ -16,7 +16,7 @@
   </div>
 
   <div>
-    <app-title title="Shipping Address"></app-title>
+    <app-title title="Địa chỉ giao hàng"></app-title>
     <map [order]="order" [readonly]="true"></map>
   </div>
 </div>

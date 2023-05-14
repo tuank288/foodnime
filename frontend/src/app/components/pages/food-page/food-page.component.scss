@@ -5,12 +5,13 @@
     align-items: center;
     // margin: 0 3rem 3rem 3rem;
     padding: 1rem 0 1rem 1rem;
-
+    background: white;
 }
 .container > *{
     min-width: 20rem;
     max-width: 30rem;
 }
+
 img{
     border-radius: 2rem;
     flex: 1 0;
@@ -28,6 +29,7 @@ img{
     padding: 2rem;
     color: black;
     margin-left: 1rem;
+
 }
 
 .header{
@@ -66,7 +68,7 @@ img{
     display: flex;
     flex-wrap: wrap;
     a{
-        background-color: #fffdfd;
+        background-color: #e4dfdf;
         padding: 0.3rem 1rem;
         margin: 0.2rem 0.15rem;
         border-radius: 10rem;
