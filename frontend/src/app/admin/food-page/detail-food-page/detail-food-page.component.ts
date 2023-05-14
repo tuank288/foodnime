@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AdminService } from 'src/app/services/admin.service';
 import { FoodService } from 'src/app/services/food.service';
+import { UsersService } from 'src/app/services/user.service';
 import { Food } from 'src/app/shared/models/Food';
 import { Tag } from 'src/app/shared/models/Tag';
 
@@ -24,7 +25,8 @@ export class DetailFoodPageComponent {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private adminService: AdminService
+    private adminService: AdminService,
+    private userService:UsersService
     ){}
 
   ngOnInit() {
@@ -39,5 +41,8 @@ export class DetailFoodPageComponent {
       this.foodDetail = res;
       console.log(this.foodDetail);
     })
+  }
+  logout(){
+    this.userService.logout();
   }
 }

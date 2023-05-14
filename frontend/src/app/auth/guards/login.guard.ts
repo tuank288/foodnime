@@ -18,9 +18,8 @@ export class LoginGuard implements CanActivate {
     if (this.userService.currentUser.token && (state.url === '/login' || state.url === '/register')) {
       this.router.navigate(['/']);
       return false;
-    } else {
-      return true;
-    }
+    } 
+    return true;
   }
   
 }

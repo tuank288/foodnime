@@ -203,7 +203,6 @@ router.put('/update-category/:categoryId', (req, res) => {
 
 })
 
-
 //user
 
 router.delete('/delete-user/:userId', (req, res) => {

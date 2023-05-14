@@ -3,6 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AdminService } from 'src/app/services/admin.service';
+import { UsersService } from 'src/app/services/user.service';
 import { Order } from 'src/app/shared/models/Order';
 
 @Component({
@@ -38,6 +39,7 @@ export class AdOrderComponent {
 
   constructor(
     private adminService:AdminService,
+    private userService:UsersService
   ){}
 
   ngOnInit(): void {
@@ -79,5 +81,8 @@ export class AdOrderComponent {
       default:
         return 'black';
     }
+  }
+  logout(){
+    this.userService.logout();
   }
 }

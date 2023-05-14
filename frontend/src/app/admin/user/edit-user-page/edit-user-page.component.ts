@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, FormControl, Validators, AbstractControlOptions
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AdminService } from 'src/app/services/admin.service';
+import { UsersService } from 'src/app/services/user.service';
 import { Tag } from 'src/app/shared/models/Tag';
 import { User } from 'src/app/shared/models/User';
 
@@ -34,7 +35,8 @@ export class EditUserPageComponent {
   private adminService: AdminService,
   private router: Router,
   private toast: ToastrService,
-  private activatedRouter: ActivatedRoute
+  private activatedRouter: ActivatedRoute,
+  private userService:UsersService
   ) {}
 
   full_name = new FormControl('',[Validators.required, Validators.minLength(5)]);
@@ -124,5 +126,8 @@ export class EditUserPageComponent {
         matchingControl.setErrors(null);
       }
     };
+  }
+  logout(){
+    this.userService.logout();
   }
 }

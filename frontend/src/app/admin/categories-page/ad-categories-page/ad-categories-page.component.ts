@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AdminService } from 'src/app/services/admin.service';
+import { UsersService } from 'src/app/services/user.service';
 import { Tag } from 'src/app/shared/models/Tag';
 
 @Component({
@@ -41,7 +42,8 @@ export class AdCategoriesPageComponent {
   constructor(
     private router: Router,
     private toast: ToastrService,
-    private adminService:AdminService
+    private adminService:AdminService,
+    private userService:UsersService
   ){}
 
   ngOnInit(): void {
@@ -82,6 +84,10 @@ export class AdCategoriesPageComponent {
         this.getCategory();
       });
     }
+  }
+
+  logout(){
+    this.userService.logout();
   }
 
 }

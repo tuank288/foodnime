@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AdminService } from 'src/app/services/admin.service';
 import { OrderService } from 'src/app/services/order.service';
+import { UsersService } from 'src/app/services/user.service';
 import { Food } from 'src/app/shared/models/Food';
 import { Order } from 'src/app/shared/models/Order';
 
@@ -30,6 +31,7 @@ export class DetailOrderPageComponent {
     private adminService: AdminService,
     private router: Router,
     private toast: ToastrService,
+    private userService:UsersService
   ){}
 
   
@@ -63,5 +65,7 @@ export class DetailOrderPageComponent {
     
   });
   }
-  
+  logout(){
+    this.userService.logout();
+  }
 }

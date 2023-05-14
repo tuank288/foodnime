@@ -7,6 +7,7 @@ import { Tag } from 'src/app/shared/models/Tag';
 import { ToastrService } from 'ngx-toastr';
 import { AdminService } from 'src/app/services/admin.service';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { UsersService } from 'src/app/services/user.service';
  
 @Component({
   selector: 'app-edit-food-page',
@@ -35,7 +36,8 @@ export class EditFoodPageComponent implements OnInit {
   private router: Router,
   private toast: ToastrService,
   private activatedRouter: ActivatedRoute,
-  private fireStogre: AngularFireStorage
+  private fireStogre: AngularFireStorage,
+  private userService:UsersService
   ) {}
 
   food_image = new FormControl('',[Validators.required]);
@@ -144,5 +146,8 @@ export class EditFoodPageComponent implements OnInit {
       category_id: food.category_id,
       price: food.price,
     })
+  }
+  logout(){
+    this.userService.logout();
   }
 }

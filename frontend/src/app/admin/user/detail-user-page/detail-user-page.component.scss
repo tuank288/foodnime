@@ -164,6 +164,8 @@ mat-list-item {
 }
 /* NAVBAR */
 #content nav {
+  display: flex;
+  justify-content: space-between;
   height: 56px;
   background: var(--light);
   padding: 0 24px;

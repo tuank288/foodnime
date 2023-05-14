@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { Food } from 'src/app/shared/models/Food';
 import { ToastrService } from 'ngx-toastr';
 import { AdminService } from 'src/app/services/admin.service';
+import { UsersService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-ad-food-page',
@@ -45,6 +46,7 @@ export class AdFoodPageComponent implements OnInit {
     private router: Router,
     private adminService: AdminService,
     private toast: ToastrService,
+    private userService:UsersService
   ){}
 
   ngOnInit(): void {
@@ -94,6 +96,9 @@ export class AdFoodPageComponent implements OnInit {
     } else {
       return index + 1;
     }
+  }
+  logout(){
+    this.userService.logout();
   }
 }
 

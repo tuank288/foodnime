@@ -27,32 +27,35 @@ import { AdLoginPageComponent } from './admin/ad-login-page/ad-login-page.compon
 
 import { AuthGuard } from './auth/guards/auth.guard';
 import { LoginGuard } from './auth/guards/login.guard';
+import { AuthAdminGuard } from './auth/guards/auth-admin.guard';
+import { LoginAdminGuard } from './auth/guards/login-admin.guard';
 
 
 const routes: Routes = [
   {path: 'admin',
+  
     children: [
-      {path: '', component: DashboardPageComponent },
+      {path: '', component: DashboardPageComponent, canActivate: [AuthAdminGuard]},
       {path: 'login',  component: AdLoginPageComponent},
 
-      {path: 'ad-food', component: AdFoodPageComponent},
-      {path: 'create-food', component: EditFoodPageComponent},
-      {path: 'detail-food/:foodId', component: DetailFoodPageComponent},
-      {path: 'update-food/:foodId', component: EditFoodPageComponent},
+      {path: 'ad-food', component: AdFoodPageComponent, canActivate: [AuthAdminGuard]},
+      {path: 'create-food', component: EditFoodPageComponent, canActivate: [AuthAdminGuard]},
+      {path: 'detail-food/:foodId', component: DetailFoodPageComponent, canActivate: [AuthAdminGuard]},
+      {path: 'update-food/:foodId', component: EditFoodPageComponent, canActivate: [AuthAdminGuard]},
 
-      {path: 'ad-categories', component: AdCategoriesPageComponent},
-      {path: 'create-category', component: EditCategoriesPageComponent},
-      {path: 'detail-category/:categoryId', component: DetailCategoriesPageComponent},
-      {path: 'update-category/:categoryId', component: EditCategoriesPageComponent},
+      {path: 'ad-categories', component: AdCategoriesPageComponent, canActivate: [AuthAdminGuard]},
+      {path: 'create-category', component: EditCategoriesPageComponent, canActivate: [AuthAdminGuard]},
+      {path: 'detail-category/:categoryId', component: DetailCategoriesPageComponent, canActivate: [AuthAdminGuard]},
+      {path: 'update-category/:categoryId', component: EditCategoriesPageComponent, canActivate: [AuthAdminGuard]},
 
       
-      {path: 'ad-users', component: AdUserPageComponent},
-      {path: 'create-user', component: EditUserPageComponent},
-      {path: 'detail-user/:userId', component: DetailUserPageComponent},
-      {path: 'update-user/:userId', component: EditUserPageComponent},
+      {path: 'ad-users', component: AdUserPageComponent, canActivate: [AuthAdminGuard]},
+      {path: 'create-user', component: EditUserPageComponent, canActivate: [AuthAdminGuard]},
+      {path: 'detail-user/:userId', component: DetailUserPageComponent, canActivate: [AuthAdminGuard]},
+      {path: 'update-user/:userId', component: EditUserPageComponent, canActivate: [AuthAdminGuard]},
 
-      {path: 'ad-order', component:AdOrderComponent},
-      {path: 'detail-order/:orderId', component: DetailOrderPageComponent}
+      {path: 'ad-order', component:AdOrderComponent, canActivate: [AuthAdminGuard]},
+      {path: 'detail-order/:orderId', component: DetailOrderPageComponent, canActivate: [AuthAdminGuard]}
     ]
   },
 

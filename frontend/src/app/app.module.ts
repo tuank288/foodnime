@@ -85,8 +85,6 @@ import { ErrorComponent } from './components/partials/error/error.component';
 import { AdLoginPageComponent } from './admin/ad-login-page/ad-login-page.component';
 import { environment } from 'src/environments/environment';
 
-
-
 registerLocaleData(localeVi);
 
 @NgModule({

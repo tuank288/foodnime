@@ -48,9 +48,8 @@ body {
   input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 1000px white inset !important;
   }
-  .logo h1 {
-    color: #00A885;
-    margin-bottom: -12px;
+  .logo {
+    margin-top: 5rem;
   }
   input[type="checkbox"] {
     width: auto;

@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AdminService } from 'src/app/services/admin.service';
 import { Tag } from 'src/app/shared/models/Tag';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { UsersService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-edit-categories-page',
@@ -31,7 +32,8 @@ export class EditCategoriesPageComponent {
   private router: Router,
   private toast: ToastrService,
   private activatedRouter: ActivatedRoute,
-  private fireStogre: AngularFireStorage
+  private fireStogre: AngularFireStorage,
+  private userService:UsersService
   ) {}
 
   category_image = new FormControl('',[Validators.required]);
@@ -124,5 +126,8 @@ export class EditCategoriesPageComponent {
       category_image: category.category_image,
       category_name: category.category_name,
     }) 
+  }
+  logout(){
+    this.userService.logout();
   }
 }

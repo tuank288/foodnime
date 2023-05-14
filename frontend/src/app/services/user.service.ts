@@ -33,7 +33,6 @@ export class UsersService {
             'Đăng nhập thành công'
           )
           console.log(user);
-          
         },
         error: (errorResponse) => {
           this.toastrService.error(errorResponse.error, 'Login Failed');

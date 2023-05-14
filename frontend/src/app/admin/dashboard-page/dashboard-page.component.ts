@@ -6,6 +6,7 @@ import { Order } from 'src/app/shared/models/Order';
 import { Tag } from 'src/app/shared/models/Tag';
 import { User } from 'src/app/shared/models/User';
 import { AdminService } from 'src/app/services/admin.service';
+import { UsersService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -26,7 +27,7 @@ export class DashboardPageComponent {
     this.status = !this.status;
   }
 
-  constructor(private adminService: AdminService, private orderService: OrderService, private foodService: FoodService) {
+  constructor(private adminService: AdminService, private orderService: OrderService, private foodService: FoodService, private userService:UsersService) {
     this.foodService.getAll().subscribe((food) => {
       const totalFood = food.reduce((sum: number, food: Food) => {
         return sum + 1;
@@ -69,5 +70,9 @@ export class DashboardPageComponent {
         }
       });
     })
+  }
+
+  logout(){
+    this.adminService.logout();
   }
 }

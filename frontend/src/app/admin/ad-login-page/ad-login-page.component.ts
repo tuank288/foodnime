@@ -1,7 +1,12 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { UsersService } from 'src/app/services/user.service';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { Observable, tap } from 'rxjs';
+import { AdminService } from 'src/app/services/admin.service';
+import { ADMIN_LOGIN_URL, USER_LOGIN_URL } from 'src/app/shared/constans/urls';
+import { IUserLogin } from 'src/app/shared/interfaces/IUserLogin';
 import { User } from 'src/app/shared/models/User';
 
 @Component({
@@ -13,8 +18,10 @@ export class AdLoginPageComponent {
   loginForm!: FormGroup;
   user!: User;
   constructor( private fb: FormBuilder,
-              private userService:UsersService,
+              private adminServer:AdminService,
               private router:Router,
+              private http:HttpClient,
+              private toastrService:ToastrService
               ){}
 
   email = new FormControl('',[Validators.required, Validators.email]);
@@ -32,11 +39,10 @@ export class AdLoginPageComponent {
   }
 
   submit(){
-    // this.isSubmitted = true;
     if(this.loginForm.invalid) return;
-    this.userService.login({email:this.fc.email.value, 
+    this.adminServer.login({email:this.fc.email.value, 
       password: this.fc.password.value}).subscribe(() => {
-        this.router.navigateByUrl('/admin/ad-food')
+        this.router.navigateByUrl('/admin')
       })
   }
 }

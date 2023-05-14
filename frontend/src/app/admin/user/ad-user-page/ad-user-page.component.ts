@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AdminService } from 'src/app/services/admin.service';
+import { UsersService } from 'src/app/services/user.service';
 import { Food } from 'src/app/shared/models/Food';
 import { User } from 'src/app/shared/models/User';
 
@@ -44,6 +45,7 @@ export class AdUserPageComponent {
     private router: Router,
     private adminService: AdminService,
     private toast: ToastrService,
+    private userService:UsersService
   ){}
 
   ngOnInit(): void {
@@ -85,5 +87,8 @@ export class AdUserPageComponent {
         this.getUsers();
       });
     }
+  }
+  logout(){
+    this.userService.logout();
   }
 }

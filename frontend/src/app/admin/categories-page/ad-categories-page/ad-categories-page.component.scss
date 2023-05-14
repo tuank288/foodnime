@@ -118,6 +118,7 @@ td[mat-cell].ab {
 }
 #sidebar .side-menu li a.logout {
   color: var(--red);
+  cursor: pointer;
 }
 #sidebar .side-menu.top li a:hover {
   color: var(--blue);
@@ -141,6 +142,8 @@ td[mat-cell].ab {
 }
 /* NAVBAR */
 #content nav {
+  display: flex;
+  justify-content: space-between;
   height: 56px;
   background: var(--light);
   padding: 0 24px;

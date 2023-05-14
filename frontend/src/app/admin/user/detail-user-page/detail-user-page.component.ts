@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AdminService } from 'src/app/services/admin.service';
+import { UsersService } from 'src/app/services/user.service';
 import { User } from 'src/app/shared/models/User';
 
 @Component({
@@ -23,6 +24,7 @@ export class DetailUserPageComponent {
   constructor(
     private activatedRoute: ActivatedRoute,
     private adminService: AdminService,
+    private userService:UsersService
     ) { }
 
   ngOnInit() {
@@ -37,5 +39,8 @@ export class DetailUserPageComponent {
     this.adminService.getUserId(userId).subscribe(res => {
       this.userDetail = res;
     })
+  }
+  logout(){
+    this.userService.logout();
   }
 }

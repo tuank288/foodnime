@@ -1,19 +1,66 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { ADMIN_GET_FOOD, ADMIN_DELETE_FOOD, ADMIN_POST_FOOD, ADMIN_PUT_FOOD, ADMIN_DETAIL_FOOD, ADMIN_GET_CATEGORY, ADMIN_DELETE_CATEGORY, ADMIN_POST_CATEGORY, ADMIN_DETAIL_CATEGORY, ADMIN_PUT_CATEGORY, ADMIN_USER, ADMIN_DELETE_USER, ADMIN_POST_USER, ADMIN_DETAIL_USER, ADMIN_PUT_USER, ADMIN_GET_ORDER, ADMIN_DETAIL_ORDER, ADMIN_PUT_ORDER } from '../shared/constans/urls';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { ADMIN_GET_FOOD, ADMIN_DELETE_FOOD, ADMIN_POST_FOOD, ADMIN_PUT_FOOD, ADMIN_DETAIL_FOOD, ADMIN_GET_CATEGORY, ADMIN_DELETE_CATEGORY, ADMIN_POST_CATEGORY, ADMIN_DETAIL_CATEGORY, ADMIN_PUT_CATEGORY, ADMIN_USER, ADMIN_DELETE_USER, ADMIN_POST_USER, ADMIN_DETAIL_USER, ADMIN_PUT_USER, ADMIN_GET_ORDER, ADMIN_DETAIL_ORDER, ADMIN_PUT_ORDER, ADMIN_LOGIN_URL } from '../shared/constans/urls';
 import { Food } from '../shared/models/Food';
 import { HttpClient } from '@angular/common/http';
 import { Tag } from '../shared/models/Tag';
 import { User } from '../shared/models/User';
 import { Order } from '../shared/models/Order';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { ToastrService } from 'ngx-toastr';
+import { IUserLogin } from '../shared/interfaces/IUserLogin';
 
+const USER_KEY = 'User';
 @Injectable({
   providedIn: 'root'
 })
 export class AdminService {
 
-  constructor(private http:HttpClient, private storage: AngularFireStorage) { }
+  private userSubject = new BehaviorSubject<User>(this.getUserToLocalStogare());
+  public userObservable:Observable<User>;
+  constructor(private http:HttpClient, private storage: AngularFireStorage, private toastrService:ToastrService) { 
+    this.userObservable = this.userSubject.asObservable();
+  }
+
+  public get currentUser(): User{
+    return this.userSubject.value;
+  }
+
+  login(userLogin:IUserLogin):Observable<User>{
+    return this.http.post<User>(ADMIN_LOGIN_URL, userLogin).pipe(
+      tap({
+        next: (user) =>{
+          this.setUserToLocalStogare(user);
+          this.userSubject.next(user);
+          this.toastrService.success(
+            `Welcome to Food ${user.full_name}!`,
+            'Đăng nhập thành công'
+          )
+          console.log(user);
+        },
+        error: (errorResponse) => {
+          this.toastrService.error(errorResponse.error, 'Đăng nhập thất bại');
+        }
+      })
+    );
+  }
+
+  private setUserToLocalStogare(user:User){
+    localStorage.setItem(USER_KEY, JSON.stringify(user))
+  }
+
+  private getUserToLocalStogare():User{
+    const userJson = localStorage.getItem(USER_KEY)    
+    if(userJson) return JSON.parse(userJson) as User;
+    return new User();
+  }
+
+  logout(){
+    this.userSubject.next(new User());
+    localStorage.removeItem(USER_KEY);
+    window.location.reload();
+  }
+
 // food
   getFood(): Observable<Food[]>{
     return this.http.get<Food[]>(ADMIN_GET_FOOD)
