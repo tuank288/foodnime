@@ -39,6 +39,7 @@ export const ADMIN_PUT_USER = ADMIN_URL + '/update-user/';
 export const ADMIN_DETAIL_USER = ADMIN_URL + '/detail-user/';
 
 export const ADMIN_GET_ORDER = ADMIN_URL + '/get-orders';
+export const ADMIN_GET_TOTAL_ORDER = ADMIN_URL + '/get-total-orders';
 export const ADMIN_DETAIL_ORDER = ADMIN_URL + '/detail-order/';
 export const ADMIN_PUT_ORDER = ADMIN_URL + '/update-order/';
 

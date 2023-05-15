@@ -41,6 +41,6 @@ export class DetailCategoriesPageComponent {
     })
   }
   logout(){
-    this.userService.logout();
+    this.adminService.logout();
   }
 }

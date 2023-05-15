@@ -19,8 +19,10 @@ export class DetailOrderPageComponent {
   orderDetail!: Order;
   //Sidebar toggle show hide function
   Status = false;
-  selected!: string;
-  
+  selected = 'SHIPPED';
+  cancel = 'CANCELED';
+  accept = 'PAYED';
+
   addToggle()
  {
    this.Status = !this.Status;
@@ -45,14 +47,15 @@ export class DetailOrderPageComponent {
   fetchFoodDetail(orderId: string) {
     this.adminService.getOrderId(orderId).subscribe(res => {
       this.orderDetail = res;
-      this.selected = this.orderDetail.status;
-      console.log(this.selected);
-      
     })
   }
-  updateStatus() {
-    this.orderDetail.status = this.selected;
-    console.log(this.orderDetail.status, 'fsd');
+
+  acceptSatus() {
+    if(this.selected === 'SUCCESS'){
+      this.orderDetail.status = this.accept;
+    }
+    this.orderDetail.active = this.selected;
+    console.log(this.orderDetail.status);
     
     this.adminService.updateOrder(this.orderDetail, this.orderId).subscribe({
       next: res => {
@@ -62,8 +65,22 @@ export class DetailOrderPageComponent {
       this.toast.error(`Cập nhật thất bại`)
       console.error(err);
       }
+   });
+  }
+
+  cancelStatus() {
     
-  });
+    this.orderDetail.active = this.cancel;
+    console.log(this.orderDetail.status);
+    this.adminService.updateOrder(this.orderDetail, this.orderId).subscribe({
+      next: res => {
+        this.toast.success(`Cập nhật thành công`);
+        this.router.navigate(['admin/ad-order']);
+      }, error: err => {
+      this.toast.error(`Cập nhật thất bại`)
+      console.error(err);
+      }
+   });
   }
   logout(){
     this.adminService.logout();

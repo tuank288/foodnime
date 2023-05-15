@@ -89,16 +89,8 @@ export class AdFoodPageComponent implements OnInit {
       });
     }
   }
-
-  getDisplayedIndex(index: number): number {
-    if (this.dataSource.paginator) {
-      return index + 1 + this.dataSource.paginator.pageIndex * this.dataSource.paginator.pageSize;
-    } else {
-      return index + 1;
-    }
-  }
   logout(){
-    this.userService.logout();
+    this.adminService.logout();
   }
 }
 

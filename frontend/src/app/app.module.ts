@@ -85,6 +85,9 @@ import { ErrorComponent } from './components/partials/error/error.component';
 import { AdLoginPageComponent } from './admin/ad-login-page/ad-login-page.component';
 import { environment } from 'src/environments/environment';
 import { UpdateUserPageComponent } from './admin/user/update-user-page/update-user-page.component';
+import { AdTotalOrderPageComponent } from './admin/totalOrder/ad-total-order-page/ad-total-order-page.component';
+import { DetailTotalOrderPageComponent } from './admin/totalOrder/detail-total-order-page/detail-total-order-page.component';
+
 
 registerLocaleData(localeVi);
 
@@ -131,6 +134,8 @@ registerLocaleData(localeVi);
     ErrorComponent,
     AdLoginPageComponent,
     UpdateUserPageComponent,
+    AdTotalOrderPageComponent,
+    DetailTotalOrderPageComponent,
 
   ],
   imports: [

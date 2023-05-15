@@ -123,7 +123,7 @@
                         <mat-form-field appearance="outline">
                           <mat-label>Choose role for user </mat-label>
                           <mat-select formControlName="role">
-                            <mat-option *ngFor="let role of roles" [value]="user.role">
+                            <mat-option *ngFor="let role of roles" [value]="role">
                               {{ role }}
                             </mat-option>
                           </mat-select>

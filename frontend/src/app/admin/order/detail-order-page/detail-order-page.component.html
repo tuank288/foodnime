@@ -84,7 +84,7 @@
             <mat-list>
               <mat-list-item>
                 <div matLine>
-                    Order ID :
+                    Order # :
                     <button mat-button>{{orderDetail.order_id}} </button>
                 </div>
               </mat-list-item>
@@ -124,14 +124,20 @@
                     </div>
                 </mat-list-item>
 
-                <mat-list-item class="status">
+                <mat-list-item>
                   <div  matLine>
                     Status :
+                    <button mat-button>{{orderDetail.status}} </button>
+                  </div>
+                </mat-list-item>
+
+                <mat-list-item class="status">
+                  <div  matLine>
+                    Active :
                     <mat-form-field appearance="outline">
                       <mat-select [(ngModel)]="selected">
                         <mat-option value="SHIPPED">SHIPPED</mat-option>
-                        <mat-option value="PAYED">PAYED</mat-option>
-                        <mat-option value="CANCELLED">CANCELLED</mat-option>
+                        <mat-option value="SUCCESS">SUCCESS</mat-option>
                       </mat-select>
                     </mat-form-field>
                   </div>
@@ -148,14 +154,12 @@
           </mat-card-content>
 
           <mat-card-actions>
-            <button *ngIf="selected !== 'SHIPPED'" style="margin-right: 20px;" mat-raised-button color="accent" (click)="updateStatus()">Xác nhận</button>
+            <button *ngIf="selected === 'SHIPPED' || selected === 'SUCCESS'" style="margin-right: 20px;" mat-raised-button color="accent" (click)="acceptSatus()">Xác nhận</button>
+            <button *ngIf="selected === 'SHIPPED' || selected === 'SUCCESS'" style="margin-right: 20px;" mat-raised-button color="accent" (click)="cancelStatus()">Hủy bỏ</button>
             <button routerLink="/admin/ad-order" mat-raised-button color="primary">Quay lại</button>
           </mat-card-actions>
-  
         </mat-card>
-  
       </div>
-  
     </main>
     <!-- MAIN -->
   </section>

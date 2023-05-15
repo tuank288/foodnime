@@ -1,7 +1,8 @@
 import { Router } from "express";
 import { db } from "../server";
-import { HTTP_BAD_REQUEST, HTTP_INTERNAL_SERVER_ERROR, HTTP_OK } from '../constants/http_status';
+import { HTTP_BAD_REQUEST, HTTP_INTERNAL_SERVER_ERROR} from '../constants/http_status';
 import bcrypt from 'bcryptjs';
+import { OrderStatus } from "../constants/order_status";
 
 const router = Router();
 
@@ -13,14 +14,14 @@ router.get('/get-users', (req, res) => {
 })
 
 router.get('/orders', (req, res) => {
-    db.query(`SELECT * FROM orders WHERE status = 'PAYED'`, (error, result) => {
+    db.query(`SELECT * FROM orders WHERE (active = '${OrderStatus.SUCCESS}' OR active = '${OrderStatus.CANCELED}')`, (error, result) => {
         if(error) throw error;
         res.send(result);
     })
 })
 
 router.get('/totalPrice', (req, res) => {
-    db.query(`SELECT total_price FROM orders WHERE status = 'PAYED'`, (error, result) => {
+    db.query(`SELECT total_price FROM orders WHERE active = '${OrderStatus.SUCCESS}'`, (error, result) => {
         if(error) throw error;
         res.send(result);
     })
@@ -287,6 +288,7 @@ router.put('/update-user/:userId', (req, res) => {
     })
 })
 
+//order
 
 router.get('/get-orders', async(req, res) => {
     const query = `SELECT orders.*, users.*, order_items.*, food.*
@@ -294,7 +296,7 @@ router.get('/get-orders', async(req, res) => {
                     JOIN users ON orders.user_id = users.user_id
                     JOIN order_items ON orders.order_id = order_items.order_id
                     JOIN food ON order_items.food_id = food.food_id
-                    WHERE status != 'NEW'
+                    WHERE status != '${OrderStatus.NEW}' AND (active IS NULL OR active = '${OrderStatus.SHIPPED}')
                     GROUP BY orders.order_id, order_items.order_item_id
                     `;
     db.query(query, (error, results) => {
@@ -332,13 +334,14 @@ router.get('/get-orders', async(req, res) => {
                     address: result.address,
                     addressLatLng: JSON.parse(result.addressLatLng),
                     status: result.status,
+                    active: result.active,
                     order_date: result.order_date
                 };
                 accumulator.push(order);
             }
             return accumulator;
         }, []);
-        // console.log(orders);
+        console.log(orders);
         res.send(orders);
     });
 })
@@ -387,8 +390,10 @@ router.get('/detail-order/:orderId', async (req:any, res:any) => {
         address: results[0].address,
         addressLatLng: JSON.parse(results[0].addressLatLng),
         status: results[0].status,
+        active: results[0].active,
+        update_at: results[0].update_at
       };
-      // console.log(order);
+      console.log(order);
       res.send(order);
     });
   })
@@ -396,10 +401,10 @@ router.get('/detail-order/:orderId', async (req:any, res:any) => {
 
   router.put('/update-order/:orderId', (req, res) => {
     const { orderId } = req.params
-    const {status} = req.body;
+    const {status, active} = req.body;
     
     db.query(`UPDATE orders
-            SET status = '${status}'
+            SET status = '${status}', active = '${active}', updated_at = NOW()
             WHERE order_id = '${orderId}'`, (err, result) => {
     if (err) {
         console.log(err);
@@ -408,6 +413,64 @@ router.get('/detail-order/:orderId', async (req:any, res:any) => {
     }
     res.send(result[0]);
     })
+})
+
+//total order
+
+router.get('/get-total-orders', async(req, res) => {
+    const query = ` SELECT orders.*, users.*, order_items.*, food.*, orders.updated_at
+                    FROM orders
+                    JOIN users ON orders.user_id = users.user_id
+                    JOIN order_items ON orders.order_id = order_items.order_id
+                    JOIN food ON order_items.food_id = food.food_id
+                    WHERE status != '${OrderStatus.NEW}' AND (active = '${OrderStatus.SUCCESS}' OR active = '${OrderStatus.CANCELED}')
+                    GROUP BY orders.order_id, order_items.order_item_id
+                    `;
+    db.query(query, (error, results) => {
+        if (error) {
+            console.error(error);
+            return res.status(500).send('Internal server error');
+            
+        }
+        if (results.length === 0) {
+            return res.status(404).send('Order not found');
+        }
+        const orders = results.reduce((accumulator: any, result: any) => {
+            const orderIndex = accumulator.findIndex((order: any) => order.order_id === result.order_id);
+            const food = {
+                food_name: result.food_name,
+                price: result.price,
+            };
+            const orderItem = {
+                food: food,
+                price: result.price * result.quantity,
+                quantity: result.quantity,
+            };
+            if (orderIndex !== -1) {
+                accumulator[orderIndex].items.push(orderItem);
+            } else {
+                const order = {
+                    order_id: result.order_id,
+                    items: [orderItem],
+                    total_price: result.total_price,
+                    user_id: result.user_id,
+                    full_name: result.full_name,
+                    phone_number: result.phone_number,
+                    email: result.email,
+                    address: result.address,
+                    addressLatLng: JSON.parse(result.addressLatLng),
+                    status: result.status,
+                    active: result.active,
+                    order_date: result.order_date,
+                    updated_at: result.updated_at
+                };
+                accumulator.push(order);
+            }
+            return accumulator;
+        }, []);
+        console.log(orders);
+        res.send(orders);
+    });
 })
 
 export default router;

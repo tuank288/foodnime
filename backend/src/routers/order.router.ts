@@ -98,8 +98,15 @@ router.get('/newOrderForCurrentUser', async (req, res) => {
   }
 });  
 
-router.post('/pay', asyncHandler(async (req: any, res) => {
+router.post('/pay', async (req: any, res) => {
   let { payment_id } = req.body;
+  let status;
+  if(!payment_id)
+  {
+    status = OrderStatus.UNPAID
+  }else{
+    status = OrderStatus.PAYED
+  }
   const order:any = await getNewOrderForCurrentUser(req);
 
   if (!order) {
@@ -108,7 +115,7 @@ router.post('/pay', asyncHandler(async (req: any, res) => {
   }
   const query = `
     UPDATE orders SET payment_id = ? , status = ? WHERE order_id = ?`;
-  const values = [payment_id, OrderStatus.SHIPPED, order.order_id];
+  const values = [payment_id, status, order.order_id];
   
   db.query(query, values, function (error, results, fields) {
     if (error) {
@@ -119,7 +126,7 @@ router.post('/pay', asyncHandler(async (req: any, res) => {
       res.status(200).send( order.order_id.toString());
     }
   });
-}));
+});
 
 router.get('/track/:orderId', async (req:any, res:any) => {
   const orderId = req.params.orderId  
@@ -182,7 +189,7 @@ async function getNewOrderForCurrentUser(req: any) {
   JOIN users ON orders.user_id = users.user_id
   JOIN order_items ON orders.order_id = order_items.order_id
   JOIN food ON order_items.food_id = food.food_id
-  WHERE orders.user_id = '${userId}' AND orders.status = 'NEW'`;
+  WHERE orders.user_id = '${userId}' AND orders.status = '${OrderStatus.NEW}'`;
   return new Promise((resolve, reject) => {
     db.query(query, function (error, results, fields) {
       if (error) {

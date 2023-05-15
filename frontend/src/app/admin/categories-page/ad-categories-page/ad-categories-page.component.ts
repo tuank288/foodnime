@@ -87,7 +87,7 @@ export class AdCategoriesPageComponent {
   }
 
   logout(){
-    this.userService.logout();
+    this.adminService.logout();
   }
 
 }

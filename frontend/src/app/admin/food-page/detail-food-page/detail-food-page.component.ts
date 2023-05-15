@@ -43,6 +43,6 @@ export class DetailFoodPageComponent {
     })
   }
   logout(){
-    this.userService.logout();
+    this.adminService.logout();
   }
 }

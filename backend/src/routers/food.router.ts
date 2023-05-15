@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { sample_foods, sample_tags } from "../data";
 import { db } from "../server";
 
 const router = Router();
@@ -47,7 +46,7 @@ router.get("/search/:searchTerm", (req, res) => {
             function(error, results, fields) {
                 if(error) {
                     console.log(error);
-                    res.send({error: "Something went wrong!"});
+                    res.send({error: "Đã xảy ra sự cố!"});
                 }
                 // console.log(results);
                 res.send(results);

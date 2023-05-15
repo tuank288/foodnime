@@ -147,6 +147,6 @@ export class EditFoodPageComponent implements OnInit {
     })
   }
   logout(){
-    this.userService.logout();
+    this.adminService.logout();
   }
 }

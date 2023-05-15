@@ -91,6 +91,6 @@ export class EditUserPageComponent {
     };
   }
   logout(){
-    this.userService.logout();
+    this.adminService.logout();
   }
 }

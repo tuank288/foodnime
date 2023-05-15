@@ -14,7 +14,6 @@ import { User } from 'src/app/shared/models/User';
 export class UpdateUserPageComponent {
   status = false;
 
-  hidePasswordFields = true;
   createUserForm!: FormGroup;
   UserIdUpdate!: string;
   user!: User;
@@ -24,9 +23,9 @@ export class UpdateUserPageComponent {
    this.status = !this.status;
  }
 
- roles: number[] = [
-  1,
-  2,
+ roles: string[] = [
+  '1',
+  '2',
 ]
 
  constructor(
@@ -87,8 +86,10 @@ export class UpdateUserPageComponent {
       address: user.address,
       role: user.role,
     })
+    console.log(this.role);
+    
   }
   logout(){
-    this.userService.logout();
+    this.adminService.logout();
   }
 }

@@ -41,6 +41,6 @@ export class DetailUserPageComponent {
     })
   }
   logout(){
-    this.userService.logout();
+    this.adminService.logout();
   }
 }

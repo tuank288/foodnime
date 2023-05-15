@@ -87,6 +87,6 @@ export class AdUserPageComponent {
     }
   }
   logout(){
-    this.userService.logout();
+    this.adminService.logout();
   }
 }

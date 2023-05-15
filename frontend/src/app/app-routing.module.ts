@@ -30,7 +30,8 @@ import { LoginGuard } from './auth/guards/login.guard';
 import { AuthAdminGuard } from './auth/guards/auth-admin.guard';
 import { LoginAdminGuard } from './auth/guards/login-admin.guard';
 import { UpdateUserPageComponent } from './admin/user/update-user-page/update-user-page.component';
-
+import { AdTotalOrderPageComponent } from './admin/totalOrder/ad-total-order-page/ad-total-order-page.component';
+import { DetailTotalOrderPageComponent } from './admin/totalOrder/detail-total-order-page/detail-total-order-page.component';
 
 const routes: Routes = [
   {path: 'admin',
@@ -56,7 +57,10 @@ const routes: Routes = [
       {path: 'update-user/:userId', component: UpdateUserPageComponent, canActivate: [AuthAdminGuard]},
 
       {path: 'ad-order', component:AdOrderComponent, canActivate: [AuthAdminGuard]},
-      {path: 'detail-order/:orderId', component: DetailOrderPageComponent, canActivate: [AuthAdminGuard]}
+      {path: 'detail-order/:orderId', component: DetailOrderPageComponent, canActivate: [AuthAdminGuard]},
+
+      {path: 'ad-total-order', component:AdTotalOrderPageComponent, canActivate: [AuthAdminGuard]},
+      {path: 'detail-total-order/:orderId', component: DetailTotalOrderPageComponent, canActivate: [AuthAdminGuard]}
     ]
   },
 

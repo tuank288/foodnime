@@ -14,11 +14,10 @@ export class Order{
   email!:string;
   address!: string;
   addressLatLng?:LatLng
-
+  active!:string
   
   payment_id!: string;
   order_date!:string;
-  created_at!: string;
   updated_at!:string
   status!: string;
 }

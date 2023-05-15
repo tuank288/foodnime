@@ -1,46 +1,30 @@
-.example-card {
-    max-width: 1000px;
-    display: block;
-    margin: 0 auto;
-  }
-  .status{
-    padding-top: 3rem;
-    padding-bottom: 1rem;
-  }
-  
-  .title {
-    font-weight: 600;
-    font-size: 16px;
-  }
-  
-  .img-card {
-    width: 152px !important;
-    height: auto !important;
-  }
-  
-  .inline {
-    display: inline-block;
-    margin-right: 10px;
-    align-items: center;
-  }
-  
-  mat-list-item {
-    font-weight: 600;
-  }
-  
-  .genre-label {
+.form-field{
     margin-top: 10px;
+    width: 120px;
+    height: 70px;
   }
   
-  .mat-chip-listbox.inline {
-    display: inline-block;
+  table {
+    width: 100%;
+    font-size: 14px;
+  }
+  .main-container{
+    justify-content: space-between;
+    display: flex;
   }
   
-  .mat-chip-option {
-    display: inline-block;
-    margin-left: 10px;
-    font-size: 14px !important;
+  .ab{
+    width: 100px !important;
+    height: 100px !important;
   }
+  
+  td[mat-cell].ab {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  
   
   /* SIDEBAR */
   #sidebar {
@@ -289,7 +273,7 @@
   /* MAIN */
   #content main {
     width: 100%;
-    padding: 10px 24px;
+    padding: 36px 24px;
     font-family: var(--poppins);
     max-height: calc(100vh - 56px);
     overflow-y: auto;

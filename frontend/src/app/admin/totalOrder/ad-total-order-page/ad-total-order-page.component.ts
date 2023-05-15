@@ -7,11 +7,11 @@ import { UsersService } from 'src/app/services/user.service';
 import { Order } from 'src/app/shared/models/Order';
 
 @Component({
-  selector: 'app-ad-order',
-  templateUrl: './ad-order.component.html',
-  styleUrls: ['./ad-order.component.scss']
+  selector: 'app-ad-total-order-page',
+  templateUrl: './ad-total-order-page.component.html',
+  styleUrls: ['./ad-total-order-page.component.scss']
 })
-export class AdOrderComponent {
+export class AdTotalOrderPageComponent {
   public dataSource!: MatTableDataSource<Order>
   public orders!: Order[];
 
@@ -44,20 +44,28 @@ export class AdOrderComponent {
   ){}
 
   ngOnInit(): void {
-      this.getOrders();
+      this.getTotalOrders();
       // console.log(this.getFood()); 
   }
 
-  getOrders() {
-    this.adminService.getOrders()
+  getTotalOrders() {
+    this.adminService.getTotalOrders()
       .subscribe(res => {
         this.orders = res;
+        this.orders.sort((a, b) => {
+          if (a.updated_at && b.updated_at) {
+            return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
+          } else {
+            return 0; 
+          }
+        });
         this.orders.forEach((orders, index) => {
           orders.stt = index + 1; // Tạo biến stt và gán giá trị
         });
         this.dataSource = new MatTableDataSource(this.orders)
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+
         // console.log(this.orders);
       })
   }
@@ -75,10 +83,12 @@ export class AdOrderComponent {
     switch(status) {
       case 'PAYED':
         return 'green';
-      case 'SHIPPED':
-        return 'rgb(199, 202, 56)';
+      case 'SUCCESS':
+        return 'green';
+      case 'UNPAID':
+        return 'black'
       default:
-        return 'black';
+        return 'red';
     }
   }
   logout(){

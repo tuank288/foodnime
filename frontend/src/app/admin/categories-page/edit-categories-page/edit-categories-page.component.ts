@@ -128,6 +128,6 @@ export class EditCategoriesPageComponent {
     }) 
   }
   logout(){
-    this.userService.logout();
+    this.adminService.logout();
   }
 }
