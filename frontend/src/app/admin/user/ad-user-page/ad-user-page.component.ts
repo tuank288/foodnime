@@ -36,8 +36,6 @@ export class AdUserPageComponent {
     'phone_number',
     'address',
     'role',
-    'created_at',
-    'updated_at',
     'action'
   ]
 
@@ -80,9 +78,9 @@ export class AdUserPageComponent {
     this.router.navigate(['/admin/update-user', food_id])
   }
 
-  delete(food_id: string) {
-    if(confirm(`Bạn có chắc muốn xóa người dùng có ID:${food_id} không?`)) {
-      this.adminService.deleteUser(food_id).subscribe(res=> {
+  delete(user_id: string, full_name: string) {
+    if(confirm(`Bạn có chắc muốn xóa ${full_name} không?`)) {
+      this.adminService.deleteUser(user_id).subscribe(res=> {
         this.toast.success(`Xóa thành công`);
         this.getUsers();
       });

@@ -128,7 +128,7 @@
                     </div>
                   </div>
   
-                  <div *ngIf="!isUpdateActive" class="form-group clearfix required">
+                  <div class="form-group clearfix required">
                     <label class="col-md-2 control-label pt-7 text-right">Confirm password</label>
                     <div class="col-md-8">
                       <input type="password" class="form-control" name="confirmPassword" formControlName="confirmPassword" required>
@@ -168,7 +168,7 @@
                   <div class="form-group">
                     <div class="col-md-10 col-md-offset-2">
                       <button *ngIf="!isUpdateActive" (click)="submit()" class="btn btn-primary">Submit</button>
-                      <button *ngIf="isUpdateActive" (click)="update()" class="btn btn-primary">Update</button>
+                      <button *ngIf="isUpdateActive" routerLink="/admin/" class="btn btn-primary">Update</button>
                       <a routerLink="/admin/ad-users" class="btn btn-warning">Quay lại</a>
                     </div>
                   </div>

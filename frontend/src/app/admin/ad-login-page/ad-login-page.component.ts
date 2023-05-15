@@ -33,16 +33,11 @@ export class AdLoginPageComponent {
       password: this.password
     });
   }
-
-  get fc(){
-    return this.loginForm.controls;
-  }
-
+  
   submit(){
-    if(this.loginForm.invalid) return;
-    this.adminServer.login({email:this.fc.email.value, 
-      password: this.fc.password.value}).subscribe(() => {
-        this.router.navigateByUrl('/admin')
-      })
+    this.adminServer.login(this.loginForm.value).subscribe(res => {
+        this.router.navigate(['/admin']);
+    }
+    )
   }
 }

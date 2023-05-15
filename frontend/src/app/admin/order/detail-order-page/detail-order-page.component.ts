@@ -66,6 +66,6 @@ export class DetailOrderPageComponent {
   });
   }
   logout(){
-    this.userService.logout();
+    this.adminService.logout();
   }
 }

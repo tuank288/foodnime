@@ -79,25 +79,11 @@
       <!-- main content -->
       <div class="container">
         <mat-card  class="example-card" *ngIf="userDetail">
-  
-          <mat-card-header>
-            <mat-card-title-group>
-              <mat-card-title class="title">{{ userDetail.full_name }}</mat-card-title>
-            </mat-card-title-group>
-          </mat-card-header>
-  
           <mat-card-content>
             <mat-list>
               <mat-list-item>
                 <div matLine>
-                    User ID :
-                    <button mat-button>{{userDetail.user_id}} </button>
-                </div>
-              </mat-list-item>
-
-              <mat-list-item>
-                <div matLine>
-                    Full name :
+                    Họ tên :
                     <button mat-button>{{userDetail.full_name}} </button>
                 </div>
               </mat-list-item>
@@ -111,7 +97,7 @@
 
                <mat-list-item>
                 <div matLine>
-                    Phone number :
+                    Số điện thoại :
                     <button mat-button>{{userDetail.phone_number}} </button>
                 </div>
                </mat-list-item>
@@ -119,28 +105,28 @@
                
                <mat-list-item>
                 <div matLine>
-                    Address :
+                    Địa chỉ :
                     <button mat-button>{{userDetail.address}} </button>
                 </div>
                </mat-list-item>
   
                 <mat-list-item>
                   <div matLine>
-                    Role :
+                    Quyền :
                     <button mat-button>{{userDetail.role}} </button>
                   </div>
                 </mat-list-item>
   
                 <mat-list-item>
                   <div matLine>
-                    Created at :
+                    Ngày tạo :
                     <button mat-button>{{userDetail.created_at | date: 'dd/MM/yyyy HH:mm:ss'}} </button>
                   </div>
                 </mat-list-item>
   
                 <mat-list-item>
                   <div matLine>
-                    Updated at :
+                    Ngày cập nhật :
                     <button mat-button>{{userDetail.updated_at | date: 'dd/MM/yyyy HH:mm:ss'}} </button>
                   </div>
                 </mat-list-item>

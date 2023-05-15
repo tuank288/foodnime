@@ -253,8 +253,10 @@ router.post('/post-user', (req, res) => {
 
 router.get('/detail-user/:userId', (req, res) => {
     const { userId } = req.params
-    db.query(`SELECT * FROM users 
-            WHERE user_id = '${userId}'`, async (error, result) => {
+
+    const selectUser = `SELECT user_id, full_name, email, phone_number, address, role, created_at, updated_at FROM users WHERE user_id = ?`;
+    const valueUser = [userId];
+    db.query(selectUser, valueUser, async (error, result) => {
     if (error) {
         console.log(error);
             return res.status(HTTP_INTERNAL_SERVER_ERROR).send('Internal server error');
@@ -267,15 +269,15 @@ router.get('/detail-user/:userId', (req, res) => {
 
 router.put('/update-user/:userId', (req, res) => {
     const { userId } = req.params
-    const { full_name, email, phone_number, address, role} = req.body;
+    const { full_name, phone_number, address, role} = req.body;
 
-    if (!full_name && !email && !phone_number && !address && !role) {
+    if (!full_name && !phone_number && !address && !role) {
         return res.status(HTTP_BAD_REQUEST).send('Cannot be left blank');
     }
-
-    db.query(`UPDATE food_categories 
-            SET full_name = '${full_name}', email = '${email}', phone_number = '${phone_number}', address = '${address}', role = '${role}', updated_at = NOW() 
-            WHERE user_id = '${userId}'`, (err, result) => {
+    const updateUser = `UPDATE users SET full_name = ?, phone_number = ?, address = ?, role = ?, updated_at = NOW() 
+                        WHERE user_id = ?`
+    const valueUser = [full_name, phone_number, address, role, userId]
+    db.query(updateUser, valueUser,(err, result) => {
     if (err) {
         console.log(err);
         

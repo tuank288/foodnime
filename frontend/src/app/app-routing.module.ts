@@ -29,6 +29,7 @@ import { AuthGuard } from './auth/guards/auth.guard';
 import { LoginGuard } from './auth/guards/login.guard';
 import { AuthAdminGuard } from './auth/guards/auth-admin.guard';
 import { LoginAdminGuard } from './auth/guards/login-admin.guard';
+import { UpdateUserPageComponent } from './admin/user/update-user-page/update-user-page.component';
 
 
 const routes: Routes = [
@@ -52,7 +53,7 @@ const routes: Routes = [
       {path: 'ad-users', component: AdUserPageComponent, canActivate: [AuthAdminGuard]},
       {path: 'create-user', component: EditUserPageComponent, canActivate: [AuthAdminGuard]},
       {path: 'detail-user/:userId', component: DetailUserPageComponent, canActivate: [AuthAdminGuard]},
-      {path: 'update-user/:userId', component: EditUserPageComponent, canActivate: [AuthAdminGuard]},
+      {path: 'update-user/:userId', component: UpdateUserPageComponent, canActivate: [AuthAdminGuard]},
 
       {path: 'ad-order', component:AdOrderComponent, canActivate: [AuthAdminGuard]},
       {path: 'detail-order/:orderId', component: DetailOrderPageComponent, canActivate: [AuthAdminGuard]}

@@ -6,7 +6,7 @@ export class User{
     address!:string;
     phone_number!:string;
     token!:string;
-    role!:string;
+    role!:number;
     created_at!:string;
     updated_at!:string;
     stt!:number;

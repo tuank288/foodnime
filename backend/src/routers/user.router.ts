@@ -31,7 +31,6 @@ router.post("/login", (req, res) => {
                 role: user.role
             }
             // console.log(dbUser);
-            
                 res.send(generateTokenResponse(dbUser));
             } else {
                 res.status(HTTP_BAD_REQUEST).send("Username or password not valid!");
@@ -88,7 +87,7 @@ router.post('/register', (
         if (error) {
             console.log(error);
             res.status(500).send("Internal Server Error");
-        } else if (results.length === 0) {
+        } else if (results.length === 0 || results[0].role === '2') {
             res.status(HTTP_BAD_REQUEST).send("Username or password not valid!");
         } else {
             const user = results[0];
@@ -101,15 +100,8 @@ router.post('/register', (
                 phone_number: user.phone_number,
                 role: user.role
             }
-            console.log(dbUser);
-              if (dbUser.role === '1') {
-                  res.send(generateTokenResponse(dbUser));
-              } else {
-                  res.status(HTTP_BAD_REQUEST).send("You are not authorized to access this resource");
-              }
-            } else {
-                res.status(HTTP_BAD_REQUEST).send("Username or password not valid!");
-            }
+              res.send(generateTokenResponse(dbUser));
+            } 
         }
     });
 });

@@ -53,8 +53,6 @@ export class EditFoodPageComponent implements OnInit {
       price: this.price,
     })
 
-    this.foodService.getAllTag().subscribe(categories => this.categories = categories);
-
     this.activatedRouter.params.subscribe( val => {
       this.FoodIdUpdate = val['foodId'];
       if (val && val['foodId']) {
@@ -63,10 +61,11 @@ export class EditFoodPageComponent implements OnInit {
           this.fillFormUpdate(res);
           this.food = res;
           console.log(res);
-          
       })
     }  
     })
+
+    this.foodService.getAllTag().subscribe(categories => this.categories = categories);
   
   }
 

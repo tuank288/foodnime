@@ -84,6 +84,7 @@ import { DetailOrderPageComponent } from './admin/order/detail-order-page/detail
 import { ErrorComponent } from './components/partials/error/error.component';
 import { AdLoginPageComponent } from './admin/ad-login-page/ad-login-page.component';
 import { environment } from 'src/environments/environment';
+import { UpdateUserPageComponent } from './admin/user/update-user-page/update-user-page.component';
 
 registerLocaleData(localeVi);
 
@@ -129,6 +130,7 @@ registerLocaleData(localeVi);
     DetailOrderPageComponent,
     ErrorComponent,
     AdLoginPageComponent,
+    UpdateUserPageComponent,
 
   ],
   imports: [
@@ -160,8 +162,9 @@ registerLocaleData(localeVi);
     MatBadgeModule,
     
     ToastrModule.forRoot({
-      timeOut: 1500,
-      newestOnTop: true
+      extendedTimeOut: 5000,
+      timeOut: 3000,
+      newestOnTop: true,
     }),
 
     AngularFireModule.initializeApp(environment.firebaseConfig),

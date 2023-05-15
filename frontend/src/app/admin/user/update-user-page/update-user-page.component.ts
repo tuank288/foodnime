@@ -4,20 +4,19 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AdminService } from 'src/app/services/admin.service';
 import { UsersService } from 'src/app/services/user.service';
-import { Tag } from 'src/app/shared/models/Tag';
 import { User } from 'src/app/shared/models/User';
 
 @Component({
-  selector: 'app-edit-user-page',
-  templateUrl: './edit-user-page.component.html',
-  styleUrls: ['./edit-user-page.component.scss']
+  selector: 'app-update-user-page',
+  templateUrl: './update-user-page.component.html',
+  styleUrls: ['./update-user-page.component.scss']
 })
-export class EditUserPageComponent {
+export class UpdateUserPageComponent {
   status = false;
 
+  hidePasswordFields = true;
   createUserForm!: FormGroup;
   UserIdUpdate!: string;
-  public isUpdateActive: boolean = false;
   user!: User;
 
   addToggle()
@@ -40,55 +39,54 @@ export class EditUserPageComponent {
   ) {}
 
   full_name = new FormControl('',[Validators.required, Validators.minLength(5)]);
-  email = new FormControl('',[Validators.required, Validators.email]);
   phone_number = new FormControl('',[Validators.required, Validators.minLength(11)]);
-  password = new FormControl('',[Validators.required, Validators.minLength(8)]);
-  confirmPassword = new FormControl('',[Validators.required]);
   address = new FormControl('',[Validators.required, Validators.minLength(10)]);
   role = new FormControl('',[Validators.required]);
 
   ngOnInit() {
     this.createUserForm = this.fb.group({
       full_name: this.full_name,
-      email: this.email,
       phone_number: this.phone_number,
-      password: this.password,
-      confirmPassword: this.confirmPassword,
       address: this.address,
       role: this.role,
-    },  { validator: this.ConfirmedValidator('password', 'confirmPassword')} as AbstractControlOptions)
-  
+    },
+
+    this.activatedRouter.params.subscribe( val => {
+      this.UserIdUpdate = val['userId'];
+      console.log(this.UserIdUpdate);
+      
+      if (val && val['userId']) {
+        this.adminService.getUserId(this.UserIdUpdate).subscribe( res => {
+          this.fillFormUpdate(res);
+          this.user = res;
+          console.log(this.user);
+        })
+      }  
+    })
+    )
   }
 
-  submit() {
-    this.adminService.postUser(this.createUserForm.value).subscribe({
+  update() {
+    this.adminService.updateUser(this.createUserForm.value, this.UserIdUpdate).subscribe({
       next: res => {
-        this.toast.success(`Successful`);
-        console.log(this.createUserForm);
-        
+        this.toast.success(`Cập nhật thành công`);
         this.createUserForm.reset();
         this.router.navigate(['admin/ad-users']);
-    }, error: (err) => {
-      this.toast.error(err.error, 'Create Failed');
-      console.log(err);
+    }, error: err => {
+      this.toast.error(`Cập nhật thất bại`)
+      this.createUserForm.markAllAsTouched();
+      console.error(err);
       }
     })
   }
 
-  ConfirmedValidator(controlName: string, matchingControlName: string) {
-    return (formGroup: FormGroup) => {
-      const control = formGroup.controls[controlName];
-      const matchingControl = formGroup.controls[matchingControlName];
-      if (
-        matchingControl.errors && !matchingControl.errors['confirmedValidator']) {
-        return;
-      }
-      if (control.value !== matchingControl.value) {
-        matchingControl.setErrors({ confirmedValidator: true });
-      } else {
-        matchingControl.setErrors(null);
-      }
-    };
+  fillFormUpdate(user: User) {
+    this.createUserForm.setValue({
+      full_name: user.full_name,
+      phone_number: user.phone_number,
+      address: user.address,
+      role: user.role,
+    })
   }
   logout(){
     this.userService.logout();
