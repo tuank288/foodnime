@@ -111,8 +111,8 @@ export class AdminService {
     return this.http.delete<User>(ADMIN_DELETE_USER + userId)
   }
 
-  postUser(UserObj: User): Observable<Tag> {
-    return this.http.post<Tag>(ADMIN_POST_USER, UserObj)
+  postUser(UserObj: User): Observable<User> {
+    return this.http.post<User>(ADMIN_POST_USER, UserObj)
   }
 
   updateUser(UserObj: User, userId:string):Observable<User> {

@@ -5,7 +5,8 @@ const VALIDATORS_MESSAGE:any = {
   required: 'Không được để trống',
   email: 'Emai không đúng',
   minlength: 'Trường quá ngắn',
-  notMatch: 'Mật khẩu không khớp'
+  notMatch: 'Mật khẩu không khớp',
+  pattern: 'Số điện thoại không hợp lệ'
 }
 
 @Component({

@@ -54,6 +54,8 @@ export class CheckoutPageComponent implements OnInit {
     this.order.address = this.fc.address.value;
     this.order.phone_number = this.fc.phone_number.value;
     
+    console.log(this.order,'order');
+    
     this.orderService.create(this.order).subscribe({
       next:() => {
         this.router.navigateByUrl('/payment');

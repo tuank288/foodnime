@@ -9,8 +9,10 @@ export class Order{
   stt!:number;
 
   user_id!: string;
-  full_name!: string;
-  phone_number!:string;
+  receiver!: string;
+  delivery_phone!:string;
+  phone_number!: string;
+  full_name!:string;
   email!:string;
   address!: string;
   addressLatLng?:LatLng

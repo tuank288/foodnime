@@ -78,84 +78,120 @@
   
       <!-- main content -->
       <div class="container">
-        <mat-card  class="example-card" *ngIf="orderDetail">
+        <mat-card class="example-card" *ngIf="orderDetail">
+          <div class="head" style="padding: 0.2rem;">
+            <mat-list-item>
+              <div matLine>
+                  Order # :
+                  <button mat-button>{{orderDetail.order_id}} </button>
+              </div>
+             </mat-list-item>
   
-          <mat-card-content>
-            <mat-list>
-              <mat-list-item>
-                <div matLine>
-                    Order # :
-                    <button mat-button>{{orderDetail.order_id}} </button>
-                </div>
-              </mat-list-item>
-  
-              <mat-list-item>
-                <div matLine>
-                    Ngày đặt :
-                    <button mat-button>{{orderDetail.order_date | date: 'dd/MM/yyyy HH:mm:ss'}} </button>
-                </div>
-               </mat-list-item>
-  
-                <mat-list-item>
-                  <div matLine>
-                    Tên khách hàng :
-                    <button mat-button>{{orderDetail.full_name}} </button>
-                  </div>
-                </mat-list-item>
-  
-                <mat-list-item>
-                  <div matLine>
-                    Số điện thoại :
-                    <button mat-button>{{orderDetail.phone_number}} </button>
-                  </div>
-                </mat-list-item>
-  
-                <mat-list-item>
-                  <div matLine>
-                    Email :
-                    <button mat-button>{{orderDetail.email}} </button>
-                  </div>
-                </mat-list-item>
+            <mat-list-item>
+              <div matLine>
+                  Ngày đặt :
+                  <button mat-button>{{orderDetail.order_date | date: 'dd/MM/yyyy HH:mm:ss'}} </button>
+              </div>
+             </mat-list-item>
+          </div>
 
+          <div class="account">
+            <mat-card-header>
+              <mat-card-title-group>
+                <mat-card-title class="title">Tài khoản đặt hàng</mat-card-title>
+              </mat-card-title-group>
+            </mat-card-header>
+
+            
+  
+            <mat-card-content>
+              <mat-list>
                 <mat-list-item>
+                  <div matLine>
+                      Email :
+                      <button mat-button>{{orderDetail.email}} </button>
+                  </div>
+                </mat-list-item>
+                <mat-list-item>
+                  <div matLine>
+                      Tên  :
+                      <button mat-button>{{orderDetail.full_name}} </button>
+                  </div>
+                </mat-list-item>
+                <mat-list-item>
+                  <div matLine>
+                      Số điện thoại  :
+                      <button mat-button>{{orderDetail.phone_number}} </button>
+                  </div>
+                </mat-list-item>
+              </mat-list>
+            </mat-card-content>
+          </div>
+
+          <div class="receive">
+            <mat-card-header>
+              <mat-card-title-group>
+                <mat-card-title class="title">Người nhận hàng</mat-card-title>
+              </mat-card-title-group>
+            </mat-card-header>
+  
+            <mat-card-content>
+              <mat-list>
+
+                  <mat-list-item>
                     <div matLine>
-                      Địa chỉ :
-                      <button mat-button>{{orderDetail.address}} </button>
+                      Tên người nhận :
+                      <button mat-button>{{orderDetail.full_name}} </button>
                     </div>
-                </mat-list-item>
-
-                <mat-list-item>
-                  <div  matLine>
-                    Status :
-                    <button mat-button>{{orderDetail.status}} </button>
-                  </div>
-                </mat-list-item>
-
-                <mat-list-item class="status">
-                  <div  matLine>
-                    Active :
-                    <mat-form-field appearance="outline">
-                      <mat-select [(ngModel)]="selected">
-                        <mat-option value="SHIPPED">SHIPPED</mat-option>
-                        <mat-option value="SUCCESS">SUCCESS</mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </div>
-                </mat-list-item>
-                  
-                  <order-items-list [order]="orderDetail"></order-items-list>
-              
-                  <div>
-                    <app-title title="Shipping Address"></app-title>
-                    <map [order]="orderDetail" [readonly]="true"></map>
-                  </div>
-                </mat-list>
+                  </mat-list-item>
     
-          </mat-card-content>
+                  <mat-list-item>
+                    <div matLine>
+                      Số điện thoại :
+                      <button mat-button>{{orderDetail.phone_number}} </button>
+                    </div>
+                  </mat-list-item>
+  
+                  <mat-list-item>
+                      <div matLine>
+                        Địa chỉ :
+                        <button mat-button>{{orderDetail.address}} </button>
+                      </div>
+                  </mat-list-item>
+  
+                  <mat-list-item>
+                    <div  matLine>
+                      Status :
+                      <button mat-button>{{orderDetail.status === 'UNPAID' ? 'Chưa thanh toán' : orderDetail.status === 'PAYED' ? 'Đã thanh toán' : ''}} </button>
+                    </div>
+                  </mat-list-item>
+  
+                  <mat-list-item class="status">
+                    <div  matLine>
+                      Active :
+                      <mat-form-field appearance="outline">
+                        <mat-select [(ngModel)]="selected">
+                          <mat-option value="SHIPPED">SHIPPED</mat-option>
+                          <mat-option value="SUCCESS">SUCCESS</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                  </mat-list-item>
+                    
+                    <order-items-list [order]="orderDetail"></order-items-list>
+                
+                    <div>
+                      <app-title title="Shipping Address"></app-title>
+                      <map [order]="orderDetail" [readonly]="true"></map>
+                    </div>
+                  </mat-list>
+            </mat-card-content>
+          </div>
+
 
           <mat-card-actions>
             <button *ngIf="selected === 'SHIPPED' || selected === 'SUCCESS'" style="margin-right: 20px;" mat-raised-button color="accent" (click)="acceptSatus()">Xác nhận</button>
-            <button *ngIf="selected === 'SHIPPED' || selected === 'SUCCESS'" style="margin-right: 20px;" mat-raised-button color="accent" (click)="cancelStatus()">Hủy bỏ</button>
+            <button *ngIf="selected === 'SHIPPED' || selected === 'SUCCESS'" style="margin-right: 20px;" mat-raised-button color="warn" (click)="cancelStatus()">Hủy bỏ</button>
             <button routerLink="/admin/ad-order" mat-raised-button color="primary">Quay lại</button>
           </mat-card-actions>
         </mat-card>

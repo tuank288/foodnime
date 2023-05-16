@@ -74,8 +74,8 @@ export class AdUserPageComponent {
     }
   }
 
-  edit(food_id: string) {
-    this.router.navigate(['/admin/update-user', food_id])
+  edit(user_id: string) {
+    this.router.navigate(['/admin/update-user', user_id])
   }
 
   delete(user_id: string, full_name: string) {

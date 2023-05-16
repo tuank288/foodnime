@@ -25,7 +25,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatBadgeModule} from '@angular/material/badge';
-
+import {MatTabsModule} from '@angular/material/tabs';
 
 import { registerLocaleData } from '@angular/common';
 import localeVi from '@angular/common/locales/vi';
@@ -87,6 +87,9 @@ import { environment } from 'src/environments/environment';
 import { UpdateUserPageComponent } from './admin/user/update-user-page/update-user-page.component';
 import { AdTotalOrderPageComponent } from './admin/totalOrder/ad-total-order-page/ad-total-order-page.component';
 import { DetailTotalOrderPageComponent } from './admin/totalOrder/detail-total-order-page/detail-total-order-page.component';
+import { ProfileComponent } from './components/pages/profile/profile.component';
+
+
 
 
 registerLocaleData(localeVi);
@@ -136,6 +139,7 @@ registerLocaleData(localeVi);
     UpdateUserPageComponent,
     AdTotalOrderPageComponent,
     DetailTotalOrderPageComponent,
+    ProfileComponent,
 
   ],
   imports: [
@@ -165,7 +169,8 @@ registerLocaleData(localeVi);
     MatExpansionModule,
     MatGridListModule,
     MatBadgeModule,
-    
+    MatTabsModule,
+
     ToastrModule.forRoot({
       extendedTimeOut: 5000,
       timeOut: 3000,

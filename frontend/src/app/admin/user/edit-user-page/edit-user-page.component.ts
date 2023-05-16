@@ -39,9 +39,9 @@ export class EditUserPageComponent {
   private userService:UsersService
   ) {}
 
-  full_name = new FormControl('',[Validators.required, Validators.minLength(5)]);
+  full_name = new FormControl('',[Validators.required]);
   email = new FormControl('',[Validators.required, Validators.email]);
-  phone_number = new FormControl('',[Validators.required, Validators.minLength(11)]);
+  phone_number = new FormControl('',[Validators.required, Validators.pattern('^[0]{1}[0-9]{9}$')]);
   password = new FormControl('',[Validators.required, Validators.minLength(8)]);
   confirmPassword = new FormControl('',[Validators.required]);
   address = new FormControl('',[Validators.required, Validators.minLength(10)]);
@@ -57,19 +57,18 @@ export class EditUserPageComponent {
       address: this.address,
       role: this.role,
     },  { validator: this.ConfirmedValidator('password', 'confirmPassword')} as AbstractControlOptions)
-  
   }
 
   submit() {
     this.adminService.postUser(this.createUserForm.value).subscribe({
       next: res => {
-        this.toast.success(`Successful`);
+        this.toast.success(`Tạo thành công`);
         console.log(this.createUserForm);
         
         this.createUserForm.reset();
         this.router.navigate(['admin/ad-users']);
     }, error: (err) => {
-      this.toast.error(err.error, 'Create Failed');
+      this.toast.error(err.error, 'Tạo thất bại');
       console.log(err);
       }
     })

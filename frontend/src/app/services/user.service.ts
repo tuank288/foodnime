@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, Observable, map, tap } from 'rxjs';
-import { ADMIN_URL, ADMIN_USER, USER_LOGIN_URL, USER_REGISTER_URL } from '../shared/constans/urls';
+import { USER_LOGIN_URL, USER_PUT_URL, USER_REGISTER_URL } from '../shared/constans/urls';
 import { IUserLogin } from '../shared/interfaces/IUserLogin';
 import { User } from '../shared/models/User';
 import { IUserRegister } from '../shared/interfaces/IUserRegister';
@@ -73,6 +73,16 @@ export class UsersService {
     const userJson = localStorage.getItem(USER_KEY)    
     if(userJson) return JSON.parse(userJson) as User;
     return new User();
+  }
+
+  updateUser(UserObj: User): Observable<User> {
+    return this.http.put<User>(USER_PUT_URL, UserObj)
+  }
+
+  updateUserInLocalStorage(user: User) {
+    const currentUser = this.getUserToLocalStogare();
+    const updatedUser = { ...currentUser, ...user };
+    this.setUserToLocalStogare(updatedUser);
   }
 
 }

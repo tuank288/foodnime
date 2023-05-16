@@ -90,50 +90,50 @@
                       <div class="col-md-8">
                         <input type="text" class="form-control" name="full_name" formControlName="full_name" required>
                         <div *ngIf="full_name.invalid && (full_name.dirty || full_name.touched)" class="alert">
-                          <span class="error-text" *ngIf="full_name.errors?.['required']">Full name is required.</span>
+                          <span class="error-text" *ngIf="full_name.errors?.['required']">Họ tên là bắt buộc</span>
                         </div>
                       </div>
                     </div>
-  
+
                     <div class="form-group clearfix required">
                       <label class="col-md-2 control-label pt-7 text-right">Số điện thoại</label>
                       <div class="col-md-8">
                         <input type="text" class="form-control" name="phone_number" formControlName="phone_number" required>
                         <div *ngIf="phone_number.invalid && (phone_number.dirty || phone_number.touched)" class="alert">
-                          <span class="error-text" *ngIf="phone_number.errors?.['required']">Email is required.</span>
-                          <span class="error-text" *ngIf="phone_number.errors?.['phone_number']">Please enter a valid phone number.</span>
+                          <span class="error-text" *ngIf="phone_number.errors?.['required']">Số điện thoại là bắt buộc</span>
+                          <span class="error-text" *ngIf="phone_number.errors?.['pattern']">Xin vui lòng nhập số điện thoại hợp lệ</span>
                         </div>
                       </div>
                     </div>
-  
+
                     <div class="form-group clearfix required">
                       <label class="col-md-2 control-label pt-7 text-right">Địa chỉ</label>
                       <div class="col-md-8">
                         <input type="text" class="form-control" name="address" formControlName="address" required>
                         <div *ngIf="address.invalid && (address.dirty || address.touched)" class="alert">
-                          <span class="error-text" *ngIf="address.errors?.['required']">Email is required.</span>
-                          <span class="error-text" *ngIf="address.errors?.['address']">Please enter a valid address.</span>
+                          <span class="error-text" *ngIf="address.errors?.['required']">Địa chỉ là bắt buộc</span>
+                          <span class="error-text" *ngIf="address.errors?.['minlength']">Vui lòng nhập đúng địa chỉ</span>
                         </div>
                       </div>
                     </div>
     
-                    <div class="form-group clearfix required">
-                      <label class="col-md-2 control-label pt-7 text-right">Quyền</label>
-                      <div class="col-md-8">
-                        <mat-form-field appearance="outline">
-                          <mat-label>Choose role for user </mat-label>
-                          <mat-select formControlName="role">
-                            <mat-option *ngFor="let role of roles" [value]="role">
-                              {{ role }}
-                            </mat-option>
-                          </mat-select>
-                        </mat-form-field>
-                      </div>
+                  <div class="form-group clearfix required">
+                    <label class="col-md-2 control-label pt-7 text-right">Quyền</label>
+                    <div class="col-md-8">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Chọn quyền</mat-label>
+                        <mat-select formControlName="role">
+                          <mat-option *ngFor="let role of roles" [value]="role">
+                            {{ role }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
                     </div>
+                  </div>
     
                     <div class="form-group">
                       <div class="col-md-10 col-md-offset-2">
-                        <button (click)="update()" class="btn btn-primary">Update</button>
+                        <button (click)="update()" class="btn btn-primary">Cập nhật</button>
                         <a routerLink="/admin/ad-users" class="btn btn-warning">Quay lại</a>
                       </div>
                     </div>

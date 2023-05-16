@@ -3,7 +3,6 @@ import { db } from "../server";
 import { HTTP_BAD_REQUEST, HTTP_INTERNAL_SERVER_ERROR, HTTP_OK } from '../constants/http_status';
 import { OrderStatus } from '../constants/order_status';
 import auth from '../middlewares/auth.mid';
-import asyncHandler from 'express-async-handler';
 
 
 const router = Router();
@@ -13,7 +12,7 @@ router.post('/create', (req:any, res) => {
   const requestOrder = req.body;
 
   if(requestOrder.items.length <= 0){
-    res.status(HTTP_BAD_REQUEST).send('Cart Is Empty!');
+    res.status(HTTP_BAD_REQUEST).send('Giỏ hàng trống');
     return;
   }
   const deleteQuery = 'DELETE FROM orders WHERE user_id = ? AND status = ?';
@@ -31,25 +30,27 @@ router.post('/create', (req:any, res) => {
   for (const item of requestOrder.items) {
     restaurantId = item.food.restaurant_id;
   }
-  console.log(restaurantId);
+  // console.log(restaurantId);
   
 
   const orderData = {
     user_id: req.user_id,
     restaurant_id: restaurantId,
+    receiver: requestOrder.full_name,
+    delivery_phone: requestOrder.phone_number,
     order_date: new Date,
     total_price: requestOrder.total_price,
     address: requestOrder.address,
     addressLatLng: JSON.stringify(requestOrder.addressLatLng),
     status: OrderStatus.NEW,
-    created_at: new Date,
     updated_at: new Date
   };
+  console.log(orderData);
   
-  db.query('INSERT INTO orders SET ?', orderData, (error, results) => {
+  db.query(`INSERT INTO orders SET ?`, orderData, (error, results) => {
     if (error) {
       console.log(error);
-      res.status(HTTP_INTERNAL_SERVER_ERROR).send('Failed to create new order');
+      res.status(HTTP_INTERNAL_SERVER_ERROR).send('Không tạo được đơn hàng mới');
       return;
     }
     // Lấy id của bản ghi mới thêm vào bảng order_id
@@ -164,6 +165,58 @@ router.get('/track/:orderId', async (req:any, res:any) => {
       })),
       total_price: results[0].total_price,
       user_id: results[0].user_id,
+      receiver: results[0].receiver,
+      delivery_phone: results[0].delivery_phone,
+      order_date: results[0].order_date,
+      email: results[0].email,
+      payment_id: results[0].payment_id,
+      address: results[0].address,
+      addressLatLng: JSON.parse(results[0].addressLatLng),
+      status: results[0].status,
+      updated_at: results[0].updated_at,
+    };
+    // console.log(order);
+    res.send(order);
+  });
+})
+
+
+router.get('/get-orders', async (req:any, res:any) => {
+  const userId = req.user_id
+  const query = `SELECT orders.*, users.*, order_items.*, food.*
+                 FROM orders
+                 JOIN users ON orders.user_id = users.user_id
+                 JOIN order_items ON orders.order_id = order_items.order_id
+                 JOIN food ON order_items.food_id = food.food_id
+                 WHERE orders.user_id = '${userId}' AND status != '${OrderStatus.NEW}'
+                 `;
+  db.query(query, (error, results, fields) => {
+    if (error) {
+      console.error(error);
+      res.status(500).send('Internal server error');
+      return;
+    }
+    if (results.length === 0) {
+      
+      res.status(404).send('Order not found');
+      return;
+    }
+    const order = {
+      order_id: results[0].order_id,
+      items: results.map((result:any) => ({
+        food: {
+          food_id: result.food_id,
+          category_id: result.category_id,
+          restaurant_id: result.restaurant_id,
+          food_name: result.food_name,
+          price: result.price,
+          food_image: result.food_image
+        },
+        price: result.price * result.quantity,
+        quantity: result.quantity,
+      })),
+      total_price: results[0].total_price,
+      user_id: results[0].user_id,
       full_name: results[0].full_name,
       phone_number: results[0].phone_number,
       order_date: results[0].order_date,
@@ -172,12 +225,32 @@ router.get('/track/:orderId', async (req:any, res:any) => {
       address: results[0].address,
       addressLatLng: JSON.parse(results[0].addressLatLng),
       status: results[0].status,
-      created_at: results[0].created_at,
       updated_at: results[0].updated_at,
     };
     // console.log(order);
     res.send(order);
   });
+})
+
+router.put('/update-user', (req:any, res) => {
+  const userId  = req.user_id
+  
+  const { full_name, phone_number, address} = req.body;
+  
+  if (!full_name && !phone_number && !address) {
+    return res.status(HTTP_BAD_REQUEST).send('Không thể để trống');
+  }
+  
+  const updateUser = `UPDATE users SET full_name = ?, phone_number = ?, address = ?, updated_at = NOW() 
+                      WHERE user_id = ?`
+  const valueUser = [full_name, phone_number, address, userId]
+  db.query(updateUser, valueUser,(err, result) => {
+  if (err) {
+      console.log(err);
+      return res.status(HTTP_INTERNAL_SERVER_ERROR).send('Internal server error');
+  }
+  res.send(result[0]);
+  })
 })
 
 export default router;
@@ -212,8 +285,8 @@ async function getNewOrderForCurrentUser(req: any) {
             })),
             total_price: results[0].total_price,
             user_id: results[0].user_id,
-            full_name: results[0].full_name,
-            phone_number: results[0].phone_number,
+            receiver: results[0].receiver,
+            delivery_phone: results[0].delivery_phone,
             address: results[0].address,
             addressLatLng: JSON.parse(results[0].addressLatLng)
           };

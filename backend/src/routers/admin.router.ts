@@ -223,8 +223,10 @@ router.delete('/delete-user/:userId', (req, res) => {
 router.post('/post-user', (req, res) => {
     const { full_name, email, phone_number, password, address, role} = req.body;
 
-    if (!full_name && !email && !phone_number && !password && !address && !role) {
-        return res.status(HTTP_BAD_REQUEST).send('Cannot be left blank');
+    console.log(full_name, email, phone_number, password, address, role);
+    
+    if (!full_name || !email || !phone_number || !password || !address || !role) {
+        return res.status(HTTP_BAD_REQUEST).send('Xin vui lòng điền đầy đủ');
     }
 
     const query = 'SELECT * FROM users WHERE email = ? OR phone_number = ?';
@@ -272,8 +274,8 @@ router.put('/update-user/:userId', (req, res) => {
     const { userId } = req.params
     const { full_name, phone_number, address, role} = req.body;
 
-    if (!full_name && !phone_number && !address && !role) {
-        return res.status(HTTP_BAD_REQUEST).send('Cannot be left blank');
+    if (!full_name || !phone_number || !address || !role) {
+        return res.status(HTTP_BAD_REQUEST).send('Xin vui lòng điền đầy đủ');
     }
     const updateUser = `UPDATE users SET full_name = ?, phone_number = ?, address = ?, role = ?, updated_at = NOW() 
                         WHERE user_id = ?`
@@ -330,6 +332,8 @@ router.get('/get-orders', async(req, res) => {
                     user_id: result.user_id,
                     full_name: result.full_name,
                     phone_number: result.phone_number,
+                    receiver: result.receiver,
+                    delivery_phone: result.delivery_phone,
                     email: result.email,
                     address: result.address,
                     addressLatLng: JSON.parse(result.addressLatLng),
@@ -384,6 +388,8 @@ router.get('/detail-order/:orderId', async (req:any, res:any) => {
         user_id: results[0].user_id,
         full_name: results[0].full_name,
         phone_number: results[0].phone_number,
+        receiver: results[0].receiver,
+        delivery_phone: results[0].delivery_phone,
         order_date: results[0].order_date,
         email: results[0].email,
         payment_id: results[0].payment_id,

@@ -32,6 +32,7 @@ import { LoginAdminGuard } from './auth/guards/login-admin.guard';
 import { UpdateUserPageComponent } from './admin/user/update-user-page/update-user-page.component';
 import { AdTotalOrderPageComponent } from './admin/totalOrder/ad-total-order-page/ad-total-order-page.component';
 import { DetailTotalOrderPageComponent } from './admin/totalOrder/detail-total-order-page/detail-total-order-page.component';
+import { ProfileComponent } from './components/pages/profile/profile.component';
 
 const routes: Routes = [
   {path: 'admin',
@@ -69,13 +70,15 @@ const routes: Routes = [
   {path: 'tag/:tag', component:HomeComponent},
   {path: 'food/:foodId', component:FoodPageComponent},
   {path: 'cart-page', component:CartPageComponent},
+  {path: 'profile', component:ProfileComponent, canActivate: [LoginGuard]},
   {path: 'login', component:LoginPageComponent, canActivate: [LoginGuard]},
   {path: 'register', component:RegisterPageComponent, canActivate: [LoginGuard]},
   {path: 'tags', component:AllTagComponent},
   {path: 'checkout', component:CheckoutPageComponent, canActivate: [AuthGuard]},
   {path: 'payment', component:PaymentPageComponent, canActivate: [AuthGuard]},
   {path: 'track/:orderId', component:OrderTrackPageComponent, canActivate: [AuthGuard]},
-  {path: 'orders', component: OrdersComponent},
+  {path: 'orders', component: OrdersComponent, canActivate: [LoginGuard]},
+
   {path: '**', component:ErrorComponent},
 ];
 

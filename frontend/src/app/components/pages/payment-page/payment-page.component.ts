@@ -20,7 +20,7 @@ export class PaymentPageComponent {
     this.orderService.getNewOrderForCurrentUser().subscribe({
         next: (order) => {
           this.order = order;
-          console.log(order);
+          // console.log(order);
         },
         error:() => {
           this.router.navigateByUrl('/chekcout');

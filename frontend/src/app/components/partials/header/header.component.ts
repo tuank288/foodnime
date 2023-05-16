@@ -12,15 +12,19 @@ import { User } from 'src/app/shared/models/User';
 export class HeaderComponent {
   cartQuantity = 0;
   user!:User;
+  userId!:User;
   constructor(cartService:CartService,private userService:UsersService) {
     cartService.getCartObservable().subscribe((newCart) => {
       this.cartQuantity = newCart.totalCount
     })
 
+    // this.userService.getUser().subscribe(newUser => {
+    //   this.userId = newUser;
+    //   console.log(this.user);
+    // })
+
     userService.userObservable.subscribe((newUser) => {
       this.user = newUser;
-      console.log(this.user);
-      
     })
   }
 

@@ -86,11 +86,11 @@
                 <form [formGroup]="createUserForm">
   
                   <div class="form-group clearfix required">
-                    <label class="col-md-2 control-label pt-7 text-right">Full name</label>
+                    <label class="col-md-2 control-label pt-7 text-right">Họ tên</label>
                     <div class="col-md-8">
                       <input type="text" class="form-control" name="full_name" formControlName="full_name" required>
                       <div *ngIf="full_name.invalid && (full_name.dirty || full_name.touched)" class="alert">
-                        <span class="error-text" *ngIf="full_name.errors?.['required']">Full name is required.</span>
+                        <span class="error-text" *ngIf="full_name.errors?.['required']">Họ tên là bắt buộc</span>
                       </div>
                     </div>
                   </div>
@@ -100,62 +100,61 @@
                     <div class="col-md-8">
                       <input type="text" class="form-control" name="email" formControlName="email" required>
                       <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert">
-                        <span class="error-text" *ngIf="email.errors?.['required']">Email is required.</span>
-                        <span class="error-text" *ngIf="email.errors?.['email']">Please enter a valid email.</span>
+                        <span class="error-text" *ngIf="email.errors?.['required']">Email là bắt buộc</span>
+                        <span class="error-text" *ngIf="email.errors?.['email']">Vui lòng nhập email hợp lệ</span>
                       </div>
                     </div>
                   </div>
 
                   <div class="form-group clearfix required">
-                    <label class="col-md-2 control-label pt-7 text-right">Phone number</label>
+                    <label class="col-md-2 control-label pt-7 text-right">Số điện thoại</label>
                     <div class="col-md-8">
                       <input type="text" class="form-control" name="phone_number" formControlName="phone_number" required>
                       <div *ngIf="phone_number.invalid && (phone_number.dirty || phone_number.touched)" class="alert">
-                        <span class="error-text" *ngIf="phone_number.errors?.['required']">Email is required.</span>
-                        <span class="error-text" *ngIf="phone_number.errors?.['phone_number']">Please enter a valid phone number.</span>
+                        <span class="error-text" *ngIf="phone_number.errors?.['required']">Số điện thoại là bắt buộc</span>
+                        <span class="error-text" *ngIf="phone_number.errors?.['pattern']">Xin vui lòng nhập số điện thoại hợp lệ</span>
                       </div>
                     </div>
                   </div>
   
                   <div class="form-group clearfix required">
-                    <label class="col-md-2 control-label pt-7 text-right">Password</label>
+                    <label class="col-md-2 control-label pt-7 text-right">Mật khẩu</label>
                     <div class="col-md-8">
                       <input type="password" class="form-control" name="password" formControlName="password" required>
                       <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert">
-                        <span class="error-text" *ngIf="password.errors?.['required']">Password is required.</span>
-                        <span class="error-text" *ngIf="password.errors?.['minlength']">Password must contain at least 8 characters.</span>
+                        <span class="error-text" *ngIf="password.errors?.['required']">Mật khẩu là bắt buộc</span>
+                        <span class="error-text" *ngIf="password.errors?.['minlength']">Mật khẩu phải chứa ít nhất 8 ký tự</span>
                       </div>
                     </div>
                   </div>
   
                   <div class="form-group clearfix required">
-                    <label class="col-md-2 control-label pt-7 text-right">Confirm password</label>
+                    <label class="col-md-2 control-label pt-7 text-right">Nhập lại mật khẩu</label>
                     <div class="col-md-8">
                       <input type="password" class="form-control" name="confirmPassword" formControlName="confirmPassword" required>
                       <div *ngIf="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)" class="alert">
-                        <span class="error-text" *ngIf="confirmPassword.errors?.['required']">Confirm password is required.</span>
-                        <span class="error-text" *ngIf="confirmPassword.errors?.['minlength']">Confirm password must contain at least 8 characters.</span>
-                        <span class="error-text" *ngIf="confirmPassword.errors?.['confirmedValidator']">password did not match</span>
+                        <span class="error-text" *ngIf="confirmPassword.errors?.['required']">Nhập lại mật khẩu là bắt buộc</span>
+                        <span class="error-text" *ngIf="confirmPassword.errors?.['confirmedValidator']">Nhập lại mật khẩu không chính xác</span>
                       </div>
                     </div>
                   </div>
 
                   <div class="form-group clearfix required">
-                    <label class="col-md-2 control-label pt-7 text-right">Address</label>
+                    <label class="col-md-2 control-label pt-7 text-right">Địa chỉ</label>
                     <div class="col-md-8">
                       <input type="text" class="form-control" name="address" formControlName="address" required>
                       <div *ngIf="address.invalid && (address.dirty || address.touched)" class="alert">
-                        <span class="error-text" *ngIf="address.errors?.['required']">Email is required.</span>
-                        <span class="error-text" *ngIf="address.errors?.['address']">Please enter a valid address.</span>
+                        <span class="error-text" *ngIf="address.errors?.['required']">Địa chỉ là bắt buộc</span>
+                        <span class="error-text" *ngIf="address.errors?.['minlength']">Vui lòng nhập đúng địa chỉ</span>
                       </div>
                     </div>
                   </div>
   
                   <div class="form-group clearfix required">
-                    <label class="col-md-2 control-label pt-7 text-right">Role</label>
+                    <label class="col-md-2 control-label pt-7 text-right">Quyền</label>
                     <div class="col-md-8">
                       <mat-form-field appearance="outline">
-                        <mat-label>Choose role for user </mat-label>
+                        <mat-label>Chọn quyền</mat-label>
                         <mat-select formControlName="role">
                           <mat-option *ngFor="let role of roles" [value]="role">
                             {{ role }}
@@ -167,7 +166,7 @@
   
                   <div class="form-group">
                     <div class="col-md-10 col-md-offset-2">
-                      <button *ngIf="!isUpdateActive" (click)="submit()" class="btn btn-primary">Submit</button>
+                      <button *ngIf="!isUpdateActive" (click)="submit()" class="btn btn-primary">Xác nhận</button>
                       <button *ngIf="isUpdateActive" routerLink="/admin/" class="btn btn-primary">Update</button>
                       <a routerLink="/admin/ad-users" class="btn btn-warning">Quay lại</a>
                     </div>
