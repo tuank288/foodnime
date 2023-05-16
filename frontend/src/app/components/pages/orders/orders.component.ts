@@ -9,14 +9,28 @@ import { Order } from 'src/app/shared/models/Order';
 })
 export class OrdersComponent {
 
-  orders: Order[] = [];
+  orders!: Order[];
+
   constructor(private orderService:OrderService){}
 
-  ngOnInit(){
-    this.orderService.getOrders().subscribe(res =>{
-      this.orders = res;
-      console.log('fsdfsa');
-      
-    })
+  ngOnInit() {
+    // Lấy danh sách đơn hàng từ API hoặc nguồn dữ liệu khác và gán cho biến orders
+    this.getOrders();
+  }
+  
+
+  getOrders() {
+    this.orderService.getOrders().subscribe(
+      (response) => {
+        this.orders = response;
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
+
+  hasActiveOrders(): boolean {
+    return this.orders.some(order => order.active !== null);
   }
 }

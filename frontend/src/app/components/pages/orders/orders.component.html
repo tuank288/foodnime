@@ -1,22 +1,286 @@
-<div class="container ">
-    <div class="row justify-content-center">
+<div class="container bg-white">
+    <div class="row justify-content-center bg-white">
         <div class="col-md-10 bg-white">
             <div class="p-3 py-5">
-                <mat-tab-group animationDuration="0ms">
+                <mat-tab-group animationDuration="0ms" class="tab">
                     <mat-tab label="Đang chờ">
-                       
+                        <div *ngFor="let order of orders">
+                          <div class="order" *ngIf="order.active !== ''">
+                            <strong>Order #: {{order.order_id}}</strong>
+                            <div class="content">
+                                <div class="part1">
+                                    <p>Ngày đặt: {{order.order_date | date: 'dd/MM/yyyy HH:mm:ss'}}</p>
+                                    <p>Địa chỉ: {{order.address}}</p>
+                                    <p>Trạng thái: {{ order.status === 'UNPAID' ? 'Chưa thanh toán' : order.status === 'PAYED' ? 'Đã thanh toán' : '' }}</p>
+                                </div>
+                                <div class="part2">
+                                    <p>Tên người nhận: {{order.receiver}}</p>
+                                    <p>Số điện thoại: {{order.delivery_phone}}</p>
+                                </div>
+                            </div>
+                            <table>
+                                <tr class="head">
+                                  <td>
+                                    <p>Hình ảnh</p>
+                                  </td>
+                                  <td>
+                                    <p>Tên món</p>
+                                  </td>
+                                  <td>
+                                    <p>Giá</p>
+                                  </td>
+                                  <td>
+                                    <p>Số lượng</p>
+                                  </td>
+                                  <td>
+                                    <p>Tổng giá sản phẩm</p>
+                                  </td>
+                                </tr>
+                                <tr *ngFor="let item of order.items">
+                                  <td>
+                                    <a routerLink="/food/{{item.food.food_id}}">
+                                      <img [src]="item.food.food_image"/>
+                                    </a>
+                                  </td>
+                                  <td>
+                                    {{item.food.food_name}}
+                                  </td>
+                                  <td>
+                                    {{item.food.price | currency: 'VND'}}
+                                  </td>
+                                  <td>
+                                    {{item.quantity}}
+                                  </td>
+                                  <td>
+                                    {{item.price | currency: 'VND'}}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td colspan="3"></td>
+                                  <td>
+                                    <strong>
+                                      Tổng tiền :
+                                    </strong>
+                                  </td>
+                                  <td>
+                                    <strong>
+                                      {{order.total_price | currency: 'VND'}}
+                                    </strong>
+                                  </td>
+                                </tr>
+                              </table>
+                          </div>
+                        </div>
                     </mat-tab>
     
                     <mat-tab label="Đang giao">
-                        Content 2
+                      <div *ngFor="let order of orders">
+                        <div class="order" *ngIf="order.active == 'SHIPPED'">
+                          <strong>Order #: {{order.order_id}}</strong>
+                          <div class="content">
+                              <div class="part1">
+                                  <p>Ngày đặt: {{order.order_date | date: 'dd/MM/yyyy HH:mm:ss'}}</p>
+                                  <p>Địa chỉ: {{order.address}}</p>
+                                  <p>Trạng thái: {{ order.status === 'UNPAID' ? 'Chưa thanh toán' : order.status === 'PAYED' ? 'Đã thanh toán' : '' }}</p>
+                              </div>
+                              <div class="part2">
+                                  <p>Tên người nhận: {{order.receiver}}</p>
+                                  <p>Số điện thoại: {{order.delivery_phone}}</p>
+                              </div>
+                          </div>
+                          <table>
+                              <tr class="head">
+                                <td>
+                                  <p>Hình ảnh</p>
+                                </td>
+                                <td>
+                                  <p>Tên món</p>
+                                </td>
+                                <td>
+                                  <p>Giá</p>
+                                </td>
+                                <td>
+                                  <p>Số lượng</p>
+                                </td>
+                                <td>
+                                  <p>Tổng giá sản phẩm</p>
+                                </td>
+                              </tr>
+                              <tr *ngFor="let item of order.items">
+                                <td>
+                                  <a routerLink="/food/{{item.food.food_id}}">
+                                    <img [src]="item.food.food_image"/>
+                                  </a>
+                                </td>
+                                <td>
+                                  {{item.food.food_name}}
+                                </td>
+                                <td>
+                                  {{item.food.price | currency: 'VND'}}
+                                </td>
+                                <td>
+                                  {{item.quantity}}
+                                </td>
+                                <td>
+                                  {{item.price | currency: 'VND'}}
+                                </td>
+                              </tr>
+                              <tr>
+                                <td colspan="3"></td>
+                                <td>
+                                  <strong>
+                                    Tổng tiền :
+                                  </strong>
+                                </td>
+                                <td>
+                                  <strong>
+                                    {{order.total_price | currency: 'VND'}}
+                                  </strong>
+                                </td>
+                              </tr>
+                            </table>
+                        </div>
+                      </div>
                     </mat-tab>
     
                     <mat-tab label="Đã giao">
-                        Content 3
+                      <div *ngFor="let order of orders">
+                        <div class="order" *ngIf="order.active == 'SUCCESS'">
+                          <strong>Order #: {{order.order_id}}</strong>
+                          <div class="content">
+                              <div class="part1">
+                                  <p>Ngày đặt: {{order.order_date | date: 'dd/MM/yyyy HH:mm:ss'}}</p>
+                                  <p>Địa chỉ: {{order.address}}</p>
+                                  <p>Trạng thái: {{ order.status === 'UNPAID' ? 'Chưa thanh toán' : order.status === 'PAYED' ? 'Đã thanh toán' : '' }}</p>
+                              </div>
+                              <div class="part2">
+                                  <p>Tên người nhận: {{order.receiver}}</p>
+                                  <p>Số điện thoại: {{order.delivery_phone}}</p>
+                              </div>
+                          </div>
+                          <table>
+                              <tr class="head">
+                                <td>
+                                  <p>Hình ảnh</p>
+                                </td>
+                                <td>
+                                  <p>Tên món</p>
+                                </td>
+                                <td>
+                                  <p>Giá</p>
+                                </td>
+                                <td>
+                                  <p>Số lượng</p>
+                                </td>
+                                <td>
+                                  <p>Tổng giá sản phẩm</p>
+                                </td>
+                              </tr>
+                              <tr *ngFor="let item of order.items">
+                                <td>
+                                  <a routerLink="/food/{{item.food.food_id}}">
+                                    <img [src]="item.food.food_image"/>
+                                  </a>
+                                </td>
+                                <td>
+                                  {{item.food.food_name}}
+                                </td>
+                                <td>
+                                  {{item.food.price | currency: 'VND'}}
+                                </td>
+                                <td>
+                                  {{item.quantity}}
+                                </td>
+                                <td>
+                                  {{item.price | currency: 'VND'}}
+                                </td>
+                              </tr>
+                              <tr>
+                                <td colspan="3"></td>
+                                <td>
+                                  <strong>
+                                    Tổng tiền :
+                                  </strong>
+                                </td>
+                                <td>
+                                  <strong>
+                                    {{order.total_price | currency: 'VND'}}
+                                  </strong>
+                                </td>
+                              </tr>
+                            </table>
+                        </div>
+                      </div>
                     </mat-tab>
     
                     <mat-tab label="Đã hủy">
-                        Content 3
+                      <div *ngFor="let order of orders">
+                        <div class="order" *ngIf="order.active == 'CANCELED'">
+                          <strong>Order #: {{order.order_id}}</strong>
+                          <div class="content">
+                              <div class="part1">
+                                  <p>Ngày đặt: {{order.order_date | date: 'dd/MM/yyyy HH:mm:ss'}}</p>
+                                  <p>Địa chỉ: {{order.address}}</p>
+                                  <p>Trạng thái: {{ order.status === 'UNPAID' ? 'Chưa thanh toán' : order.status === 'PAYED' ? 'Đã thanh toán' : '' }}</p>
+                              </div>
+                              <div class="part2">
+                                  <p>Tên người nhận: {{order.receiver}}</p>
+                                  <p>Số điện thoại: {{order.delivery_phone}}</p>
+                              </div>
+                          </div>
+                          <table>
+                              <tr class="head">
+                                <td>
+                                  <p>Hình ảnh</p>
+                                </td>
+                                <td>
+                                  <p>Tên món</p>
+                                </td>
+                                <td>
+                                  <p>Giá</p>
+                                </td>
+                                <td>
+                                  <p>Số lượng</p>
+                                </td>
+                                <td>
+                                  <p>Tổng giá sản phẩm</p>
+                                </td>
+                              </tr>
+                              <tr *ngFor="let item of order.items">
+                                <td>
+                                  <a routerLink="/food/{{item.food.food_id}}">
+                                    <img [src]="item.food.food_image"/>
+                                  </a>
+                                </td>
+                                <td>
+                                  {{item.food.food_name}}
+                                </td>
+                                <td>
+                                  {{item.food.price | currency: 'VND'}}
+                                </td>
+                                <td>
+                                  {{item.quantity}}
+                                </td>
+                                <td>
+                                  {{item.price | currency: 'VND'}}
+                                </td>
+                              </tr>
+                              <tr>
+                                <td colspan="3"></td>
+                                <td>
+                                  <strong>
+                                    Tổng tiền :
+                                  </strong>
+                                </td>
+                                <td>
+                                  <strong>
+                                    {{order.total_price | currency: 'VND'}}
+                                  </strong>
+                                </td>
+                              </tr>
+                            </table>
+                        </div>
+                      </div>
                     </mat-tab>
                 </mat-tab-group>
             </div>

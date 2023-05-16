@@ -1,0 +1,46 @@
+.container{
+    min-height: 500px;
+}
+.content{
+  display: flex;
+  justify-content: space-between;
+}
+.order{
+    padding: 0.5rem;
+    border: 1px solid #e72929;
+    background-color: white;
+    border-radius: 0.5rem;
+    margin: 1rem;
+  }
+
+  table{
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  h3{
+    margin-top: 0.5rem;
+    margin-left: 0.3rem;
+    color: rgb(32, 32, 37); 
+  }
+  
+  a:hover{
+    opacity: 0.9;
+  }
+  
+  tr:first-child{
+    border-bottom: 1px solid #c83131;
+  }
+
+  td{
+    height: 3rem;
+    text-align: center;
+  }
+  
+  td img{
+    margin: 0.5rem 0 0.5rem 0;
+    width: 5rem;
+    height: 5rem;
+    object-fit: cover;
+    // border-radius: 100rem;
+  }

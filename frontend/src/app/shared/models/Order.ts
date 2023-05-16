@@ -12,7 +12,7 @@ export class Order{
   receiver!: string;
   delivery_phone!:string;
   phone_number!: string;
-  full_name!:string;
+  full_name!:string
   email!:string;
   address!: string;
   addressLatLng?:LatLng

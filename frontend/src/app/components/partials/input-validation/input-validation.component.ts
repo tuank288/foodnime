@@ -3,7 +3,7 @@ import { AbstractControl } from '@angular/forms';
 
 const VALIDATORS_MESSAGE:any = {
   required: 'Không được để trống',
-  email: 'Emai không đúng',
+  email: 'Email không đúng',
   minlength: 'Trường quá ngắn',
   notMatch: 'Mật khẩu không khớp',
   pattern: 'Số điện thoại không hợp lệ'

@@ -32,7 +32,6 @@ router.post('/create', (req:any, res) => {
   }
   // console.log(restaurantId);
   
-
   const orderData = {
     user_id: req.user_id,
     restaurant_id: restaurantId,
@@ -45,7 +44,6 @@ router.post('/create', (req:any, res) => {
     status: OrderStatus.NEW,
     updated_at: new Date
   };
-  console.log(orderData);
   
   db.query(`INSERT INTO orders SET ?`, orderData, (error, results) => {
     if (error) {
@@ -131,7 +129,7 @@ router.post('/pay', async (req: any, res) => {
 
 router.get('/track/:orderId', async (req:any, res:any) => {
   const orderId = req.params.orderId  
-  const query = `SELECT orders.*, users.*, order_items.*, food.*
+  const query = `SELECT orders.*, users.*, order_items.*, food.*, orders.address
                  FROM orders
                  JOIN users ON orders.user_id = users.user_id
                  JOIN order_items ON orders.order_id = order_items.order_id
@@ -201,34 +199,39 @@ router.get('/get-orders', async (req:any, res:any) => {
       res.status(404).send('Order not found');
       return;
     }
-    const order = {
-      order_id: results[0].order_id,
-      items: results.map((result:any) => ({
-        food: {
-          food_id: result.food_id,
-          category_id: result.category_id,
-          restaurant_id: result.restaurant_id,
-          food_name: result.food_name,
-          price: result.price,
-          food_image: result.food_image
-        },
-        price: result.price * result.quantity,
-        quantity: result.quantity,
-      })),
-      total_price: results[0].total_price,
-      user_id: results[0].user_id,
-      full_name: results[0].full_name,
-      phone_number: results[0].phone_number,
-      order_date: results[0].order_date,
-      email: results[0].email,
-      payment_id: results[0].payment_id,
-      address: results[0].address,
-      addressLatLng: JSON.parse(results[0].addressLatLng),
-      status: results[0].status,
-      updated_at: results[0].updated_at,
-    };
-    // console.log(order);
-    res.send(order);
+    const orders = results.map((result: any) => ({
+      order_id: result.order_id,
+      items: [
+        {
+          food: {
+            food_id: result.food_id,
+            category_id: result.category_id,
+            restaurant_id: result.restaurant_id,
+            food_name: result.food_name,
+            price: result.price,
+            food_image: result.food_image
+          },
+          price: result.price * result.quantity,
+          quantity: result.quantity,
+        }
+      ],
+      total_price: result.total_price,
+      user_id: result.user_id,
+      full_name: result.full_name,
+      phone_number: result.phone_number,
+      receiver: result.receiver,
+      delivery_phone: result.delivery_phone,
+      order_date: result.order_date,
+      email: result.email,
+      payment_id: result.payment_id,
+      address: result.address,
+      addressLatLng: JSON.parse(result.addressLatLng),
+      status: result.status,
+      active: result.active,
+      updated_at: result.updated_at,
+    }));
+    // console.log(orders);
+    res.send(orders);
   });
 })
 
@@ -257,7 +260,7 @@ export default router;
 
 async function getNewOrderForCurrentUser(req: any) {
   const userId = req.user_id;
-  const query = `SELECT orders.*, users.*, order_items.*, food.*
+  const query = `SELECT orders.*, users.*, order_items.*, food.*, orders.address
   FROM orders
   JOIN users ON orders.user_id = users.user_id
   JOIN order_items ON orders.order_id = order_items.order_id

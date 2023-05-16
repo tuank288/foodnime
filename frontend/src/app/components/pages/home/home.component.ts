@@ -32,7 +32,6 @@ export class HomeComponent {
           })
         })
       )
-      
 
       foodsObservalbe.subscribe((serverFoods) => {
         this.foods = serverFoods;
