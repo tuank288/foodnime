@@ -66,13 +66,20 @@ export class UpdateUserPageComponent {
   }
 
   update() {
+
+    if (!this.createUserForm.valid) {
+      this.createUserForm.markAllAsTouched();
+      this.toast.error('Xin vui lòng điền đầy đủ', 'Error');
+      return;
+    }
+
     this.adminService.updateUser(this.createUserForm.value, this.UserIdUpdate).subscribe({
       next: res => {
         this.toast.success(`Cập nhật thành công`);
         this.createUserForm.reset();
         this.router.navigate(['admin/ad-users']);
     }, error: err => {
-      this.toast.error(`Cập nhật thất bại`)
+      this.toast.error(err.error,`Cập nhật thất bại`)
       this.createUserForm.markAllAsTouched();
       console.error(err);
       }

@@ -55,9 +55,19 @@ export class AdCategoriesPageComponent {
     this.adminService.getCategory()
       .subscribe(res => {
         this.categories = res;
+        
+        this.categories.sort((a, b) => {
+          if (a.updated_at && b.updated_at) {
+            return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
+          } else {
+            return 0; 
+          }
+        });
+
         this.categories.forEach((categories, index) => {
           categories.stt = index + 1
         });
+
         this.dataSource = new MatTableDataSource(this.categories)
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;

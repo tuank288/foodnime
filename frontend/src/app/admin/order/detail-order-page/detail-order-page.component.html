@@ -139,14 +139,14 @@
                   <mat-list-item>
                     <div matLine>
                       Tên người nhận :
-                      <button mat-button>{{orderDetail.full_name}} </button>
+                      <button mat-button>{{orderDetail.receiver}} </button>
                     </div>
                   </mat-list-item>
     
                   <mat-list-item>
                     <div matLine>
                       Số điện thoại :
-                      <button mat-button>{{orderDetail.phone_number}} </button>
+                      <button mat-button>{{orderDetail.delivery_phone}} </button>
                     </div>
                   </mat-list-item>
   
@@ -169,8 +169,8 @@
                       Active :
                       <mat-form-field appearance="outline">
                         <mat-select [(ngModel)]="selected">
-                          <mat-option value="SHIPPED">SHIPPED</mat-option>
-                          <mat-option value="SUCCESS">SUCCESS</mat-option>
+                          <mat-option value="SHIPPED">Giao hàng</mat-option>
+                          <mat-option value="SUCCESS">Đã giao</mat-option>
                         </mat-select>
                       </mat-form-field>
                     </div>

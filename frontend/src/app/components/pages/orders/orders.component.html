@@ -8,7 +8,7 @@
                         <div *ngFor="let order of orders">
                           <div class="order" *ngIf="order.active === null">
                             <div class="align">
-                              <span>Order #: {{order.order_id}}</span>
+                              <span>Order #{{order.order_id}}</span>
                               <div class="content">
                                   <div class="part1">
                                       <p>Ngày đặt: {{order.order_date | date: 'dd/MM/yyyy HH:mm:ss'}}</p>
@@ -104,17 +104,19 @@
                     <mat-tab label="Đang giao">
                       <div *ngFor="let order of orders">
                         <div class="order" *ngIf="order.active == 'SHIPPED'">
-                          <span>Order #: {{order.order_id}}</span>
-                          <div class="content">
-                              <div class="part1">
-                                  <p>Ngày đặt: {{order.order_date | date: 'dd/MM/yyyy HH:mm:ss'}}</p>
-                                  <p>Địa chỉ: {{order.address}}</p>
-                                  <p>Trạng thái: {{ order.status === 'UNPAID' ? 'Chưa thanh toán' : order.status === 'PAYED' ? 'Đã thanh toán' : '' }}</p>
-                              </div>
-                              <div class="part2">
-                                  <p>Tên người nhận: {{order.receiver}}</p>
-                                  <p>Số điện thoại: {{order.delivery_phone}}</p>
-                              </div>
+                          <div class="align">
+                            <span>Order #{{order.order_id}}</span>
+                            <div class="content">
+                                <div class="part1">
+                                    <p>Ngày đặt: {{order.order_date | date: 'dd/MM/yyyy HH:mm:ss'}}</p>
+                                    <p>Địa chỉ: {{order.address}}</p>
+                                    <p>Trạng thái: {{ order.status === 'UNPAID' ? 'Chưa thanh toán' : order.status === 'PAYED' ? 'Đã thanh toán' : '' }}</p>
+                                </div>
+                                <div class="part2">
+                                    <p>Tên người nhận: {{order.receiver}}</p>
+                                    <p>Số điện thoại: {{order.delivery_phone}}</p>
+                                </div>
+                            </div>
                           </div>
                           <div class="accordion" id="accordionExample">
                             <div class="accordion-item">
@@ -198,17 +200,20 @@
                     <mat-tab label="Đã giao">
                       <div *ngFor="let order of orders">
                         <div class="order" *ngIf="order.active == 'SUCCESS'">
-                          <span>Order #: {{order.order_id}}</span>
-                          <div class="content">
-                              <div class="part1">
-                                  <p>Ngày đặt: {{order.order_date | date: 'dd/MM/yyyy HH:mm:ss'}}</p>
-                                  <p>Địa chỉ: {{order.address}}</p>
-                                  <p>Trạng thái: {{ order.status === 'UNPAID' ? 'Chưa thanh toán' : order.status === 'PAYED' ? 'Đã thanh toán' : '' }}</p>
-                              </div>
-                              <div class="part2">
-                                  <p>Tên người nhận: {{order.receiver}}</p>
-                                  <p>Số điện thoại: {{order.delivery_phone}}</p>
-                              </div>
+
+                          <div class="align">
+                            <span>Order #{{order.order_id}}</span>
+                            <div class="content">
+                                <div class="part1">
+                                    <p>Ngày đặt: {{order.order_date | date: 'dd/MM/yyyy HH:mm:ss'}}</p>
+                                    <p>Địa chỉ: {{order.address}}</p>
+                                    <p>Trạng thái: {{ order.status === 'UNPAID' ? 'Chưa thanh toán' : order.status === 'PAYED' ? 'Đã thanh toán' : '' }}</p>
+                                </div>
+                                <div class="part2">
+                                    <p>Tên người nhận: {{order.receiver}}</p>
+                                    <p>Số điện thoại: {{order.delivery_phone}}</p>
+                                </div>
+                            </div>
                           </div>
 
                           <div class="accordion" id="accordionExample">
@@ -293,18 +298,20 @@
                     <mat-tab label="Đã hủy">
                       <div *ngFor="let order of orders">
                         <div class="order" *ngIf="order.active == 'CANCELED'">
-                          <span>Order #: {{order.order_id}}</span>
-                          <div class="content">
-                              <div class="part1">
-                                  <p>Ngày đặt: {{order.order_date | date: 'dd/MM/yyyy HH:mm:ss'}}</p>
-                                  <p>Địa chỉ: {{order.address}}</p>
-                                  <p>Trạng thái: {{ order.status === 'UNPAID' ? 'Chưa thanh toán' : order.status === 'PAYED' ? 'Đã thanh toán' : '' }}</p>
+                            <div class="align">
+                              <span>Order #{{order.order_id}}</span>
+                              <div class="content">
+                                  <div class="part1">
+                                      <p>Ngày đặt: {{order.order_date | date: 'dd/MM/yyyy HH:mm:ss'}}</p>
+                                      <p>Địa chỉ: {{order.address}}</p>
+                                      <p>Trạng thái: {{ order.status === 'UNPAID' ? 'Chưa thanh toán' : order.status === 'PAYED' ? 'Đã thanh toán' : '' }}</p>
+                                  </div>
+                                  <div class="part2">
+                                      <p>Tên người nhận: {{order.receiver}}</p>
+                                      <p>Số điện thoại: {{order.delivery_phone}}</p>
+                                  </div>
                               </div>
-                              <div class="part2">
-                                  <p>Tên người nhận: {{order.receiver}}</p>
-                                  <p>Số điện thoại: {{order.delivery_phone}}</p>
-                              </div>
-                          </div>
+                            </div>
 
                           <div class="accordion" id="accordionExample">
                             <div class="accordion-item">

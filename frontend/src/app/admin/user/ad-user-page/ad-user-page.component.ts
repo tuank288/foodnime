@@ -55,6 +55,13 @@ export class AdUserPageComponent {
     this.adminService.getUsers()
       .subscribe(res => {
         this.users = res;
+        this.users.sort((a, b) => {
+          if (a.updated_at && b.updated_at) {
+            return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
+          } else {
+            return 0; 
+          }
+        });
         this.users.forEach((user, index) => {
           user.stt = index + 1;
         })

@@ -57,6 +57,14 @@ export class AdFoodPageComponent implements OnInit {
     this.adminService.getFood()
       .subscribe(res => {
         this.foods = res;
+                
+        this.foods.sort((a, b) => {
+          if (a.updated_at && b.updated_at) {
+            return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
+          } else {
+            return 0; 
+          }
+        });
         this.foods.forEach((food, index) => {
           food.stt = index + 1; // Tạo biến stt và gán giá trị
         });

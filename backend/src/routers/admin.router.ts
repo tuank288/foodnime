@@ -51,7 +51,7 @@ router.post('/post-foods', (req, res) => {
     .trim()
     .toLowerCase()
     .replace(/(?:^|\s)\S/g, (match:any) => match.toUpperCase());
-
+    
     db.query(`SELECT * FROM food WHERE food_name = '${foodName}'`, (error, results) => {
         if (error) {
           console.log(error);
@@ -61,9 +61,9 @@ router.post('/post-foods', (req, res) => {
         if (results.length > 0) {
           return res.status(HTTP_BAD_REQUEST).send('Tên thực phẩm đã tồn tại');
         }
-    
+        
         db.query(`INSERT INTO food(category_id, restaurant_id, food_image, food_name, price, created_at, updated_at)
-          VALUES ('${category_id}', 1, '${food_image}', '${food_name}', '${price}', NOW(), NOW())`, (error, result) => {
+          VALUES ('${category_id}', 1, '${food_image}', '${foodName}', '${price}', NOW(), NOW())`, (error, result) => {
             if (error) {
               console.log(error);
               return res.status(HTTP_INTERNAL_SERVER_ERROR).send('Internal server error');
@@ -264,9 +264,9 @@ router.post('/post-user', (req, res) => {
     db.query(query, values, async (error, result) => {
         if (error) {
             console.log(error);
-            res.status(500).send("Internal Server Error");
-        } else if (result.length > 0) {
-        res.status(HTTP_BAD_REQUEST).send("Email or phone number already exists!");
+            return res.status(500).send("Internal Server Error");
+        }else if (result.length > 0) {
+            return res.status(HTTP_BAD_REQUEST).send("Email hoặc số điện thoại đã tồn tại");
         }else {
             const encryptedPassword = await bcrypt.hash(password, 8);
             const query = 'INSERT INTO users (full_name, email, phone_number, password, address, role, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW())';
@@ -306,36 +306,47 @@ router.put('/update-user/:userId', (req, res) => {
     if (!full_name || !phone_number || !address || !role) {
         return res.status(HTTP_BAD_REQUEST).send('Xin vui lòng điền đầy đủ');
     }
+    
+    const checkPhoneNumberQuery = 'SELECT user_id FROM users WHERE phone_number = ? AND user_id != ?';
+    db.query(checkPhoneNumberQuery, [phone_number, userId], (err, rows) => {
+        if (err) {
+            console.log(err);
+            return res.status(HTTP_INTERNAL_SERVER_ERROR).send('Internal server error');
+        }
 
-    const fullName = full_name
-    .replace(/\s+/g, ' ')
-    .trim()
-    .toLowerCase()
-    .replace(/(?:^|\s)\S/g, (match:any) => match.toUpperCase());
+        if (rows.length > 0) {
+            return res.status(HTTP_BAD_REQUEST).send('Số điện thoại đã tồn tại');
+        }
+        const fullName = full_name
+        .replace(/\s+/g, ' ')
+        .trim()
+        .toLowerCase()
+        .replace(/(?:^|\s)\S/g, (match:any) => match.toUpperCase());
 
-    const addRess = address
-    .replace(/\s+/g, ' ')
-    .trim()
-    .toLowerCase()
-    .replace(/(?:^|\s)\S/g, (match:any) => match.toUpperCase());
+        const addRess = address
+        .replace(/\s+/g, ' ')
+        .trim()
+        .toLowerCase()
+        .replace(/(?:^|\s)\S/g, (match:any) => match.toUpperCase());
 
-    const updateUser = `UPDATE users SET full_name = ?, phone_number = ?, address = ?, role = ?, updated_at = NOW() 
-                        WHERE user_id = ?`
-    const valueUser = [fullName, phone_number, addRess, role, userId]
-    db.query(updateUser, valueUser,(err, result) => {
-    if (err) {
-        console.log(err);
-        
-        return res.status(HTTP_INTERNAL_SERVER_ERROR).send('Internal server error');
-    }
-    res.send(result[0]);
-    })
+        const updateUser = `UPDATE users SET full_name = ?, phone_number = ?, address = ?, role = ?, updated_at = NOW() 
+                            WHERE user_id = ?`
+        const valueUser = [fullName, phone_number, addRess, role, userId]
+        db.query(updateUser, valueUser,(err, result) => {
+        if (err) {
+            console.log(err);
+            
+            return res.status(HTTP_INTERNAL_SERVER_ERROR).send('Internal server error');
+        }
+        res.send(result[0]);
+        })
+    });
 })
 
 //order
 
 router.get('/get-orders', async(req, res) => {
-    const query = `SELECT orders.*, users.*, order_items.*, food.*, orders.updated_at
+    const query = `SELECT orders.*, users.*, order_items.*, food.*, orders.updated_at, orders.address
                     FROM orders
                     JOIN users ON orders.user_id = users.user_id
                     JOIN order_items ON orders.order_id = order_items.order_id
@@ -396,7 +407,7 @@ router.get('/get-orders', async(req, res) => {
 
 router.get('/detail-order/:orderId', async (req:any, res:any) => {
     const orderId = req.params.orderId  
-    const query = `SELECT orders.*, users.*, order_items.*, food.*, orders.updated_at
+    const query = `SELECT orders.*, users.*, order_items.*, food.*, orders.updated_at, orders.address
                    FROM orders
                    JOIN users ON orders.user_id = users.user_id
                    JOIN order_items ON orders.order_id = order_items.order_id
@@ -467,7 +478,7 @@ router.get('/detail-order/:orderId', async (req:any, res:any) => {
 //total order
 
 router.get('/get-total-orders', async(req, res) => {
-    const query = ` SELECT orders.*, users.*, order_items.*, food.*, orders.updated_at
+    const query = ` SELECT orders.*, users.*, order_items.*, food.*, orders.updated_at, orders.address
                     FROM orders
                     JOIN users ON orders.user_id = users.user_id
                     JOIN order_items ON orders.order_id = order_items.order_id
@@ -484,6 +495,7 @@ router.get('/get-total-orders', async(req, res) => {
         if (results.length === 0) {
             return res.status(404).send('Order not found');
         }
+        
         const orders = results.reduce((accumulator: any, result: any) => {
             const orderIndex = accumulator.findIndex((order: any) => order.order_id === result.order_id);
             const food = {
@@ -503,8 +515,8 @@ router.get('/get-total-orders', async(req, res) => {
                     items: [orderItem],
                     total_price: result.total_price,
                     user_id: result.user_id,
-                    full_name: result.full_name,
-                    phone_number: result.phone_number,
+                    receiver: result.receiver,
+                    delivery_phone: result.delivery_phone,
                     email: result.email,
                     address: result.address,
                     addressLatLng: JSON.parse(result.addressLatLng),
@@ -517,7 +529,7 @@ router.get('/get-total-orders', async(req, res) => {
             }
             return accumulator;
         }, []);
-        console.log(orders);
+        // console.log(orders);
         res.send(orders);
     });
 })

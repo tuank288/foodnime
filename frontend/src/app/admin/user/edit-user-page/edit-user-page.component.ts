@@ -60,6 +60,11 @@ export class EditUserPageComponent {
   }
 
   submit() {
+    if (!this.createUserForm.valid) {
+      this.createUserForm.markAllAsTouched();
+      this.toast.error('Xin vui lòng điền đầy đủ', 'Error');
+      return;
+    }
     this.adminService.postUser(this.createUserForm.value).subscribe({
       next: res => {
         this.toast.success(`Tạo thành công`);

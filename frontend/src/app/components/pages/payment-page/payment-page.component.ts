@@ -35,11 +35,10 @@ export class PaymentPageComponent {
         this.router.navigateByUrl('/track/' + orderId);
         this.toastrService.success(
           'Đã đặt món thành công',
-          'Success'
         );
       },
       error:(error) => {
-        this.toastrService.error('Payment Save Failed', 'Error');
+        this.toastrService.error('Đặt thất bại', 'Error');
         console.log(error);
       }
     })
