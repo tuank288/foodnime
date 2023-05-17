@@ -22,9 +22,7 @@ export class ProfileComponent {
 
  constructor(
   private fb: FormBuilder,
-  private router: Router,
   private toast: ToastrService,
-  private activatedRouter: ActivatedRoute,
   private userService:UsersService,
   private adminService:AdminService
   ) {}
@@ -62,12 +60,26 @@ export class ProfileComponent {
 
     this.isReadOnly = true
 
-    this.userService.updateUser(this.createUserForm.value).subscribe({  
+    const fullName = this.createUserForm.value.full_name
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase()
+    .replace(/(?:^|\s)\S/g, (match:any) => match.toUpperCase());
+
+  const address = this.createUserForm.value.address
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase()
+    .replace(/(?:^|\s)\S/g, (match:any) => match.toUpperCase());
+
+    const updatedUserData = { ...this.createUserForm.value, full_name: fullName, address: address };
+
+    this.userService.updateUser(updatedUserData).subscribe({  
       next: res => {
         setTimeout(() => {
           location.reload(); 
         }, 1000); 
-        this.userService.updateUserInLocalStorage(this.createUserForm.value)
+        this.userService.updateUserInLocalStorage(updatedUserData)
         this.toast.success(`Cập nhật thành công`);
     }, error: err => {
       this.toast.error(`Cập nhật thất bại`)

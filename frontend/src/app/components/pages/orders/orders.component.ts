@@ -10,27 +10,27 @@ import { Order } from 'src/app/shared/models/Order';
 export class OrdersComponent {
 
   orders!: Order[];
-
+  expandedAccordions: string[] = [];
   constructor(private orderService:OrderService){}
 
   ngOnInit() {
-    // Lấy danh sách đơn hàng từ API hoặc nguồn dữ liệu khác và gán cho biến orders
-    this.getOrders();
-  }
-  
-
-  getOrders() {
-    this.orderService.getOrders().subscribe(
-      (response) => {
-        this.orders = response;
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+    this.orderService.getOrders().subscribe(res => {
+      this.orders = res;
+      console.log(this.orders);
+      
+    })
   }
 
-  hasActiveOrders(): boolean {
-    return this.orders.some(order => order.active !== null);
+  isAccordionExpanded(order: Order): boolean {
+    return this.expandedAccordions.includes(order.order_id);
+  }
+
+  toggleAccordion(order: Order): void {
+    const index = this.expandedAccordions.indexOf(order.order_id);
+    if (index > -1) {
+      this.expandedAccordions.splice(index, 1);
+    } else {
+      this.expandedAccordions.push(order.order_id);
+    }
   }
 }

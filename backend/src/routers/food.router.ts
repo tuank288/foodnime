@@ -36,7 +36,7 @@ router.get("/:foodId", (req, res) => {
 
 router.get("/search/:searchTerm", (req, res) => {
     const searchTerm = req.params.searchTerm;
-    console.log(searchTerm);
+    // console.log(searchTerm);
 
     db.query(`SELECT food.*, food_categories.*
             FROM food 

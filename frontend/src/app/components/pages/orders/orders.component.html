@@ -1,74 +1,102 @@
 <div class="container bg-white">
     <div class="row justify-content-center bg-white">
         <div class="col-md-10 bg-white">
-            <div class="p-3 py-5">
+            <div class="p-3 py-3">
+                <h4 class="text-right">Đặt hàng</h4>
                 <mat-tab-group animationDuration="0ms" class="tab">
                     <mat-tab label="Đang chờ">
                         <div *ngFor="let order of orders">
-                          <div class="order" *ngIf="order.active !== ''">
-                            <strong>Order #: {{order.order_id}}</strong>
-                            <div class="content">
-                                <div class="part1">
-                                    <p>Ngày đặt: {{order.order_date | date: 'dd/MM/yyyy HH:mm:ss'}}</p>
-                                    <p>Địa chỉ: {{order.address}}</p>
-                                    <p>Trạng thái: {{ order.status === 'UNPAID' ? 'Chưa thanh toán' : order.status === 'PAYED' ? 'Đã thanh toán' : '' }}</p>
-                                </div>
-                                <div class="part2">
-                                    <p>Tên người nhận: {{order.receiver}}</p>
-                                    <p>Số điện thoại: {{order.delivery_phone}}</p>
-                                </div>
+                          <div class="order" *ngIf="order.active === null">
+                            <div class="align">
+                              <span>Order #: {{order.order_id}}</span>
+                              <div class="content">
+                                  <div class="part1">
+                                      <p>Ngày đặt: {{order.order_date | date: 'dd/MM/yyyy HH:mm:ss'}}</p>
+                                      <p>Địa chỉ: {{order.address}}</p>
+                                      <p>Trạng thái: {{ order.status === 'UNPAID' ? 'Chưa thanh toán' : order.status === 'PAYED' ? 'Đã thanh toán' : '' }}</p>
+                                  </div>
+                                  <div class="part2">
+                                      <p>Tên người nhận: {{order.receiver}}</p>
+                                      <p>Số điện thoại: {{order.delivery_phone}}</p>
+                                  </div>
+                              </div>
                             </div>
-                            <table>
-                                <tr class="head">
-                                  <td>
-                                    <p>Hình ảnh</p>
-                                  </td>
-                                  <td>
-                                    <p>Tên món</p>
-                                  </td>
-                                  <td>
-                                    <p>Giá</p>
-                                  </td>
-                                  <td>
-                                    <p>Số lượng</p>
-                                  </td>
-                                  <td>
-                                    <p>Tổng giá sản phẩm</p>
-                                  </td>
-                                </tr>
-                                <tr *ngFor="let item of order.items">
-                                  <td>
-                                    <a routerLink="/food/{{item.food.food_id}}">
-                                      <img [src]="item.food.food_image"/>
-                                    </a>
-                                  </td>
-                                  <td>
-                                    {{item.food.food_name}}
-                                  </td>
-                                  <td>
-                                    {{item.food.price | currency: 'VND'}}
-                                  </td>
-                                  <td>
-                                    {{item.quantity}}
-                                  </td>
-                                  <td>
-                                    {{item.price | currency: 'VND'}}
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td colspan="3"></td>
-                                  <td>
-                                    <strong>
-                                      Tổng tiền :
-                                    </strong>
-                                  </td>
-                                  <td>
-                                    <strong>
-                                      {{order.total_price | currency: 'VND'}}
-                                    </strong>
-                                  </td>
-                                </tr>
-                              </table>
+
+                            <div class="accordion" id="accordionExample">
+                              <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                  <button class="accordion-button collapsed" type="button" (click)="toggleAccordion(order)" [attr.aria-expanded]="isAccordionExpanded(order) ? 'true' : 'false'" [attr.aria-controls]="'collapse' + order.order_id">
+                                    Xem thực đơn và địa chỉ giao hàng
+                                  </button>
+                                </h2>
+                                <div [id]="'collapse' + order.order_id" class="accordion-collapse collapse" [class.show]="isAccordionExpanded(order)" [attr.aria-labelledby]="'heading' + order.order_id" data-bs-parent="#accordionExample">
+                                  <div class="accordion-body">
+                                    <span>Thực đơn</span>
+
+                                    <div class="head"> 
+                                      <table >
+                                        <tr>
+                                          <td>
+                                            <p>Hình ảnh</p>
+                                          </td>
+                                          <td>
+                                            <p>Tên món</p>
+                                          </td>
+                                          <td>
+                                            <p>Giá</p>
+                                          </td>
+                                          <td>
+                                            <p>Số lượng</p>
+                                          </td>
+                                          <td>
+                                            <p>Tổng giá sản phẩm</p>
+                                          </td>
+                                        </tr>
+                                        <tr *ngFor="let item of order.items">
+                                          <td>
+                                            <a routerLink="/food/{{item.food.food_id}}">
+                                              <img [src]="item.food.food_image"/>
+                                            </a>
+                                          </td>
+                                          <td>
+                                            {{item.food.food_name}}
+                                          </td>
+                                          <td>
+                                            {{item.food.price | currency: 'VND'}}
+                                          </td>
+                                          <td>
+                                            {{item.quantity}}
+                                          </td>
+                                          <td>
+                                            {{item.price | currency: 'VND'}}
+                                          </td>
+                                        </tr>
+                                        <tr>
+                                          <td colspan="3"></td>
+                                          <td>
+                                            <strong>
+                                              Tổng tiền
+                                            </strong>
+                                          </td>
+                                          <td>
+                                            <strong>
+                                              {{order.total_price | currency: 'VND'}}
+                                            </strong>
+                                          </td>
+                                        </tr>
+                                      </table>
+                                    </div>
+
+                                    <div class="title" *ngIf="isAccordionExpanded(order)">
+                                      <span >Địa chỉ giao hàng</span>
+                                      <map [order]="order" [readonly]="true"></map>
+                                    </div>
+
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
                           </div>
                         </div>
                     </mat-tab>
@@ -76,7 +104,7 @@
                     <mat-tab label="Đang giao">
                       <div *ngFor="let order of orders">
                         <div class="order" *ngIf="order.active == 'SHIPPED'">
-                          <strong>Order #: {{order.order_id}}</strong>
+                          <span>Order #: {{order.order_id}}</span>
                           <div class="content">
                               <div class="part1">
                                   <p>Ngày đặt: {{order.order_date | date: 'dd/MM/yyyy HH:mm:ss'}}</p>
@@ -88,57 +116,81 @@
                                   <p>Số điện thoại: {{order.delivery_phone}}</p>
                               </div>
                           </div>
-                          <table>
-                              <tr class="head">
-                                <td>
-                                  <p>Hình ảnh</p>
-                                </td>
-                                <td>
-                                  <p>Tên món</p>
-                                </td>
-                                <td>
-                                  <p>Giá</p>
-                                </td>
-                                <td>
-                                  <p>Số lượng</p>
-                                </td>
-                                <td>
-                                  <p>Tổng giá sản phẩm</p>
-                                </td>
-                              </tr>
-                              <tr *ngFor="let item of order.items">
-                                <td>
-                                  <a routerLink="/food/{{item.food.food_id}}">
-                                    <img [src]="item.food.food_image"/>
-                                  </a>
-                                </td>
-                                <td>
-                                  {{item.food.food_name}}
-                                </td>
-                                <td>
-                                  {{item.food.price | currency: 'VND'}}
-                                </td>
-                                <td>
-                                  {{item.quantity}}
-                                </td>
-                                <td>
-                                  {{item.price | currency: 'VND'}}
-                                </td>
-                              </tr>
-                              <tr>
-                                <td colspan="3"></td>
-                                <td>
-                                  <strong>
-                                    Tổng tiền :
-                                  </strong>
-                                </td>
-                                <td>
-                                  <strong>
-                                    {{order.total_price | currency: 'VND'}}
-                                  </strong>
-                                </td>
-                              </tr>
-                            </table>
+                          <div class="accordion" id="accordionExample">
+                            <div class="accordion-item">
+                              <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" (click)="toggleAccordion(order)" [attr.aria-expanded]="isAccordionExpanded(order) ? 'true' : 'false'" [attr.aria-controls]="'collapse' + order.order_id">
+                                  Xem thực đơn và địa chỉ giao hàng
+                                </button>
+                              </h2>
+                              <div [id]="'collapse' + order.order_id" class="accordion-collapse collapse" [class.show]="isAccordionExpanded(order)" [attr.aria-labelledby]="'heading' + order.order_id" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                  <span>Thực đơn</span>
+
+                                  <div class="head"> 
+                                    <table >
+                                      <tr>
+                                        <td>
+                                          <p>Hình ảnh</p>
+                                        </td>
+                                        <td>
+                                          <p>Tên món</p>
+                                        </td>
+                                        <td>
+                                          <p>Giá</p>
+                                        </td>
+                                        <td>
+                                          <p>Số lượng</p>
+                                        </td>
+                                        <td>
+                                          <p>Tổng giá sản phẩm</p>
+                                        </td>
+                                      </tr>
+                                      <tr *ngFor="let item of order.items">
+                                        <td>
+                                          <a routerLink="/food/{{item.food.food_id}}">
+                                            <img [src]="item.food.food_image"/>
+                                          </a>
+                                        </td>
+                                        <td>
+                                          {{item.food.food_name}}
+                                        </td>
+                                        <td>
+                                          {{item.food.price | currency: 'VND'}}
+                                        </td>
+                                        <td>
+                                          {{item.quantity}}
+                                        </td>
+                                        <td>
+                                          {{item.price | currency: 'VND'}}
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td colspan="3"></td>
+                                        <td>
+                                          <strong>
+                                            Tổng tiền
+                                          </strong>
+                                        </td>
+                                        <td>
+                                          <strong>
+                                            {{order.total_price | currency: 'VND'}}
+                                          </strong>
+                                        </td>
+                                      </tr>
+                                    </table>
+                                  </div>
+
+                                  <div class="title" *ngIf="isAccordionExpanded(order)">
+                                    <span >Địa chỉ giao hàng</span>
+                                    <map [order]="order" [readonly]="true"></map>
+                                  </div>
+
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                         </div>
                       </div>
                     </mat-tab>
@@ -146,7 +198,7 @@
                     <mat-tab label="Đã giao">
                       <div *ngFor="let order of orders">
                         <div class="order" *ngIf="order.active == 'SUCCESS'">
-                          <strong>Order #: {{order.order_id}}</strong>
+                          <span>Order #: {{order.order_id}}</span>
                           <div class="content">
                               <div class="part1">
                                   <p>Ngày đặt: {{order.order_date | date: 'dd/MM/yyyy HH:mm:ss'}}</p>
@@ -158,57 +210,82 @@
                                   <p>Số điện thoại: {{order.delivery_phone}}</p>
                               </div>
                           </div>
-                          <table>
-                              <tr class="head">
-                                <td>
-                                  <p>Hình ảnh</p>
-                                </td>
-                                <td>
-                                  <p>Tên món</p>
-                                </td>
-                                <td>
-                                  <p>Giá</p>
-                                </td>
-                                <td>
-                                  <p>Số lượng</p>
-                                </td>
-                                <td>
-                                  <p>Tổng giá sản phẩm</p>
-                                </td>
-                              </tr>
-                              <tr *ngFor="let item of order.items">
-                                <td>
-                                  <a routerLink="/food/{{item.food.food_id}}">
-                                    <img [src]="item.food.food_image"/>
-                                  </a>
-                                </td>
-                                <td>
-                                  {{item.food.food_name}}
-                                </td>
-                                <td>
-                                  {{item.food.price | currency: 'VND'}}
-                                </td>
-                                <td>
-                                  {{item.quantity}}
-                                </td>
-                                <td>
-                                  {{item.price | currency: 'VND'}}
-                                </td>
-                              </tr>
-                              <tr>
-                                <td colspan="3"></td>
-                                <td>
-                                  <strong>
-                                    Tổng tiền :
-                                  </strong>
-                                </td>
-                                <td>
-                                  <strong>
-                                    {{order.total_price | currency: 'VND'}}
-                                  </strong>
-                                </td>
-                              </tr>
-                            </table>
+
+                          <div class="accordion" id="accordionExample">
+                            <div class="accordion-item">
+                              <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" (click)="toggleAccordion(order)" [attr.aria-expanded]="isAccordionExpanded(order) ? 'true' : 'false'" [attr.aria-controls]="'collapse' + order.order_id">
+                                  Xem thực đơn và địa chỉ giao hàng
+                                </button>
+                              </h2>
+                              <div [id]="'collapse' + order.order_id" class="accordion-collapse collapse" [class.show]="isAccordionExpanded(order)" [attr.aria-labelledby]="'heading' + order.order_id" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                  <span>Thực đơn</span>
+
+                                  <div class="head"> 
+                                    <table >
+                                      <tr>
+                                        <td>
+                                          <p>Hình ảnh</p>
+                                        </td>
+                                        <td>
+                                          <p>Tên món</p>
+                                        </td>
+                                        <td>
+                                          <p>Giá</p>
+                                        </td>
+                                        <td>
+                                          <p>Số lượng</p>
+                                        </td>
+                                        <td>
+                                          <p>Tổng giá sản phẩm</p>
+                                        </td>
+                                      </tr>
+                                      <tr *ngFor="let item of order.items">
+                                        <td>
+                                          <a routerLink="/food/{{item.food.food_id}}">
+                                            <img [src]="item.food.food_image"/>
+                                          </a>
+                                        </td>
+                                        <td>
+                                          {{item.food.food_name}}
+                                        </td>
+                                        <td>
+                                          {{item.food.price | currency: 'VND'}}
+                                        </td>
+                                        <td>
+                                          {{item.quantity}}
+                                        </td>
+                                        <td>
+                                          {{item.price | currency: 'VND'}}
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td colspan="3"></td>
+                                        <td>
+                                          <strong>
+                                            Tổng tiền
+                                          </strong>
+                                        </td>
+                                        <td>
+                                          <strong>
+                                            {{order.total_price | currency: 'VND'}}
+                                          </strong>
+                                        </td>
+                                      </tr>
+                                    </table>
+                                  </div>
+
+                                  <div class="title" *ngIf="isAccordionExpanded(order)">
+                                    <span >Địa chỉ giao hàng</span>
+                                    <map [order]="order" [readonly]="true"></map>
+                                  </div>
+
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                         </div>
                       </div>
                     </mat-tab>
@@ -216,7 +293,7 @@
                     <mat-tab label="Đã hủy">
                       <div *ngFor="let order of orders">
                         <div class="order" *ngIf="order.active == 'CANCELED'">
-                          <strong>Order #: {{order.order_id}}</strong>
+                          <span>Order #: {{order.order_id}}</span>
                           <div class="content">
                               <div class="part1">
                                   <p>Ngày đặt: {{order.order_date | date: 'dd/MM/yyyy HH:mm:ss'}}</p>
@@ -228,57 +305,82 @@
                                   <p>Số điện thoại: {{order.delivery_phone}}</p>
                               </div>
                           </div>
-                          <table>
-                              <tr class="head">
-                                <td>
-                                  <p>Hình ảnh</p>
-                                </td>
-                                <td>
-                                  <p>Tên món</p>
-                                </td>
-                                <td>
-                                  <p>Giá</p>
-                                </td>
-                                <td>
-                                  <p>Số lượng</p>
-                                </td>
-                                <td>
-                                  <p>Tổng giá sản phẩm</p>
-                                </td>
-                              </tr>
-                              <tr *ngFor="let item of order.items">
-                                <td>
-                                  <a routerLink="/food/{{item.food.food_id}}">
-                                    <img [src]="item.food.food_image"/>
-                                  </a>
-                                </td>
-                                <td>
-                                  {{item.food.food_name}}
-                                </td>
-                                <td>
-                                  {{item.food.price | currency: 'VND'}}
-                                </td>
-                                <td>
-                                  {{item.quantity}}
-                                </td>
-                                <td>
-                                  {{item.price | currency: 'VND'}}
-                                </td>
-                              </tr>
-                              <tr>
-                                <td colspan="3"></td>
-                                <td>
-                                  <strong>
-                                    Tổng tiền :
-                                  </strong>
-                                </td>
-                                <td>
-                                  <strong>
-                                    {{order.total_price | currency: 'VND'}}
-                                  </strong>
-                                </td>
-                              </tr>
-                            </table>
+
+                          <div class="accordion" id="accordionExample">
+                            <div class="accordion-item">
+                              <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" (click)="toggleAccordion(order)" [attr.aria-expanded]="isAccordionExpanded(order) ? 'true' : 'false'" [attr.aria-controls]="'collapse' + order.order_id">
+                                  Xem thực đơn và địa chỉ giao hàng
+                                </button>
+                              </h2>
+                              <div [id]="'collapse' + order.order_id" class="accordion-collapse collapse" [class.show]="isAccordionExpanded(order)" [attr.aria-labelledby]="'heading' + order.order_id" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                  <span>Thực đơn</span>
+
+                                  <div class="head"> 
+                                    <table >
+                                      <tr>
+                                        <td>
+                                          <p>Hình ảnh</p>
+                                        </td>
+                                        <td>
+                                          <p>Tên món</p>
+                                        </td>
+                                        <td>
+                                          <p>Giá</p>
+                                        </td>
+                                        <td>
+                                          <p>Số lượng</p>
+                                        </td>
+                                        <td>
+                                          <p>Tổng giá sản phẩm</p>
+                                        </td>
+                                      </tr>
+                                      <tr *ngFor="let item of order.items">
+                                        <td>
+                                          <a routerLink="/food/{{item.food.food_id}}">
+                                            <img [src]="item.food.food_image"/>
+                                          </a>
+                                        </td>
+                                        <td>
+                                          {{item.food.food_name}}
+                                        </td>
+                                        <td>
+                                          {{item.food.price | currency: 'VND'}}
+                                        </td>
+                                        <td>
+                                          {{item.quantity}}
+                                        </td>
+                                        <td>
+                                          {{item.price | currency: 'VND'}}
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td colspan="3"></td>
+                                        <td>
+                                          <strong>
+                                            Tổng tiền
+                                          </strong>
+                                        </td>
+                                        <td>
+                                          <strong>
+                                            {{order.total_price | currency: 'VND'}}
+                                          </strong>
+                                        </td>
+                                      </tr>
+                                    </table>
+                                  </div>
+
+                                  <div class="title" *ngIf="isAccordionExpanded(order)">
+                                    <span >Địa chỉ giao hàng</span>
+                                    <map [order]="order" [readonly]="true"></map>
+                                  </div>
+
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                         </div>
                       </div>
                     </mat-tab>

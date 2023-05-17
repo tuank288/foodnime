@@ -44,7 +44,19 @@ router.post('/register', (
       const {full_name, email, phone_number, password, address} = req.body;
       const query = 'SELECT * FROM users WHERE email = ? OR phone_number = ?';
       const values = [email, phone_number];
-  
+
+      const fullName = full_name
+      .replace(/\s+/g, ' ')
+      .trim()
+      .toLowerCase()
+      .replace(/\b\w/g, (match:any) => match.toUpperCase());
+
+      const addRess = address
+      .replace(/\s+/g, ' ')
+      .trim()
+      .toLowerCase()
+      .replace(/\b\w/g, (match:any) => match.toUpperCase());
+
       db.query(query, values, async (error, results) => {
         if (error) {
           console.log(error);
@@ -54,7 +66,7 @@ router.post('/register', (
         } else {
           const encryptedPassword = await bcrypt.hash(password, 8);
           const query = 'INSERT INTO users (full_name, email, phone_number, password, address, role, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW())';
-          const values = [full_name, email, phone_number, encryptedPassword, address, 2];
+          const values = [fullName, email, phone_number, encryptedPassword, addRess, 2];
   
           db.query(query, values, async (error, results) => {
             if (error) {

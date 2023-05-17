@@ -69,7 +69,6 @@ export class DetailOrderPageComponent {
   }
 
   cancelStatus() {
-    
     this.orderDetail.active = this.cancel;
     console.log(this.orderDetail.status);
     this.adminService.updateOrder(this.orderDetail, this.orderId).subscribe({

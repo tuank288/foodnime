@@ -26,6 +26,18 @@ router.post('/create', (req:any, res) => {
     console.log(`${results.affectedRows} order(s) deleted`);
   });
 
+  const fullName = requestOrder.full_name
+  .replace(/\s+/g, ' ')
+  .trim()
+  .toLowerCase()
+  .replace(/(?:^|\s)\S/g, (match:any) => match.toUpperCase());
+
+  const address = requestOrder.address
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase()
+    .replace(/(?:^|\s)\S/g, (match:any) => match.toUpperCase());
+  
   let restaurantId;  
   for (const item of requestOrder.items) {
     restaurantId = item.food.restaurant_id;
@@ -35,11 +47,11 @@ router.post('/create', (req:any, res) => {
   const orderData = {
     user_id: req.user_id,
     restaurant_id: restaurantId,
-    receiver: requestOrder.full_name,
+    receiver: fullName,
     delivery_phone: requestOrder.phone_number,
     order_date: new Date,
     total_price: requestOrder.total_price,
-    address: requestOrder.address,
+    address: address,
     addressLatLng: JSON.stringify(requestOrder.addressLatLng),
     status: OrderStatus.NEW,
     updated_at: new Date
@@ -181,7 +193,7 @@ router.get('/track/:orderId', async (req:any, res:any) => {
 
 router.get('/get-orders', async (req:any, res:any) => {
   const userId = req.user_id
-  const query = `SELECT orders.*, users.*, order_items.*, food.*
+  const query = `SELECT orders.*, users.*, order_items.*, food.*, orders.updated_at, orders.address
                  FROM orders
                  JOIN users ON orders.user_id = users.user_id
                  JOIN order_items ON orders.order_id = order_items.order_id
@@ -199,37 +211,41 @@ router.get('/get-orders', async (req:any, res:any) => {
       res.status(404).send('Order not found');
       return;
     }
-    const orders = results.map((result: any) => ({
-      order_id: result.order_id,
-      items: [
-        {
-          food: {
-            food_id: result.food_id,
-            category_id: result.category_id,
-            restaurant_id: result.restaurant_id,
-            food_name: result.food_name,
-            price: result.price,
-            food_image: result.food_image
-          },
+    const orders = results.reduce((accumulator: any, result: any) => {
+      const orderIndex = accumulator.findIndex((order: any) => order.order_id === result.order_id);
+      const food = {
+          food_name: result.food_name,
+          price: result.price,
+          food_image: result.food_image
+      };
+      const orderItem = {
+          food: food,
           price: result.price * result.quantity,
           quantity: result.quantity,
-        }
-      ],
-      total_price: result.total_price,
-      user_id: result.user_id,
-      full_name: result.full_name,
-      phone_number: result.phone_number,
-      receiver: result.receiver,
-      delivery_phone: result.delivery_phone,
-      order_date: result.order_date,
-      email: result.email,
-      payment_id: result.payment_id,
-      address: result.address,
-      addressLatLng: JSON.parse(result.addressLatLng),
-      status: result.status,
-      active: result.active,
-      updated_at: result.updated_at,
-    }));
+          
+      };
+      if (orderIndex !== -1) {
+          accumulator[orderIndex].items.push(orderItem);
+      } else {
+          const order = {
+              order_id: result.order_id,
+              items: [orderItem],
+              total_price: result.total_price,
+              user_id: result.user_id,
+              receiver: result.receiver,
+              delivery_phone: result.delivery_phone,
+              email: result.email,
+              address: result.address,
+              addressLatLng: JSON.parse(result.addressLatLng),
+              status: result.status,
+              active: result.active,
+              order_date: result.order_date,
+              updated_at: result.updated_at
+          };
+          accumulator.push(order);
+      }
+      return accumulator;
+  }, []);
     // console.log(orders);
     res.send(orders);
   });
@@ -243,10 +259,22 @@ router.put('/update-user', (req:any, res) => {
   if (!full_name && !phone_number && !address) {
     return res.status(HTTP_BAD_REQUEST).send('Không thể để trống');
   }
+
+  const fullName = full_name
+  .replace(/\s+/g, ' ')
+  .trim()
+  .toLowerCase()
+  .replace(/(?:^|\s)\S/g, (match:any) => match.toUpperCase());
+
+  const addRess = address
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase()
+    .replace(/(?:^|\s)\S/g, (match:any) => match.toUpperCase());
   
   const updateUser = `UPDATE users SET full_name = ?, phone_number = ?, address = ?, updated_at = NOW() 
                       WHERE user_id = ?`
-  const valueUser = [full_name, phone_number, address, userId]
+  const valueUser = [fullName, phone_number, addRess, userId]
   db.query(updateUser, valueUser,(err, result) => {
   if (err) {
       console.log(err);

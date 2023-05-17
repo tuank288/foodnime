@@ -46,7 +46,11 @@ router.post('/post-foods', (req, res) => {
         return res.status(HTTP_BAD_REQUEST).send('Xin vui lòng điền đầy đủ')
     }
 
-    const foodName = food_name.replace(/\s+/g, ' ').trim().toLowerCase();
+    const foodName = food_name
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase()
+    .replace(/(?:^|\s)\S/g, (match:any) => match.toUpperCase());
 
     db.query(`SELECT * FROM food WHERE food_name = '${foodName}'`, (error, results) => {
         if (error) {
@@ -105,8 +109,14 @@ router.put('/update-foods/:foodId', (req, res) => {
     const { foodId } = req.params
     const { food_image, food_name, category_id, price} = req.body;
 
+    const foodName = food_name
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase()
+    .replace(/(?:^|\s)\S/g, (match:any) => match.toUpperCase());
+
     db.query(`UPDATE food 
-            SET category_id = '${category_id}', food_image = '${food_image}', food_name = '${food_name}', price = '${price}', updated_at = NOW() 
+            SET category_id = '${category_id}', food_image = '${food_image}', food_name = '${foodName}', price = '${price}', updated_at = NOW() 
             WHERE food_id = '${foodId}'`, (err, result) => {
         if (err) {
             return res.status(HTTP_INTERNAL_SERVER_ERROR).send('Internal server error');
@@ -145,7 +155,11 @@ router.post('/post-category', (req, res) => {
         return res.status(HTTP_BAD_REQUEST).send('Xin vui lòng điền đầy đủ');
     }
     
-    const categoryName = category_name.replace(/\s+/g, ' ').trim().toLowerCase();
+    const categoryName = category_name
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase()
+    .replace(/(?:^|\s)\S/g, (match:any) => match.toUpperCase());
     
     db.query(`SELECT * FROM food_categories WHERE category_name = '${categoryName}'`, (error, results) => {
         if (error) {
@@ -157,7 +171,7 @@ router.post('/post-category', (req, res) => {
         }
 
         db.query(`INSERT INTO food_categories(category_image, category_name, created_at, updated_at)
-                VALUES ('${category_image}', '${category_name}', NOW(), NOW())`, (error, result) => {
+                VALUES ('${category_image}', '${categoryName}', NOW(), NOW())`, (error, result) => {
             if (error) {
                 console.log(error);
                 return res.status(HTTP_INTERNAL_SERVER_ERROR).send('Internal server error');
@@ -190,9 +204,14 @@ router.put('/update-category/:categoryId', (req, res) => {
     if (!category_name) {
         return res.status(HTTP_BAD_REQUEST).send('Please provide category name.');
     }
+    const categoryName = category_name
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase()
+    .replace(/(?:^|\s)\S/g, (match:any) => match.toUpperCase());
 
     db.query(`UPDATE food_categories 
-            SET category_image = '${category_image}', category_name = '${category_name}', updated_at = NOW() 
+            SET category_image = '${category_image}', category_name = '${categoryName}', updated_at = NOW() 
             WHERE category_id = '${categoryId}'`, (err, result) => {
     if (err) {
         console.log(err);
@@ -222,8 +241,6 @@ router.delete('/delete-user/:userId', (req, res) => {
 
 router.post('/post-user', (req, res) => {
     const { full_name, email, phone_number, password, address, role} = req.body;
-
-    console.log(full_name, email, phone_number, password, address, role);
     
     if (!full_name || !email || !phone_number || !password || !address || !role) {
         return res.status(HTTP_BAD_REQUEST).send('Xin vui lòng điền đầy đủ');
@@ -231,6 +248,18 @@ router.post('/post-user', (req, res) => {
 
     const query = 'SELECT * FROM users WHERE email = ? OR phone_number = ?';
     const values = [email, phone_number];
+
+    const fullName = full_name
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase()
+    .replace(/(?:^|\s)\S/g, (match:any) => match.toUpperCase());
+
+    const addRess = address
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase()
+    .replace(/(?:^|\s)\S/g, (match:any) => match.toUpperCase());
 
     db.query(query, values, async (error, result) => {
         if (error) {
@@ -241,7 +270,7 @@ router.post('/post-user', (req, res) => {
         }else {
             const encryptedPassword = await bcrypt.hash(password, 8);
             const query = 'INSERT INTO users (full_name, email, phone_number, password, address, role, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW())';
-            const values = [full_name, email, phone_number, encryptedPassword, address, role];
+            const values = [fullName, email, phone_number, encryptedPassword, addRess, role];
 
             db.query(query, values, async (error, results) => {
                 if (error) {
@@ -277,9 +306,22 @@ router.put('/update-user/:userId', (req, res) => {
     if (!full_name || !phone_number || !address || !role) {
         return res.status(HTTP_BAD_REQUEST).send('Xin vui lòng điền đầy đủ');
     }
+
+    const fullName = full_name
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase()
+    .replace(/(?:^|\s)\S/g, (match:any) => match.toUpperCase());
+
+    const addRess = address
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase()
+    .replace(/(?:^|\s)\S/g, (match:any) => match.toUpperCase());
+
     const updateUser = `UPDATE users SET full_name = ?, phone_number = ?, address = ?, role = ?, updated_at = NOW() 
                         WHERE user_id = ?`
-    const valueUser = [full_name, phone_number, address, role, userId]
+    const valueUser = [fullName, phone_number, addRess, role, userId]
     db.query(updateUser, valueUser,(err, result) => {
     if (err) {
         console.log(err);
@@ -293,7 +335,7 @@ router.put('/update-user/:userId', (req, res) => {
 //order
 
 router.get('/get-orders', async(req, res) => {
-    const query = `SELECT orders.*, users.*, order_items.*, food.*
+    const query = `SELECT orders.*, users.*, order_items.*, food.*, orders.updated_at
                     FROM orders
                     JOIN users ON orders.user_id = users.user_id
                     JOIN order_items ON orders.order_id = order_items.order_id
@@ -339,7 +381,8 @@ router.get('/get-orders', async(req, res) => {
                     addressLatLng: JSON.parse(result.addressLatLng),
                     status: result.status,
                     active: result.active,
-                    order_date: result.order_date
+                    order_date: result.order_date,
+                    updated_at: result.updated_at
                 };
                 accumulator.push(order);
             }
@@ -353,7 +396,7 @@ router.get('/get-orders', async(req, res) => {
 
 router.get('/detail-order/:orderId', async (req:any, res:any) => {
     const orderId = req.params.orderId  
-    const query = `SELECT orders.*, users.*, order_items.*, food.*
+    const query = `SELECT orders.*, users.*, order_items.*, food.*, orders.updated_at
                    FROM orders
                    JOIN users ON orders.user_id = users.user_id
                    JOIN order_items ON orders.order_id = order_items.order_id
@@ -397,7 +440,7 @@ router.get('/detail-order/:orderId', async (req:any, res:any) => {
         addressLatLng: JSON.parse(results[0].addressLatLng),
         status: results[0].status,
         active: results[0].active,
-        update_at: results[0].update_at
+        updated_at: results[0].updated_at
       };
       console.log(order);
       res.send(order);

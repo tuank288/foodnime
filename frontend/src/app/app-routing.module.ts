@@ -39,7 +39,7 @@ const routes: Routes = [
   
     children: [
       {path: '', component: DashboardPageComponent, canActivate: [AuthAdminGuard]},
-      {path: 'login',  component: AdLoginPageComponent},
+      {path: 'login',  component: AdLoginPageComponent , canActivate: [LoginGuard]},
 
       {path: 'ad-food', component: AdFoodPageComponent, canActivate: [AuthAdminGuard]},
       {path: 'create-food', component: EditFoodPageComponent, canActivate: [AuthAdminGuard]},

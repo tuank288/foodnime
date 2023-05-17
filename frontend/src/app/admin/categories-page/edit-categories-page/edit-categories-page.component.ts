@@ -69,7 +69,6 @@ export class EditCategoriesPageComponent {
       categoryImageUrl = await upload.ref.getDownloadURL();
     }
     const formData = {...this.createCategoryForm.value, category_image: categoryImageUrl};
-    console.log(formData);
     
     this.adminService.postCategory(formData).subscribe({
       next: res => {

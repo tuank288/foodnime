@@ -34,7 +34,7 @@ export class PaymentPageComponent {
         this.cartService.clearCart();
         this.router.navigateByUrl('/track/' + orderId);
         this.toastrService.success(
-          'Payment Saved Successfully',
+          'Đã đặt món thành công',
           'Success'
         );
       },
