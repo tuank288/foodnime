@@ -1,48 +1,41 @@
-<app-title title="Cart Page" margin="1.5rem 0 0 2.5rem"></app-title>
+<app-title title="Thực đơn"></app-title>
 <app-not-found
     [visible]="!cart || !cart.items.length"
-    notFoundMessage="Cart Page is Emty!"
-    resetLinkText="Go to Homepage">
+    notFoundMessage="Thực đơn trống!"
+    resetLinkText="Quay về trang chủ">
 </app-not-found>
 <div *ngIf="cart && cart.items.length" class="container">
     <ul>
-        <li *ngFor="let cartItem of cart.items">
+        <li class="cart-item" *ngFor="let cartItem of cart.items">
             <div>
-                <img [src]="cartItem.food.imageUrl" [alt]="cartItem.food.name">
+                <img [src]="cartItem.food.food_image" [alt]="cartItem.food.food_name">
             </div>
             <div>
-                <a routerLink="/food/{{cartItem.food.id}}">
-                    {{cartItem.food.name}}
+                <a routerLink="/food/{{cartItem.food.food_id}}">
+                    {{cartItem.food.food_name}}
                 </a>
             </div>
             <div>
-                <select #quanlitySelect
-                [value]="cartItem.quantity"
-                (change)="changeQuantity(cartItem, quanlitySelect.value)">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-                </select>
-            </div>
+                <button class="button-quantity" (click)="decreaseQuantity(cartItem)">-</button>
+                <span>{{ cartItem.quantity }}</span>
+                <button class="button-quantity" (click)="increaseQuantity(cartItem)">+</button>
+              </div>
             <div>
                 {{cartItem.price | currency:'VND'}}
             </div>
             <div>
                 <button class="remove-button" (click)="removeFromCart(cartItem)">
-                    Remove
+                    Xóa bỏ
                 </button>
             </div>
         </li>
     </ul>
-
     <div class="checkout">
         <div>
             <div class="foods-count">{{cart.totalCount}}</div>
             <div class="total-price">{{cart.totalPrice | currency:'VND'}}</div>
         </div>
 
-        <a routerLink="/checkout">Checkout</a>
+        <a routerLink="/checkout">Xác nhận</a>
     </div>
 </div>

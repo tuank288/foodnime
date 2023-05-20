@@ -8,6 +8,6 @@ import { Component, Input } from '@angular/core';
 export class NotFoundComponent {
   @Input() visible = false;
   @Input() notFoundMessage = "Không tìm thấy!";
-  @Input() resetLinkText = "Reset";
+  @Input() resetLinkText = "Quay về trang chủ";
   @Input() resetLinkRoute = "/";
 }

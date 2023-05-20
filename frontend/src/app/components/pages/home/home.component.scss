@@ -4,13 +4,12 @@ ul{
     align-items: center;
     flex-wrap: wrap;
     list-style-type: none;
-    padding: 0;
+    padding: 1rem 0 1rem 0;
 }
 
 li{
     a{
-        height: 22.5rem;
-        width: 20rem;
+        background: white;
         border: 1px solid whitesmoke;
         border-radius: 1rem;
         margin: 0.5rem;
@@ -19,12 +18,11 @@ li{
         overflow: hidden;
         color: #e73929;
         &:hover{
-            opacity: 0.9;
+            opacity: 0.7;
             cursor: pointer;
         }
         img{
-            object-fit: cover;
-            height: 14.5rem;
+            height: 11rem;
         }
     }
 }
@@ -33,7 +31,12 @@ li{
     position: relative;
     margin-top: 0.3rem;
     padding: 0.5rem 1rem;
-    height: 7rem;
+    height: 6rem;
+    .name{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: rgb(32, 32, 37); 
+    }
 }
 
 .favorite{
@@ -87,5 +90,6 @@ li{
     color: #414141;
     margin-top: 0.7rem;
     font-size: 1.1rem;
-    
+    font-weight: 600;
 }
+

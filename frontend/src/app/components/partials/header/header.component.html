@@ -3,20 +3,20 @@
         <a routerLink="/" class="logo">Food</a>
         <nav>
             <ul>
-                <li>
-                    <a routerLink="/login">Login</a>
+                <li *ngIf="!isAuth">
+                    <a routerLink="/login">Đăng nhập</a>
                 </li>
-                <li class="menu-container">
-                    <a routerLink="/dashboard">Tuan</a>
+                <li *ngIf="isAuth" class="menu-container">
+                    <a>{{user.full_name}}</a>
                     <div class="menu">
-                        <a routerLink="/profile">Profile</a>
-                        <a routerLink="/orders">Orders</a>
-                        <a>Logout</a>
+                        <a routerLink="/profile">Hồ sơ</a>
+                        <a routerLink="/orders">Đặt hàng</a>
+                        <a (click)="logout()">Đăng xuất</a>
                     </div>
                 </li>
                 <li>
                     <a routerLink="/cart-page">
-                        Cart <span *ngIf="cartQuantity">{{cartQuantity}}</span>
+                        <i class="fa fa-shopping-cart" aria-hidden="true"></i><span *ngIf="cartQuantity">{{cartQuantity}}</span>
                     </a>
                 </li>
             </ul>

@@ -1,11 +1,22 @@
-
+.fa-shopping-cart{
+    font-size: 20px;
+}
 header{
     position: relative;
     background: white;
-    padding: 0;
+    padding: 0 5rem;
     border-bottom: 1px solid #e72929;
 }
+li{
+    a{
+        color: #af1313;
+        &:hover{
+            color: white;
+            cursor: pointer;
+        }
+    }
 
+}
 a{
     color: #af1313;
     &:hover{
@@ -14,11 +25,15 @@ a{
         cursor: pointer;
     }
     span{
+        position: absolute;
+        top: 0;
         background: #ff4d4d;
         color: white;
-        padding: 0.1rem 0.45rem;
+        padding: 0.1rem 0.5rem;
         border-radius: 100rem;
-        font-size: 0.9rem;
+        font-size: 0.8rem;
+        margin: 0.2rem 0 0 0;
+        font-weight: 900;
     }
 }
 
@@ -38,6 +53,7 @@ ul{
     list-style-type: none;
     margin: 0;
     a{
+        color: #af1313;
         padding: 1rem;
         display: inline-block;
     }
@@ -45,6 +61,7 @@ ul{
 
 .menu-container{
     position: relative;
+    z-index: 1000;
     &:hover{
         .menu{
             display: block;
@@ -58,6 +75,7 @@ ul{
     background: whitesmoke;
     display: none;
     a{
+        color: #af1313;
         width: 100%;
         min-width: 8rem;
     }

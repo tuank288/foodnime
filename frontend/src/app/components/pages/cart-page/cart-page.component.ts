@@ -17,11 +17,23 @@ export class CartPageComponent {
   }
 
   removeFromCart(cartItem:CartItem){
-    this.cartService.removeFromCart(cartItem.food.id)
+    this.cartService.removeFromCart(cartItem.food.food_id)
   }
 
   changeQuantity(cartItem:CartItem, quantityInString:string) {
     const quantity = parseInt(quantityInString);
-    this.cartService.changeQuantity(cartItem.food.id, quantity);
+    this.cartService.changeQuantity(cartItem.food.food_id, quantity);
+  }
+
+  decreaseQuantity(cartItem: CartItem) {
+    if (cartItem.quantity > 1) {
+      cartItem.quantity--;
+      this.cartService.changeQuantity(cartItem.food.food_id, cartItem.quantity);
+    }
+  }
+  
+  increaseQuantity(cartItem: CartItem) {
+    cartItem.quantity++;
+    this.cartService.changeQuantity(cartItem.food.food_id, cartItem.quantity);
   }
 }

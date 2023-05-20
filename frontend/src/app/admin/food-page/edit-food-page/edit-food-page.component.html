@@ -1,0 +1,144 @@
+<!-- SIDEBAR -->
+<section id="sidebar" [ngClass]="status ? 'hide' : ''">
+<a href="/admin" class="brand">
+    <i class='fa fa-cutlery'></i>
+    <span class="text">Food Management</span>
+  </a>
+  <ul class="side-menu top">
+    <li >
+      <a routerLink="/admin">
+        <i class='fa fa-list' ></i>
+        <span class="text">Dashboard</span>
+      </a>
+    </li>
+    <li class="active">
+      <a routerLink="/admin/ad-food">
+        <i class='fa fa-cutlery'></i>
+        <span class="text">Food</span>
+      </a>
+    </li>
+    <li>
+      <a routerLink="/admin/ad-order">
+        <i class='fa fa-shopping-basket' ></i>
+        <span class="text">Order</span>
+      </a>
+    </li>
+    <li>
+      <a routerLink="/admin/ad-categories">
+        <i class='fa fa-tags'></i>
+        <span class="text">Categories</span>
+      </a>
+    </li>
+    <li>
+      <a routerLink="/admin/ad-users">
+        <i class='fa fa-user'></i>
+        <span class="text">Users</span>
+      </a>
+    </li>
+  </ul>
+  <ul class="side-menu">
+    <li>
+      <a  (click)="logout()" class="logout">
+        <i class='fa fa-sign-out' ></i>
+        <span class="text">Logout</span>
+      </a>
+    </li>
+  </ul>
+</section>
+  <!-- SIDEBAR -->
+  <!-- CONTENT -->
+  <section id="content">
+    <!-- NAVBAR -->
+    <nav>
+      <i (click)="addToggle()" class='fa fa-bars' ></i>
+     
+      <form action="#">
+      </form>
+  
+      <a class="profile">
+        <img src="./assets/OIP.jpg">
+      </a>
+    </nav>
+    <!-- NAVBAR -->
+    <!-- MAIN -->
+    <main>
+      <div class="head-title">
+        <div class="left">
+          <h1 *ngIf="!isUpdateActive">Tạo món mới</h1>
+          <h1 *ngIf="isUpdateActive">Cập nhật</h1>
+          <ul class="breadcrumb">
+            <li>
+              <a routerLink="/admin/ad-food">Food</a>
+            </li>
+            <li><i class='fa fa-chevron-right' ></i></li>
+            <li>
+              <a *ngIf="!isUpdateActive" class="active" routerLink="/admin/create-food">Tạo món mới</a>
+              <a *ngIf="isUpdateActive" class="active" routerLink="/admin/update-food">Cập nhật</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+  
+      <div class="container">
+        <div class="row">
+          <div class="col-md-10 col-md-offset-1">
+            <div class="panel panel-default">
+              <div class="panel-heading">Series</div>
+              <div class="panel-body">
+                <form [formGroup]="createFoodForm">
+  
+                  <div class="form-group clearfix required">
+                    <label class="col-md-2 control-label pt-7 text-right">Hình ảnh</label>
+                    <div class="col-md-8">
+                      <input class="file" type="file" (change)="onFileSelected($event)"/>
+                    </div>
+                  </div>
+  
+                  <div class="form-group clearfix required">
+                    <label class="col-md-2 control-label pt-7 text-right">Tên món</label>
+                    <div class="col-md-8">
+                      <input type="text" class="form-control" name="food_name" formControlName="food_name">
+                    </div>
+                  </div>
+    
+                  <div class="form-group clearfix required">
+                    <label class="col-md-2 control-label pt-7 text-right">Danh mục</label>
+                    <div class="col-md-8">
+  
+                      <mat-form-field appearance="outline">
+                        <mat-label>Danh mục</mat-label>
+                        <mat-select formControlName="category_id">
+                          <mat-option *ngFor="let category of categories" [value]="category.category_id">
+                            {{ category.category_name }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                  </div>
+  
+                  <div class="form-group clearfix required">
+                    <label class="col-md-2 control-label pt-7 text-right">Giá tiền</label>
+                    <div class="col-md-8">
+                      <input type="text" class="form-control" name="price" formControlName="price">
+                    </div>
+                  </div>
+  
+                  <div class="form-group">
+                    <div class="col-md-10 col-md-offset-2">
+                      <button *ngIf="!isUpdateActive" (click)="submit()" class="btn btn-primary">Xác nhận</button>
+                      <button *ngIf="isUpdateActive" (click)="update()" class="btn btn-primary">Cập nhật</button>
+                      <a routerLink="/admin/ad-food" class="btn btn-warning">Quay lại</a>
+                    </div>
+                  </div>
+  
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- MAIN -->
+  </section>
+  <!-- CONTENT -->
+  

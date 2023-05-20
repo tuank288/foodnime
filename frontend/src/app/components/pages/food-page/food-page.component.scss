@@ -3,13 +3,15 @@
     justify-content: center;    
     flex-wrap: wrap;
     align-items: center;
-    margin: 3rem;
-
+    // margin: 0 3rem 3rem 3rem;
+    padding: 1rem 0 1rem 1rem;
+    background: white;
 }
 .container > *{
     min-width: 20rem;
     max-width: 30rem;
 }
+
 img{
     border-radius: 2rem;
     flex: 1 0;
@@ -27,6 +29,7 @@ img{
     padding: 2rem;
     color: black;
     margin-left: 1rem;
+
 }
 
 .header{
@@ -65,11 +68,11 @@ img{
     display: flex;
     flex-wrap: wrap;
     a{
-        background-color: #f0f0f0;
+        background-color: #e4dfdf;
         padding: 0.3rem 1rem;
         margin: 0.2rem 0.15rem;
         border-radius: 10rem;
-        font-weight: 200;
+        font-weight: 500;
         color: rgb(8, 8, 178);
     }
 }
@@ -88,7 +91,7 @@ img{
     margin: 2rem 2rem 2rem 0;
     color: green;
     ::before{
-        content: "Price: ";
+        content: "Giá: ";
         color: darkgrey;
     }
 }

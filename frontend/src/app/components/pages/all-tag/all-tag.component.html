@@ -1,0 +1,14 @@
+<div class="content">
+    <app-title title="Tất Cả Danh Mục"></app-title>
+    <div *ngIf="tags" class="list">
+        <ul>
+            <li class="col-6 col-md-4 col-xl-2" *ngFor="let tag of tags">
+                <a routerLink="/tag/{{tag.category_name}}">
+                    <img src="{{tag.category_image}}" alt="{{tag.category_name}}">
+                    <span>{{tag.category_name}}</span> 
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
