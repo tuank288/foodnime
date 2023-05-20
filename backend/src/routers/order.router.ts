@@ -260,27 +260,39 @@ router.put('/update-user', (req:any, res) => {
     return res.status(HTTP_BAD_REQUEST).send('Không thể để trống');
   }
 
-  const fullName = full_name
-  .replace(/\s+/g, ' ')
-  .trim()
-  .toLowerCase()
-  .replace(/(?:^|\s)\S/g, (match:any) => match.toUpperCase());
+  const checkPhoneNumberQuery = 'SELECT user_id FROM users WHERE phone_number = ? AND user_id != ?';
+  db.query(checkPhoneNumberQuery, [phone_number, userId], (err, rows) => {
+    if (err) {
+        console.log(err);
+        return res.status(HTTP_INTERNAL_SERVER_ERROR).send('Internal server error');
+    }
 
-  const addRess = address
+    if (rows.length > 0) {
+        return res.status(HTTP_BAD_REQUEST).send('Số điện thoại đã tồn tại');
+    }
+
+    const fullName = full_name
     .replace(/\s+/g, ' ')
     .trim()
     .toLowerCase()
     .replace(/(?:^|\s)\S/g, (match:any) => match.toUpperCase());
+
+    const addRess = address
+      .replace(/\s+/g, ' ')
+      .trim()
+      .toLowerCase()
+      .replace(/(?:^|\s)\S/g, (match:any) => match.toUpperCase());
   
-  const updateUser = `UPDATE users SET full_name = ?, phone_number = ?, address = ?, updated_at = NOW() 
-                      WHERE user_id = ?`
-  const valueUser = [fullName, phone_number, addRess, userId]
-  db.query(updateUser, valueUser,(err, result) => {
-  if (err) {
-      console.log(err);
-      return res.status(HTTP_INTERNAL_SERVER_ERROR).send('Internal server error');
-  }
-  res.send(result[0]);
+    const updateUser = `UPDATE users SET full_name = ?, phone_number = ?, address = ?, updated_at = NOW() 
+                        WHERE user_id = ?`
+    const valueUser = [fullName, phone_number, addRess, userId]
+    db.query(updateUser, valueUser,(err, result) => {
+    if (err) {
+        console.log(err);
+        return res.status(HTTP_INTERNAL_SERVER_ERROR).send('Internal server error');
+    }
+    res.send(result[0]);
+    })
   })
 })
 

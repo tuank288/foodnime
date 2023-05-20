@@ -64,7 +64,7 @@
       <main>
         <div class="head-title">
           <div class="left">
-            <h1 *ngIf="!isUpdateActive">Tạo thể loại mới</h1>
+            <h1 *ngIf="!isUpdateActive">Tạo danh mục mới</h1>
             <h1 *ngIf="isUpdateActive">Cập nhật</h1>
             <ul class="breadcrumb">
               <li>
@@ -72,7 +72,7 @@
               </li>
               <li><i class='fa fa-chevron-right' ></i></li>
               <li>
-                <a *ngIf="!isUpdateActive" class="active" routerLink="/admin/create-categories">Tạo thể loại mới</a>
+                <a *ngIf="!isUpdateActive" class="active" routerLink="/admin/create-categories">Tạo danh mục mới</a>
                 <a *ngIf="isUpdateActive" class="active" routerLink="/admin/update-categories">Cập nhật</a>
               </li>
             </ul>
@@ -95,7 +95,7 @@
                     </div>
     
                     <div class="form-group clearfix required">
-                      <label class="col-md-2 control-label pt-7 text-right">Tên thể loại</label>
+                      <label class="col-md-2 control-label pt-7 text-right">Tên danh mục</label>
                       <div class="col-md-8">
                         <input type="text" class="form-control" name="category_name" formControlName="category_name">
                       </div>

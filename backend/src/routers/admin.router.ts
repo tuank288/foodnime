@@ -399,7 +399,7 @@ router.get('/get-orders', async(req, res) => {
             }
             return accumulator;
         }, []);
-        console.log(orders);
+        // console.log(orders);
         res.send(orders);
     });
 })
@@ -453,7 +453,7 @@ router.get('/detail-order/:orderId', async (req:any, res:any) => {
         active: results[0].active,
         updated_at: results[0].updated_at
       };
-      console.log(order);
+    //   console.log(order);
       res.send(order);
     });
   })

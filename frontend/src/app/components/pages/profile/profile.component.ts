@@ -82,7 +82,7 @@ export class ProfileComponent {
         this.userService.updateUserInLocalStorage(updatedUserData)
         this.toast.success(`Cập nhật thành công`);
     }, error: err => {
-      this.toast.error(`Cập nhật thất bại`)
+      this.toast.error(err.error,`Cập nhật thất bại`)
       this.createUserForm.markAllAsTouched();
       console.error(err);
       }

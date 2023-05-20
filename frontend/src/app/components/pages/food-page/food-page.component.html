@@ -1,7 +1,7 @@
 <app-not-found 
     [visible]="!food"
-    notFoundMessage="Food Not Found"
-    resetLinkText="Back to Home">
+    notFoundMessage="Không tìm thấy"
+    resetLinkText="Quay về trang chủ">
 </app-not-found>
 <div *ngIf="food" class="container">
     <img [src]="food.food_image" [alt]="food.food_name">

@@ -4,7 +4,7 @@
         <nav>
             <ul>
                 <li *ngIf="!isAuth">
-                    <a routerLink="/login">Login</a>
+                    <a routerLink="/login">Đăng nhập</a>
                 </li>
                 <li *ngIf="isAuth" class="menu-container">
                     <a>{{user.full_name}}</a>

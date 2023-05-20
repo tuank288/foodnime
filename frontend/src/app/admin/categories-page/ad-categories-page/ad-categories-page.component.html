@@ -63,7 +63,7 @@
       <div class="container">
         <div class="main-container">
           <button routerLink="/admin/create-category" mat-raised-button class="accent"> <i class="fa fa-plus" aria-hidden="true"></i>
-           Thêm thể loại
+           Thêm danh mục
           </button>
           <!-- filter -->
           <mat-form-field class="filter" appearance="outline">
@@ -89,7 +89,7 @@
   
             <!-- firstname Column -->
             <ng-container matColumnDef="category_name">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> Tên thể loại </th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Tên danh mục </th>
               <td mat-cell *matCellDef="let row"> {{row.category_name}} </td>
             </ng-container>
   

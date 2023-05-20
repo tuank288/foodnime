@@ -37,6 +37,7 @@ export class AdLoginPageComponent {
   submit(){
     this.adminServer.login(this.loginForm.value).subscribe(res => {
         this.router.navigate(['/admin']);
+        location.reload(); 
     }
     )
   }
