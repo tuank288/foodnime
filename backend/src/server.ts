@@ -17,7 +17,7 @@ server.use(cors({
     origin:["http://localhost:4200"]
 }))
 
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 const dbUser = process.env.DB_USER;
 const dbPassword = process.env.DB_PASSWORD;

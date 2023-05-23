@@ -1,0 +1,17 @@
+<div *ngIf="!isAdmin">
+    <app-loading></app-loading>
+    <app-header></app-header>
+    <app-baner *ngIf="showBanner"></app-baner>
+    <app-error *ngIf="error"></app-error>
+    <div class="container">
+        <router-outlet></router-outlet>
+    </div>
+    <app-footer *ngIf="showFooter"></app-footer>
+</div>
+<div *ngIf="isAdmin">
+    <body class="dark"> 
+        <router-outlet></router-outlet>
+    </body>
+    
+</div>
+<!-- <ng-confirm></ng-confirm> -->

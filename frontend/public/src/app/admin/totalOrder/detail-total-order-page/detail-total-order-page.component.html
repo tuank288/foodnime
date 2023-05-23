@@ -1,0 +1,198 @@
+<!-- SIDEBAR -->
+<section id="sidebar" [ngClass]="Status ? 'hide' : ''">
+  <a href="/admin" class="brand">
+      <i class='fa fa-cutlery'></i>
+      <span class="text">Food Management</span>
+    </a>
+    <ul class="side-menu top">
+      <li >
+        <a routerLink="/admin">
+          <i class='fa fa-list' ></i>
+          <span class="text">Dashboard</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/admin/ad-food">
+          <i class='fa fa-cutlery'></i>
+          <span class="text">Food</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/admin/ad-order">
+          <i class='fa fa-shopping-basket' ></i>
+          <span class="text">Order</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/admin/ad-categories">
+          <i class='fa fa-tags'></i>
+          <span class="text">Categories</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/admin/ad-users">
+          <i class='fa fa-user'></i>
+          <span class="text">Users</span>
+        </a>
+      </li>
+    </ul>
+    <ul class="side-menu">
+      <li>
+        <a  (click)="logout()" class="logout">
+          <i class='fa fa-sign-out' ></i>
+          <span class="text">Logout</span>
+        </a>
+      </li>
+    </ul>
+  </section>
+    <!-- SIDEBAR -->
+    <section id="content">
+      <!-- NAVBAR -->
+      <nav>
+        <i (click)="addToggle()" class='fa fa-bars' ></i>
+       
+        <form action="#">
+        </form>
+    
+        <a class="profile">
+          <img src="./assets/OIP.jpg">
+        </a>
+      </nav>
+      <!-- NAVBAR -->
+      <!-- MAIN -->
+      <main>
+        <div class="head-title">
+          <div class="left">
+            <h1>Tổng chi tiết đơn hàng</h1>
+            <ul class="breadcrumb">
+              <li>
+                <a routerLink="/admin/add-food">Total Order</a>
+              </li>
+              <li><i class='bx bx-chevron-right' ></i></li>
+              <li>
+                <a class="active" routerLink="/admin/detail-food/">Tổng chi tiết đơn hàng</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+    
+        <!-- main content -->
+        <div class="container">
+          <mat-card  class="example-card" *ngIf="orderDetail">
+            <div class="head" style="padding: 0.2rem;">
+              <mat-list-item>
+                <div matLine>
+                    Order # :
+                    <button mat-button>{{orderDetail.order_id}} </button>
+                </div>
+               </mat-list-item>
+    
+              <mat-list-item>
+                <div matLine>
+                    Ngày đặt :
+                    <button mat-button>{{orderDetail.order_date | date: 'dd/MM/yyyy HH:mm:ss'}} </button>
+                </div>
+               </mat-list-item>
+            </div>
+
+            <div class="account">
+              <mat-card-header>
+                <mat-card-title-group>
+                  <mat-card-title class="title">Tài khoản đặt hàng</mat-card-title>
+                </mat-card-title-group>
+              </mat-card-header>
+  
+              <mat-card-content>
+                <mat-list>
+                  <mat-list-item>
+                    <div matLine>
+                        Email :
+                        <button mat-button>{{orderDetail.email}} </button>
+                    </div>
+                  </mat-list-item>
+                  <mat-list-item>
+                    <div matLine>
+                        Tên  :
+                        <button mat-button>{{orderDetail.full_name}} </button>
+                    </div>
+                  </mat-list-item>
+                  <mat-list-item>
+                    <div matLine>
+                        Số điện thoại  :
+                        <button mat-button>{{orderDetail.phone_number}} </button>
+                    </div>
+                  </mat-list-item>
+                </mat-list>
+              </mat-card-content>
+            </div>
+
+            <div class="receive">
+              <mat-card-header>
+                <mat-card-title-group>
+                  <mat-card-title class="title">Người nhận hàng</mat-card-title>
+                </mat-card-title-group>
+              </mat-card-header>
+
+              <mat-card-content>
+                <mat-list>
+                  <mat-list-item>
+                    <div matLine>
+                      Tên người nhận :
+                      <button mat-button>{{orderDetail.receiver}} </button>
+                    </div>
+                  </mat-list-item>
+    
+                  <mat-list-item>
+                    <div matLine>
+                      Số điện thoại :
+                      <button mat-button>{{orderDetail.delivery_phone}} </button>
+                    </div>
+                  </mat-list-item>
+  
+                  <mat-list-item>
+                      <div matLine>
+                        Địa chỉ :
+                        <button mat-button>{{orderDetail.address}} </button>
+                      </div>
+                  </mat-list-item>
+    
+                    <mat-list-item>
+                      <div  matLine>
+                        Status :
+                        <button mat-button>{{ orderDetail.status === 'UNPAID' ? 'Chưa thanh toán' : orderDetail.status === 'PAYED' ? 'Đã thanh toán' : '' }}</button>
+                      </div>
+                    </mat-list-item>
+    
+                    <mat-list-item>
+                      <div  matLine>
+                        Active :
+                        <button mat-button>{{orderDetail.active  === 'CANCELED' ? 'Đã hủy' : orderDetail.active === 'SUCCESS' ? 'Đã giao' : '' }} </button>
+                      </div>
+                    </mat-list-item>
+  
+                    <mat-list-item>
+                      <div  matLine>
+                        Ngày cập nhật :
+                        <button mat-button>{{orderDetail.updated_at | date: 'dd/MM/yyyy HH:mm:ss'}} </button>
+                      </div>
+                    </mat-list-item>
+                      
+                      <order-items-list [order]="orderDetail"></order-items-list>
+                  
+                      <div>
+                        <app-title title="Shipping Address"></app-title>
+                        <map [order]="orderDetail" [readonly]="true"></map>
+                      </div>
+                    </mat-list>
+        
+              </mat-card-content>
+            </div>
+  
+            <mat-card-actions>
+                 <button routerLink="/admin/ad-total-order" mat-raised-button color="primary">Quay lại</button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </main>
+      <!-- MAIN -->
+    </section>

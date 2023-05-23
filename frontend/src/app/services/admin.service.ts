@@ -10,7 +10,7 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { ToastrService } from 'ngx-toastr';
 import { IUserLogin } from '../shared/interfaces/IUserLogin';
 
-const USER_KEY = 'User';
+const USER_KEY = 'User1';
 @Injectable({
   providedIn: 'root'
 })
@@ -56,6 +56,9 @@ export class AdminService {
   }
 
   logout(){
+    if(this.currentUser.role === '1'){
+      
+    }
     this.userSubject.next(new User());
     localStorage.removeItem(USER_KEY);
     window.location.reload();

@@ -1,0 +1,25 @@
+<header>
+    <div class="container">
+        <a routerLink="/" class="logo">Food</a>
+        <nav>
+            <ul>
+                <li *ngIf="!isAuth">
+                    <a routerLink="/login">Đăng nhập</a>
+                </li>
+                <li *ngIf="isAuth" class="menu-container">
+                    <a>{{user.full_name}}</a>
+                    <div class="menu">
+                        <a routerLink="/profile">Hồ sơ</a>
+                        <a routerLink="/orders">Đặt hàng</a>
+                        <a (click)="logout()">Đăng xuất</a>
+                    </div>
+                </li>
+                <li>
+                    <a routerLink="/cart-page">
+                        <i class="fa fa-shopping-cart" aria-hidden="true"></i><span *ngIf="cartQuantity">{{cartQuantity}}</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>

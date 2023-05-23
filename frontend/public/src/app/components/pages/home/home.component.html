@@ -1,0 +1,27 @@
+<div *ngIf="showTags">
+    <app-tags></app-tags>
+    <app-title title="Khám Phá Món Mới"></app-title>
+</div>
+
+<app-not-found
+    [visible]="!foods || !foods.length"
+    resetLinkText="Quay về trang chủ">
+</app-not-found>
+
+<ul>
+    <li class="col-6 col-md-4 col-xl-2" *ngFor="let food of foods.slice(0,6)">
+        <a routerLink="/food/{{food.food_id}}">
+            <img [src]="food.food_image" [alt]="food.food_name">       
+            <div class="content">
+                <div class="name">
+                    {{food.food_name}}
+                </div>
+                <div class="price">
+                    <span>
+                        {{food.price | currency: 'VND'}}
+                    </span>
+                </div>
+            </div>
+        </a>
+    </li>
+</ul>

@@ -2,26 +2,25 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
+import { AdminService } from 'src/app/services/admin.service';
 import { UsersService } from 'src/app/services/user.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginAdminGuard implements CanActivate {
-  constructor(private userService:UsersService, 
+  constructor(private adminService:AdminService, 
     private router:Router,
     private toastrService:ToastrService){
     }
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      // console.log(this.userService.currentUser.role);
-      
-      // if (this.userService.currentUser.role === '2') {
-      //   this.toastrService.error('You do not have permission to access this page!', 'Access Denied');
-      //   return false;
-      // }
-      return true;
-  }
+
+    if(this.adminService.currentUser.token && this.adminService.currentUser.role === '1' && state.url === '/admin/login'){
+      this.router.navigate(['/admin']);
+    }
+    return true;
   
+  }
 }

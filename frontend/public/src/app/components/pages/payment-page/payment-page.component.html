@@ -1,0 +1,34 @@
+<div class="container">
+    <div class="content">
+      <app-title title="Hình thức thanh toán" fontSize="1.6rem"></app-title>
+      <div class="summary">
+        <div>
+          <h5>Tên người nhận:</h5>
+          <span>{{order.receiver}}</span>
+        </div>
+        <div>
+          <h5>Địa chỉ:</h5>
+          <span>{{order.address}}</span>
+        </div>
+        <div>
+          <h5>Số điện thoại:</h5>
+          <span>{{order.delivery_phone}}</span>
+        </div>
+      </div>
+      <order-items-list [order]="order"></order-items-list>
+    </div>
+    <div class="map">
+      <app-title
+      title="Địa chỉ giao hàng"
+      fontSize="1.6rem"></app-title>
+      <map [order]="order" [readonly]="true"></map>
+    </div>
+    <div class="buttons-container">
+      <div class="buttons">
+        <button (click)="pay()">Thanh toán trực tiếp</button>
+        <paypal-button [order]="order">
+        </paypal-button>
+      </div>
+    </div>
+  </div>
+  

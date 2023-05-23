@@ -1,0 +1,47 @@
+.list{
+    text-align: center;
+    height: 100%;
+    a{
+        font-weight: 500;
+        color: rgb(32, 32, 37);
+    }
+}
+ul{
+    display: flex;
+    justify-content: center;   
+    align-items: center;
+    flex-wrap: wrap;
+    list-style-type: none;
+    padding: 1rem 0 1rem 0;
+}
+
+li{
+    a{
+        background: white;
+        border: 1px solid whitesmoke;
+        border-radius: 1rem;
+        margin: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        &:hover{
+            opacity: 0.7;
+            cursor: pointer;
+        }
+        img{
+            object-fit: contain;
+            height: 13rem;
+        }
+        span{
+            padding: 1rem 0;
+            background-color: white;        
+            border-radius: 0 0 0.5rem 0.5rem;   
+        }
+    }
+}
+
+.view-all{
+    a{
+        display: inline-block;
+        padding: 0.5rem;
+    }
+}

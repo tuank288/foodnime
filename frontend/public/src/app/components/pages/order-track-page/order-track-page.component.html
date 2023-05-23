@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="content" *ngIf="order">
+    <app-title title="Order #{{order.order_id}}" fontSize="1.6rem"></app-title>
+
+    <div class="details">
+      <div><strong>Ngày đặt:</strong>{{order.order_date | date: 'dd/MM/yyyy HH:mm:ss'}}</div>
+      <div><strong>Tên người nhận:</strong>{{order.receiver}}</div>
+      <div><strong>Địa chỉ:</strong>{{order.address}}</div>
+      <div><strong>Số điện thoại:</strong>{{order.delivery_phone}}</div>
+      <div><strong>Trạng thái:</strong> {{ order.status === 'UNPAID' ? 'Chưa thanh toán' : order.status === 'PAYED' ? 'Đã thanh toán' : '' }}</div>
+      <div *ngIf="order.payment_id">
+        <strong>Payment ID:</strong>{{order.payment_id}}
+      </div>
+    </div>
+
+    <order-items-list [order]="order"></order-items-list>
+  </div>
+
+  <div>
+    <app-title title="Địa chỉ giao hàng"></app-title>
+    <map [order]="order" [readonly]="true"></map>
+  </div>
+</div>
