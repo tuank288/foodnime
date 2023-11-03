@@ -1,5 +1,5 @@
-import { Component, ElementRef, Input, ViewChild, OnChanges, OnInit} from '@angular/core';
-import { icon, LatLngTuple, Marker, tileLayer, LeafletMouseEvent, LatLngExpression, LatLng, marker, Map, map} from 'leaflet';
+import { Component, ElementRef, Input, ViewChild, OnChanges, OnInit } from '@angular/core';
+import { icon, LatLngTuple, Marker, tileLayer, LeafletMouseEvent, LatLngExpression, LatLng, marker, Map, map } from 'leaflet';
 import { LoadingService } from 'src/app/services/loading.service';
 import { LocationService } from 'src/app/services/location.service';
 import { Order } from 'src/app/shared/models/Order';
@@ -12,7 +12,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class MapComponent implements OnChanges {
   @Input()
-  order!:Order;
+  order!: Order;
   @Input()
   readonly = false;
 
@@ -26,19 +26,18 @@ export class MapComponent implements OnChanges {
   });
   private readonly DEFAULT_LATLNG: LatLngTuple = [13.75, 21.62];
 
-  @ViewChild('map', {static:true})
+  @ViewChild('map', { static: true })
   mapRef!: ElementRef;
   map!: Map;
-  currentMarker!:Marker;
+  currentMarker!: Marker;
   address!: string;
-  constructor(private locationService: LocationService, private loadingService: LoadingService, private http:HttpClient) {}
-  
+  constructor(private locationService: LocationService, private loadingService: LoadingService, private http: HttpClient) { }
+
 
   ngOnChanges(): void {
-    if(!this.order) return;
+    if (!this.order) return;
     this.initializeMap();
-
-    if(this.readonly && this.addressLatLng){
+    if (this.readonly && this.addressLatLng) {
       this.showLocationOnReadonlyMode();
     }
   }
@@ -59,8 +58,8 @@ export class MapComponent implements OnChanges {
     this.currentMarker.dragging?.disable();
   }
 
-  initializeMap(){
-    if(this.map) return;
+  initializeMap() {
+    if (this.map) return;
 
     this.map = map(this.mapRef.nativeElement, {
       attributionControl: false
@@ -68,12 +67,12 @@ export class MapComponent implements OnChanges {
 
     tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(this.map);
 
-    this.map.on('click', (e:LeafletMouseEvent) => {
+    this.map.on('click', (e: LeafletMouseEvent) => {
       this.setMarker(e.latlng);
     })
   }
 
-  findMyLocation(){
+  findMyLocation() {
     this.loadingService.showLoading();
     this.locationService.getCurrentLocation().subscribe({
       next: async (latlng) => {
@@ -84,10 +83,9 @@ export class MapComponent implements OnChanges {
     })
   }
 
-  setMarker(latlng:LatLngExpression){
+  setMarker(latlng: LatLngExpression) {
     this.addressLatLng = latlng as LatLng;
-    if(this.currentMarker)
-    {
+    if (this.currentMarker) {
       this.currentMarker.setLatLng(latlng);
       return;
     }
@@ -97,23 +95,23 @@ export class MapComponent implements OnChanges {
       icon: this.MARKER_ICON
     }).addTo(this.map);
 
-    
+
     this.currentMarker.on('dragend', () => {
       this.addressLatLng = this.currentMarker.getLatLng();
     })
   }
 
-  set addressLatLng(latlng: LatLng){
-    if(!latlng.lat.toFixed) return;
+  set addressLatLng(latlng: LatLng) {
+    if (!latlng.lat.toFixed) return;
 
     latlng.lat = parseFloat(latlng.lat.toFixed(8));
     latlng.lng = parseFloat(latlng.lng.toFixed(8));
     this.order.addressLatLng = latlng;
     // console.log(this.order.addressLatLng);
-    
+
   }
 
-  get addressLatLng(){
+  get addressLatLng() {
     return this.order.addressLatLng!;
   }
 
